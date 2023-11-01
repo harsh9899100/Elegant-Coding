@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElegantCoding Header</title>
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/elegant-snippet.css">
+    <script src="/Elegant-Coding/Snippet-script.js"></script> // for the snippet
+
+    <style>
+        /* ------------------------------------------------------------------------- */
+
+        /* Style the header with a sticky behavior */
+        #Elegant-coding-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Box shadow properties chhe*/
+            z-index: 100;
+            /* z-index ne nav ni z-index karta ochhi rakhic hhe */
+            padding: 20px;
+        }
+
+        .my-website-name-container {
+            text-align: center;
+        }
+
+        .my-website-name {
+            font-size: 24px;
+            margin: 0;
+            color: #6b46c1;
+            font-weight: 700;
+        }
+
+        .nav-menu-button-container {
+            float: left;
+        }
+
+        #nav-menu-button {
+            background-color: #6b46c16e;
+            border: 1px solid #6b46c16e;
+            color: #000000;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        /* ------------------------------------------------------------------------- side navigation*/
+
+        /* Style the side navigation */
+        #side-nav {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            background-color: #12181f;
+            /* Updated background color */
+            z-index: 101;
+            overflow-x: hidden;
+            transition: 0.3s;
+        }
+
+        #nav-close-button-container {
+            padding: 20px 20px 50px 0px;
+        }
+
+        /* Style the close button inside the side navigation */
+        #nav-close-button {
+            color: #ffffff;
+            background: hsla(258, 50%, 52%, 0.431);
+            border: 1px solid #6b46c16e;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+            float: right;
+        }
+
+        #side-nav h3 {
+            color: #e6ecf2;
+            padding: 10px;
+            border-bottom: 1px solid white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        #side-nav h2 {
+            color: #6b46c16e;
+            padding: 10px;
+            font-size: 25px;
+            font-weight: 600;
+            text-shadow:1px 0px 1px #00f2ff;
+        }
+
+        /* Style the side navigation links */
+        #side-nav ul {
+            list-style: none;
+            width: 90%;
+            padding: 0% 5%;
+        }
+
+        #side-nav li {
+            padding: 5px 20px;
+            border-left: 5px solid transparent;
+            border-radius: 5px;
+            margin-bottom: 2px;
+        }
+
+        #side-nav li:hover {
+            border-left: 5px solid #6b46c1;
+            background-color: #6b46c16e;
+            cursor: pointer;
+        }
+
+        #side-nav a {
+            text-decoration: none;
+            color: #fff;
+            /* width: 150px; */
+        }
+
+        #side-nav a:hover {
+            color: #fff;
+        }
+
+        /* ------------------------------------------------------------------------- */
+
+        /* Main content container */
+        main {
+            padding: 50px;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        @media only screen and (max-width: 500px) {
+            main {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="Elegant-coding-header">
+        <div class="nav-menu-button-container">
+            <button id="nav-menu-button">Menu</button>
+        </div>
+
+        <div class="my-website-name-container">
+            <a class="my-website-name" href="/index.html">ElegantCoding</a>
+        </div>
+
+    </header>
+
+    <nav id="side-nav">
+
+        <div id="nav-close-button-container">
+            <button id="nav-close-button">Close</button>
+        </div>
+
+        <h3>INTRODUCTION</h3>
+        <ul>
+            <li><a href="https://g.co/bard/share/0c92c322b037">JS Introduction</a></li>
+            <li><a href="https://g.co/bard/share/1836457571f5">JS Execution</a></li>
+            <li><a href="https://g.co/bard/share/7401d71c7309">Node.js Installation</a></li>
+        </ul>
+
+        <h3>JAVASCRIPT VARIABLES</h3>
+        <ul>
+            <li><a href="https://g.co/bard/share/8732a0d6507b">What are Variables?</a></li>
+            <li><a href="https://g.co/bard/share/14c46253b8c7">Variable Naming Rules</a></li>
+            <li><a href="https://g.co/bard/share/c4c76695cd7c">Primitives and Objects</a></li>
+            <li><a href="https://g.co/bard/share/068a79430973">Operators and Expressions</a></li>
+            <li><a href="https://g.co/bard/share/bfabd0f0488a">var vs let vs const</a></li>
+        </ul>
+
+        <h3>JAVASCRIPT BASICS</h3>
+        <ul>
+            <li><a href="https://g.co/bard/share/bac92702f6ce">If else conditionals</a></li>
+            <li><a href="https://g.co/bard/share/5f843e4ccc83">If else ladder</a></li>
+            <li><a href="https://g.co/bard/share/8d7db1693c7f">Switch case</a></li>
+            <li><a href="https://g.co/bard/share/9ee2d5eef303">Ternary Operator</a></li>
+            <li><a href="https://g.co/bard/share/69d1d641514b">For Loops</a></li>
+            <li><a href="https://g.co/bard/share/40839a7abb75">While Loop</a></li>
+            <li><a href="https://g.co/bard/share/fa5400691a24">Functions</a></li>
+        </ul>
+
+        <h3>JAVASCRIPT OBJECTS</h3>
+        <ul>
+            <li><a href="#">Strings</a></li>
+            <li><a href="#">Arrays and Array Methods</a></li>
+            <li><a href="#">Loops with Arrays</a></li>
+            <li><a href="#">Map, Filter and Reduce</a></li>
+            <li><a href="#">Date</a></li>
+            <li><a href="#">Math</a></li>
+            <li><a href="#">Number</a></li>
+            <li><a href="#">Boolean</a></li>
+        </ul>
+
+        <h3>DOM & BOM</h3>
+        <ul>
+            <li><a href="#">Window Object</a></li>
+            <li><a href="#">History Object</a></li>
+            <li><a href="#">Navigator Object</a></li>
+            <li><a href="#">Screen Object</a></li>
+            <li><a href="#">Document Object</a></li>
+            <li><a href="#">getElementById</a></li>
+            <li><a href="#">getElementsByClassName</a></li>
+            <li><a href="#">getElementsByName</a></li>
+            <li><a href="#">getElementsByTagName</a></li>
+            <li><a href="#">innerHTML</a></li>
+            <li><a href="#">outerHTML</a></li>
+        </ul>
+
+        <h3>OOPs</h3>
+        <ul>
+            <li><a href="#">Class</a></li>
+            <li><a href="#">Objects</a></li>
+            <li><a href="#">Constructor</a></li>
+            <li><a href="#">Static Method</a></li>
+            <li><a href="#">Encapsulation</a></li>
+            <li><a href="#">Inheritance</a></li>
+            <li><a href="#">Polymorphism</a></li>
+            <li><a href="#">Abstraction</a></li>
+        </ul>
+
+        <h3>Additional Topics</h3>
+        <ul>
+            <li><a href="#">Asynchronous JavaScript and XML (AJAX)</a></li>
+            <li><a href="#">Regular Expressions (RegExp)</a></li>
+            <li><a href="#">Event Handling</a></li>
+            <li><a href="#">Error Handling</a></li>
+            <li><a href="#">Testing</a></li>
+            <li><a href="#">Debugging</a></li>
+            <li><a href="#">Deployment</a></li>
+        </ul>
+
+        <h2>ElegantCoding</h2>
+    </nav>
+
+    <script src="/javascripts/side-navigation.js"></script> // for entire Site
+
+    <main>
+        <!-- Your main content goes here -->
+
+        <div class="text-content-container-1"
+            style="max-width: 1000px;background-color: #e8fff0cf; margin: 30px auto; padding: 50px 30px;">
+            <h1>Javascript</h1>
+        </div>
+        <div class="text-content-container-2"
+            style="max-width: 1000px;background-color: #e6ecf2; margin: 30px auto; padding: 50px 30px;">
+            <p>JavaScript is the world's most popular programming language.</p>
+
+            <p>JavaScript is the programming language of the Web.</p>
+
+            <p>JavaScript is easy to learn.</p>
+
+            <p>This tutorial will teach you JavaScript from basic to advanced.</p>
+            </p>
+        </div>
+
+        <section>
+            <div class="code-div">
+                <pre class="code-block">
+    // This is the code for division 1................................................................................................................
+    console.log("Hello from division 1!");
+    </pre>
+                <button class="copy-code">Copy</button>
+            </div>
+
+
+            <div class="code-div">
+                <pre class="code-block">
+    // This is the code for division 2.
+    console.log("Hello from division 2!");
+    </pre>
+
+                <button class="copy-code">Copy</button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <div style="height: 500px;background-color: black;"></div>
+
+    <main>
+        <div style="height: 500px;background-color: black;"></div>
+    </main>
+
+
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2023 ElegantCoding.com</p>
+            <div class="social-icons">
+                <a href="https://www.github.com/harsh9899100" aria-label="github" target="_blank">
+                    <img src="/images/social/github.png" alt="GitHub">
+                </a>
+                <a href="https://www.twitter.com/harsh9899100" aria-label="twitter" target="_blank">
+                    <img src="/images/social/twitter.png" alt="Twitter">
+                </a>
+                <a href="https://www.instagram.com/harsh26.x" aria-label="instagram" target="_blank">
+                    <img src="/images/social/instagram.png" alt="Instagram">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

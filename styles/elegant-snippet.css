@@ -1,0 +1,85 @@
+/* -------------------------------------------------- */
+
+.btn {
+	background-color: #0069d9;
+	border: none;
+	color: #ffffff;
+	cursor: pointer;
+	padding: 10px 20px;
+	border-radius: 5px;
+}
+
+.btn:hover {
+	background-color: #007bff;
+	color: #ffffff;
+}
+
+
+.code-div {
+    background-color: #111;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 10px auto;
+    /* Center-align the code-div */
+}
+
+.code-block {
+    padding-bottom: 10px;
+    font-family: monospace;
+    /* we are using a monospaced font for code */
+    font-size: 15px;
+    white-space: pre-wrap;
+    /* Preserve line breaks */
+    overflow-x: auto;
+    /* Add a horizontal scrollbar if needed */
+    color: #fff;
+    /* Text color for code */
+}
+
+/* -------------------webkit for the snippet------------------------------- */
+.code-div ::-webkit-scrollbar {
+    /* width: 10px; */
+    height: 2px;
+}
+
+/* customize the scrollbar*/
+.code-div ::-webkit-scrollbar-thumb {
+    background: #00fff2d2;
+    /* Color of the scrollbar thumb */
+    border-radius: 4px;
+}
+
+.code-div ::-webkit-scrollbar-thumb:hover {
+    background: #00fff261;
+    /* Color of the thumb on hover */
+}
+
+/* -------------------------------------------------- */
+
+.copy-code {
+    display: block;
+    margin-top: 10px;
+    background-color: #002c5895;
+    color: #5b8fff;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.copy-code:hover {
+    /* background-color: #0080ff95; */
+    color: #bad0ff;
+}
+
+
+/* media query ------------------------------------------------------- */
+
+@media only screen and (max-width: 800px) {
+   .code-div {
+        margin: 10px auto;
+        /* Center-align the code-div */
+    }
+  }
