@@ -144,7 +144,6 @@ a {
 .main-section {
   display: flex;
   background-color: #fff;
-  height: 500px;
   margin: 0 auto;
   max-width: 100%;
   justify-content: space-between;
