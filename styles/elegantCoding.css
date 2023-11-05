@@ -1,1 +1,75 @@
 
+
+/* ------------------------------------------------------------ Start your Learning */
+
+.learn-technologies {
+    /* margin: 50px 0px; */
+    padding: 30px 0px;
+    /* background-color: #ffffff19; */
+  }
+  
+  .learn-technologies h1 {
+    font-size: 32px;
+    font-weight: bolder;
+    color: #000000;
+    padding: 20px 0px;
+    text-align: center;
+  }
+  
+  .start-your-learning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .technology-stack {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 50px 2px #0000001a;
+    background-color: #fff;
+    width: 200px;
+  }
+  
+  .technology-stack:hover {
+    box-shadow: 0px 0px 50px 1px #6b46c175;
+  
+  }
+  
+  .technology-stack-img {
+    height: 220px;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    /* center the image vertically */
+  }
+  
+  .technology-stack img {
+    margin: 0% auto;
+    width: 100%;
+  }
+  
+  .technology-stack a {
+    text-decoration: none;
+    /* margin-top: 20px; */
+    text-align: center;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    /* background-color: #0000008e; */
+    color: rgb(0, 0, 0);
+  }
+  
+  .technology-stack a:hover {
+    border: 1px solid #6B46C1;
+    background-color: white;
+    color: #6B46C1;
+  }
+  
+  
