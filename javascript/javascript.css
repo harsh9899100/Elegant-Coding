@@ -1,0 +1,146 @@
+/* ------------------------------------------------------------------------- */
+
+        /* Style the header with a sticky behavior */
+        #Elegant-coding-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Box shadow properties chhe*/
+            z-index: 100;
+            /* z-index ne nav ni z-index karta ochhi rakhic hhe */
+            padding: 20px;
+        }
+
+        .my-website-name-container {
+            text-align: center;
+        }
+
+        .my-website-name {
+            font-size: 24px;
+            margin: 0;
+            color: #6b46c1;
+            font-weight: 700;
+        }
+
+        .nav-menu-button-container {
+            float: left;
+        }
+
+        #nav-menu-button {
+            background-color: #ffffff;
+            border: 1px solid #12181f;
+            color: #000000;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            padding: 5px 15px;
+        }
+
+        #nav-menu-button:hover {
+            color: #6b46c1;
+            border-color: #6b46c1;
+            transition: 300ms;
+        }
+
+        /* ------------------------------------------------------------------------- side navigation*/
+
+        /* Style the side navigation */
+        #side-nav {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            background-color: #12181f;
+            /* Updated background color */
+            z-index: 101;
+            overflow-x: hidden;
+            transition: 0.3s;
+        }
+
+        #nav-close-button-container {
+            padding: 20px 20px 50px 0px;
+        }
+
+        /* Style the close button inside the side navigation */
+        #nav-close-button {
+            background-color: #12181f;
+            border: 1px solid #fff;
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            padding: 5px 15px;
+            float: right;
+        }
+
+        #nav-close-button:hover {
+            color: #00eeffd8;
+            border-color: #00eeffd8;
+            transition: 300ms;
+        }
+
+        #side-nav h3 {
+            color: #e6ecf2;
+            padding: 10px;
+            border-bottom: 1px solid white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        #side-nav h2 {
+            color: #6b46c16e;
+            padding: 10px;
+            font-size: 25px;
+            font-weight: 600;
+            text-shadow:1px 0px 1px #00f2ff;
+        }
+
+        /* Style the side navigation links */
+        #side-nav ul {
+            list-style: none;
+            width: 90%;
+            padding: 0% 5%;
+        }
+
+        #side-nav li {
+            padding: 5px 20px;
+            border-left: 5px solid transparent;
+            border-radius: 5px;
+            margin-bottom: 2px;
+        }
+
+        #side-nav li:hover {
+            border-left: 5px solid #6b46c1;
+            background-color: #6b46c16e;
+            cursor: pointer;
+        }
+
+        #side-nav a {
+            text-decoration: none;
+            color: #fff;
+            /* width: 150px; */
+        }
+
+        #side-nav a:hover {
+            color: #fff;
+        }
+
+        /* ------------------------------------------------------------------------- */
+
+        /* Main content container */
+        main {
+            padding: 50px;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        @media only screen and (max-width: 500px) {
+            main {
+                padding: 10px;
+            }
+        }
