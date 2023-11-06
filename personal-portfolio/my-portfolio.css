@@ -50,6 +50,13 @@ body {
     transition: 300ms;
 }
 
+@media only screen and (max-width: 800px) {
+    #Elegant-coding-header {
+        padding: 5px 10px;
+    }
+   
+}
+
 /* ------------------------------------------------------------------------- side navigation*/
 
 /* Style the side navigation */
