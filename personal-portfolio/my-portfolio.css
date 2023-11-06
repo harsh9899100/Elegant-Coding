@@ -488,6 +488,10 @@ main {
         padding: 40px 10px;
     }
 
+    .project-content-container>h1{
+        font-size: 24px;
+    }
+
     .project-content-container>ul {
         background-color: #0069d941;
         border-radius: 10px;
