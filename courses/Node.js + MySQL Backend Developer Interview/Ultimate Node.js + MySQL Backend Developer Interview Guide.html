@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <script src="../sidebar-fix.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .toc a:hover { background-color: var(--bg-secondary); color: var(--accent-color); }
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h1 id="ultimate-node-js-mysql-backend-developer-interview-guide">Ultimate Node.js + MySQL Backend Developer Interview Guide</h1>
+<h2 id="600-questions-from-beginner-to-advanced-level">600+ Questions from Beginner to Advanced Level</h2>
+
+<p>*A comprehensive collection covering theoretical concepts, practical implementations, and real-world scenarios*</p>
+
+<p>---</p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<p>1. [JavaScript Fundamentals](#javascript-fundamentals) (50 Questions)</p>
+<p>2. [Node.js Core Concepts](#nodejs-core-concepts) (80 Questions)</p>
+<p>3. [Express.js Framework](#expressjs-framework) (60 Questions)</p>
+<p>4. [Asynchronous Programming](#asynchronous-programming) (50 Questions)</p>
+<p>5. [MySQL Database Fundamentals](#mysql-database-fundamentals) (80 Questions)</p>
+<p>6. [Advanced SQL & Optimization](#advanced-sql--optimization) (70 Questions)</p>
+<p>7. [Node.js + MySQL Integration](#nodejs--mysql-integration) (60 Questions)</p>
+<p>8. [Authentication & Security](#authentication--security) (50 Questions)</p>
+<p>9. [API Design & Best Practices](#api-design--best-practices) (40 Questions)</p>
+<p>10. [Performance & Scaling](#performance--scaling) (40 Questions)</p>
+<p>11. [Testing & Debugging](#testing--debugging) (30 Questions)</p>
+<p>12. [DevOps & Deployment](#devops--deployment) (30 Questions)</p>
+<p>13. [System Design & Architecture](#system-design--architecture) (30 Questions)</p>
+<p>14. [Practical Coding Challenges](#practical-coding-challenges) (50 Questions)</p>
+<p>15. [Scenario-Based Questions](#scenario-based-questions) (40 Questions)</p>
+
+<p>---</p>
+
+<h2 id="javascript-fundamentals">JavaScript Fundamentals</h2>
+
+<h3 id="core-concepts-25-questions-">Core Concepts (25 Questions)</h3>
+
+<p>1. What is the difference between `==` and `===` in JavaScript?</p>
+<p>2. Explain the concept of hoisting in JavaScript.</p>
+<p>3. What is the difference between `let`, `const`, and `var`?</p>
+<p>4. What is a closure? Provide a practical example.</p>
+<p>5. Explain the `this` keyword and its binding rules.</p>
+<p>6. What are the primitive data types in JavaScript?</p>
+<p>7. What is the difference between `null` and `undefined`?</p>
+<p>8. What is prototypal inheritance?</p>
+<p>9. What are template literals and their advantages?</p>
+<p>10. What is destructuring assignment?</p>
+<p>11. What are rest and spread operators (`...`)?</p>
+<p>12. What are arrow functions and how do they differ from regular functions?</p>
+<p>13. What is the difference between function declaration and function expression?</p>
+<p>14. What are getters and setters in JavaScript?</p>
+<p>15. What is the `use strict` directive?</p>
+<p>16. What are Map and Set? How do they differ from objects and arrays?</p>
+<p>17. What are WeakMap and WeakSet?</p>
+<p>18. What is the Event Loop in JavaScript?</p>
+<p>19. What is the Call Stack and what happens when it overflows?</p>
+<p>20. What are the different ways to create objects in JavaScript?</p>
+<p>21. What is memoization? Implement a memoization function.</p>
+<p>22. What is currying? Implement a currying function.</p>
+<p>23. What is the Temporal Dead Zone (TDZ)?</p>
+<p>24. Explain shallow vs deep copy. How would you achieve each?</p>
+<p>25. How does JavaScript handle garbage collection?</p>
+
+<h3 id="advanced-concepts-25-questions-">Advanced Concepts (25 Questions)</h3>
+
+<p>26. What are generator functions (`function*`)?</p>
+<p>27. What are Proxies and Reflect in JavaScript?</p>
+<p>28. What are JavaScript modules (ESM)? How do they differ from CommonJS?</p>
+<p>29. What is a thunk in JavaScript?</p>
+<p>30. What are async generators and async iterators?</p>
+<p>31. What is the output of `typeof null`? Why?</p>
+<p>32. What is the output of `[] + []`? `[] + {}`? `{} + []`?</p>
+<p>33. What is the output of `0.1 + 0.2 === 0.3`? Why?</p>
+<p>34. What is the output of `"2" + 2 - 2`?</p>
+<p>35. Write a function to check if a value is an array.</p>
+<p>36. Write a function to reverse a string without using built-in methods.</p>
+<p>37. Write a function to find the maximum value in an array.</p>
+<p>38. Write a function to remove duplicates from an array.</p>
+<p>39. Write a function to flatten a nested array.</p>
+<p>40. Write a debounce function.</p>
+<p>41. Write a throttle function.</p>
+<p>42. Implement `Promise.all()` from scratch.</p>
+<p>43. Implement `Promise.race()` from scratch.</p>
+<p>44. Write a function to deep clone an object.</p>
+<p>45. Implement a custom `Array.prototype.map()` function.</p>
+<p>46. Write a function to check if two objects are deeply equal.</p>
+<p>47. Implement a simple event emitter.</p>
+<p>48. Write a function to convert a callback-based function to Promise.</p>
+<p>49. Implement a retry mechanism for failed operations.</p>
+<p>50. Write a function to batch async operations with concurrency limit.</p>
+
+<p>---</p>
+
+<h2 id="node-js-core-concepts">Node.js Core Concepts</h2>
+
+<h3 id="architecture-runtime-20-questions-">Architecture & Runtime (20 Questions)</h3>
+
+<p>51. What is Node.js? How is it different from browser JavaScript?</p>
+<p>52. Explain Node.js architecture. What roles do V8, LibUV, and the Event Loop play?</p>
+<p>53. What makes Node.js non-blocking and asynchronous?</p>
+<p>54. Explain the Node.js Event Loop phases in detail.</p>
+<p>55. What is the difference between `process.nextTick()` and `setImmediate()`?</p>
+<p>56. What is the role of the libuv library in Node.js?</p>
+<p>57. How does Node.js handle concurrency without threads?</p>
+<p>58. What is the thread pool in Node.js and when is it used?</p>
+<p>59. Why is Node.js single-threaded yet handles multiple requests?</p>
+<p>60. What are the limitations of Node.js?</p>
+<p>61. What is the difference between microtasks and macrotasks?</p>
+<p>62. How does Node.js handle I/O operations internally?</p>
+<p>63. What is the purpose of the `process` object?</p>
+<p>64. What is the `global` object in Node.js?</p>
+<p>65. What are `__dirname` and `__filename`?</p>
+<p>66. How can you read environment variables in Node.js?</p>
+<p>67. What is the REPL in Node.js?</p>
+<p>68. How does garbage collection work in V8?</p>
+<p>69. What are signals (SIGINT, SIGTERM) in Node.js?</p>
+<p>70. How do you handle unhandled promise rejections?</p>
+
+<h3 id="modules-package-management-20-questions-">Modules & Package Management (20 Questions)</h3>
+
+<p>71. What is CommonJS? How does it work?</p>
+<p>72. What is the difference between `require()` and `import`?</p>
+<p>73. How does the Node.js module resolution algorithm work?</p>
+<p>74. What is module caching in Node.js?</p>
+<p>75. What is the difference between `module.exports` and `exports`?</p>
+<p>76. What is the purpose of `package.json`?</p>
+<p>77. What is `package-lock.json` and why is it important?</p>
+<p>78. What is the difference between `dependencies` and `devDependencies`?</p>
+<p>79. What are `peerDependencies`?</p>
+<p>80. What is semantic versioning (semver)?</p>
+<p>81. What is npm? What are common npm commands?</p>
+<p>82. What is npx and how is it different from npm?</p>
+<p>83. How do you create and publish an npm package?</p>
+<p>84. What are scoped packages?</p>
+<p>85. What is the difference between npm, yarn, and pnpm?</p>
+<p>86. How do you handle version conflicts in npm?</p>
+<p>87. What are npm scripts and script hooks?</p>
+<p>88. How do you create private npm packages?</p>
+<p>89. What is tree-shaking in the context of Node.js?</p>
+<p>90. What is nvm (Node Version Manager)?</p>
+
+<h3 id="file-system-streams-20-questions-">File System & Streams (20 Questions)</h3>
+
+<p>91. What are streams in Node.js? Why are they important?</p>
+<p>92. What are the four types of streams?</p>
+<p>93. What is backpressure in streams and how do you handle it?</p>
+<p>94. How do you create custom readable and writable streams?</p>
+<p>95. What is the difference between `pipe()` and `pipeline()`?</p>
+<p>96. How do you handle stream errors properly?</p>
+<p>97. What are transform streams and when do you use them?</p>
+<p>98. What are Buffers and how do they work?</p>
+<p>99. How do you convert between Buffers and strings?</p>
+<p>100. What is the difference between `fs.readFile()` and `fs.createReadStream()`?</p>
+<p>101. How do you handle large files efficiently?</p>
+<p>102. What are the different file system flags in Node.js?</p>
+<p>103. How do you implement file watching in Node.js?</p>
+<p>104. What is the difference between absolute and relative paths?</p>
+<p>105. How do you handle file permissions in Node.js?</p>
+<p>106. How do you implement atomic file operations?</p>
+<p>107. What are symbolic links and how do you work with them?</p>
+<p>108. How do you implement file compression/decompression?</p>
+<p>109. How do you handle file uploads with progress tracking?</p>
+<p>110. What is the `path` module and why is it useful?</p>
+
+<h3 id="process-management-performance-20-questions-">Process Management & Performance (20 Questions)</h3>
+
+<p>111. What is clustering in Node.js?</p>
+<p>112. How does the cluster module work?</p>
+<p>113. What is the difference between cluster and child_process modules?</p>
+<p>114. What are worker threads and when do you use them?</p>
+<p>115. What is the difference between `spawn()`, `exec()`, `execFile()`, and `fork()`?</p>
+<p>116. How can you communicate with a child process?</p>
+<p>117. How do you share data between Node.js processes?</p>
+<p>118. What is PM2? Why is it used?</p>
+<p>119. How do you debug a Node.js application?</p>
+<p>120. What are performance monitoring tools for Node.js?</p>
+<p>121. How do you profile a Node.js app to find bottlenecks?</p>
+<p>122. What is the `--inspect` flag?</p>
+<p>123. How do you identify and fix memory leaks in Node.js?</p>
+<p>124. What are common causes of memory leaks?</p>
+<p>125. How does the V8 garbage collection work?</p>
+<p>126. What is the `--max-old-space-size` flag used for?</p>
+<p>127. How do you handle CPU-intensive tasks in Node.js?</p>
+<p>128. What are async hooks in Node.js?</p>
+<p>129. How do you monitor event loop latency?</p>
+<p>130. What are the best practices for Node.js performance optimization?</p>
+
+<p>---</p>
+
+<h2 id="express-js-framework">Express.js Framework</h2>
+
+<h3 id="fundamentals-20-questions-">Fundamentals (20 Questions)</h3>
+
+<p>131. What is Express.js and why is it used?</p>
+<p>132. How do you create a basic Express server?</p>
+<p>133. What is middleware in Express.js?</p>
+<p>134. How does the middleware stack work?</p>
+<p>135. What is the difference between `app.use()` and `app.get()`?</p>
+<p>136. What are route parameters vs query parameters?</p>
+<p>137. How do you handle different HTTP methods in Express?</p>
+<p>138. What is the purpose of the `next()` function?</p>
+<p>139. How do you implement nested routing in Express?</p>
+<p>140. What are Express routers and how do you use them?</p>
+<p>141. How do you serve static files in Express?</p>
+<p>142. What is the purpose of `express.json()` and `express.urlencoded()`?</p>
+<p>143. How do you set and get response headers?</p>
+<p>144. What is `res.locals` used for?</p>
+<p>145. How do you handle cookies in Express?</p>
+<p>146. What are template engines and how do you use them?</p>
+<p>147. How do you implement route chaining?</p>
+<p>148. What is the significance of `app.all()`?</p>
+<p>149. How do you handle 404 errors in Express?</p>
+<p>150. What are the best practices for structuring an Express application?</p>
+
+<h3 id="advanced-concepts-20-questions-">Advanced Concepts (20 Questions)</h3>
+
+<p>151. How do you implement error handling middleware?</p>
+<p>152. What is the difference between synchronous and asynchronous error handling?</p>
+<p>153. How do you implement request validation middleware?</p>
+<p>154. How do you implement API versioning in Express?</p>
+<p>155. What is content negotiation and how do you implement it?</p>
+<p>156. How do you handle file uploads in Express?</p>
+<p>157. What is CORS and how do you configure it properly?</p>
+<p>158. How do you implement request/response compression?</p>
+<p>159. How do you implement rate limiting in Express?</p>
+<p>160. What is Helmet.js and why do you use it?</p>
+<p>161. How do you implement custom middleware for authentication?</p>
+<p>162. How do you implement role-based access control (RBAC)?</p>
+<p>163. How do you implement API pagination?</p>
+<p>164. How do you implement request logging with Morgan?</p>
+<p>165. How do you handle multipart form data?</p>
+<p>166. How do you implement graceful shutdown in Express?</p>
+<p>167. How do you implement health checks?</p>
+<p>168. How do you handle large request payloads?</p>
+<p>169. How do you implement request timeout handling?</p>
+<p>170. How do you optimize Express applications for production?</p>
+
+<h3 id="testing-security-20-questions-">Testing & Security (20 Questions)</h3>
+
+<p>171. How do you write unit tests for Express middleware?</p>
+<p>172. How do you test API endpoints with different HTTP methods?</p>
+<p>173. How do you mock external dependencies in tests?</p>
+<p>174. What is Supertest and how do you use it?</p>
+<p>175. How do you implement test fixtures and factories?</p>
+<p>176. How do you measure and improve test coverage?</p>
+<p>177. What are the common security vulnerabilities in Express applications?</p>
+<p>178. How do you prevent XSS attacks in Express?</p>
+<p>179. How do you prevent CSRF attacks?</p>
+<p>180. How do you implement secure session management?</p>
+<p>181. How do you validate and sanitize user input?</p>
+<p>182. How do you implement API key authentication?</p>
+<p>183. How do you handle password reset functionality securely?</p>
+<p>184. How do you implement account lockout mechanisms?</p>
+<p>185. How do you protect against brute force attacks?</p>
+<p>186. How do you implement secure file upload handling?</p>
+<p>187. How do you handle sensitive data in logs?</p>
+<p>188. How do you implement audit logging?</p>
+<p>189. How do you secure Express applications in production?</p>
+<p>190. What are the OWASP Top 10 security risks for web applications?</p>
+
+<p>---</p>
+
+<h2 id="asynchronous-programming">Asynchronous Programming</h2>
+
+<h3 id="promises-async-await-25-questions-">Promises & Async/Await (25 Questions)</h3>
+
+<p>191. What is a Promise? What are its three states?</p>
+<p>192. How do you create a Promise?</p>
+<p>193. How do you consume a Promise using `.then()`, `.catch()`, and `.finally()`?</p>
+<p>194. What is Promise chaining?</p>
+<p>195. What is `Promise.all()` and when would you use it?</p>
+<p>196. What is `Promise.allSettled()` and how is it different from `Promise.all()`?</p>
+<p>197. What is `Promise.race()` and when would you use it?</p>
+<p>198. What is `Promise.any()` and how does it work?</p>
+<p>199. What is async/await and how does it work?</p>
+<p>200. How do you handle errors in async/await?</p>
+<p>201. Can you use await at the top level? How?</p>
+<p>202. How would you run async operations in parallel using async/await?</p>
+<p>203. How would you run async operations sequentially?</p>
+<p>204. What happens when you don't await a Promise?</p>
+<p>205. How do you convert callback-based functions to Promises?</p>
+<p>206. How do you implement a delay function using Promises?</p>
+<p>207. How do you implement timeout for Promises?</p>
+<p>208. How do you implement retry logic for failed async operations?</p>
+<p>209. How do you handle multiple async operations with different error handling?</p>
+<p>210. How do you implement Promise cancellation?</p>
+<p>211. What is the difference between parallel and sequential execution?</p>
+<p>212. How do you implement exponential backoff for retries?</p>
+<p>213. How do you batch async operations with concurrency limits?</p>
+<p>214. How do you implement async queues?</p>
+<p>215. How do you handle race conditions in async code?</p>
+
+<h3 id="advanced-patterns-25-questions-">Advanced Patterns (25 Questions)</h3>
+
+<p>216. What is callback hell and how do you avoid it?</p>
+<p>217. What are microtasks and macrotasks in the event loop?</p>
+<p>218. What are async generators and how do you use them?</p>
+<p>219. What are async iterators?</p>
+<p>220. What is the difference between `for await...of` and normal `for...of`?</p>
+<p>221. How do you implement custom async iterators?</p>
+<p>222. What is throttling vs debouncing in async operations?</p>
+<p>223. How do you implement async middleware patterns?</p>
+<p>224. What are observables and how do they differ from Promises?</p>
+<p>225. How do you handle async operations in event-driven programming?</p>
+<p>226. What are worker pools and when do you use them?</p>
+<p>227. How do you prevent memory leaks in async code?</p>
+<p>228. What is deadlock and can it occur in async code?</p>
+<p>229. How do you implement circuit breaker patterns?</p>
+<p>230. How do you handle async operations with timeouts?</p>
+<p>231. How do you implement async resource pooling?</p>
+<p>232. How do you handle async operations in streams?</p>
+<p>233. How do you implement async event handling?</p>
+<p>234. How do you handle async operations in cluster environments?</p>
+<p>235. How do you implement async logging without blocking?</p>
+<p>236. How do you handle async operations in error scenarios?</p>
+<p>237. How do you implement async caching strategies?</p>
+<p>238. How do you handle async operations with backpressure?</p>
+<p>239. How do you implement async data transformation pipelines?</p>
+<p>240. How do you optimize async operations for performance?</p>
+
+<p>---</p>
+
+<h2 id="mysql-database-fundamentals">MySQL Database Fundamentals</h2>
+
+<h3 id="core-concepts-25-questions-">Core Concepts (25 Questions)</h3>
+
+<p>241. What is MySQL and why is it popular?</p>
+<p>242. What is a Relational Database Management System (RDBMS)?</p>
+<p>243. What is a database schema?</p>
+<p>244. What are tables, rows, and columns?</p>
+<p>245. What are the main SQL data types in MySQL?</p>
+<p>246. What is a Primary Key and what are its properties?</p>
+<p>247. What is a Foreign Key and its purpose?</p>
+<p>248. What is a Composite Key?</p>
+<p>249. What is a Unique constraint?</p>
+<p>250. What is a Default constraint?</p>
+<p>251. What is a NULL value and how is it different from empty string?</p>
+<p>252. What are the CRUD operations and their SQL commands?</p>
+<p>253. What is the WHERE clause and what operators can be used?</p>
+<p>254. What is the ORDER BY clause?</p>
+<p>255. What is the DISTINCT keyword?</p>
+<p>256. What is the LIMIT clause?</p>
+<p>257. What is the LIKE operator and wildcards?</p>
+<p>258. What are Aggregate Functions?</p>
+<p>259. What is the GROUP BY clause?</p>
+<p>260. What is the HAVING clause and how is it different from WHERE?</p>
+<p>261. What are Scalar Functions?</p>
+<p>262. What is the difference between CHAR and VARCHAR?</p>
+<p>263. What is the difference between DATETIME and TIMESTAMP?</p>
+<p>264. What are MySQL storage engines?</p>
+<p>265. What is the difference between InnoDB and MyISAM?</p>
+
+<h3 id="sql-queries-operations-25-questions-">SQL Queries & Operations (25 Questions)</h3>
+
+<p>266. Write SQL query to create a users table with id, name, email, password.</p>
+<p>267. Write query to insert multiple rows into users table.</p>
+<p>268. Write query to update email of a user by id.</p>
+<p>269. Write query to delete a user by id.</p>
+<p>270. Write query to fetch all users whose name starts with "A".</p>
+<p>271. Write query to count total users.</p>
+<p>272. Write query to fetch the top 5 latest users.</p>
+<p>273. Write query to select users with NULL phone numbers.</p>
+<p>274. Write query to select distinct cities from users.</p>
+<p>275. Write query to group users by city and count them.</p>
+<p>276. Write query to find max salary from employees.</p>
+<p>277. Write query to find average age of employees.</p>
+<p>278. Write query to find employees with salary greater than 50k.</p>
+<p>279. Write query to fetch employees ordered by joining date.</p>
+<p>280. Write query to find second highest salary.</p>
+<p>281. Write query to find nth highest salary.</p>
+<p>282. Write query using CASE WHEN statement.</p>
+<p>283. Write query to concatenate first_name and last_name.</p>
+<p>284. Write query to fetch length of a string column.</p>
+<p>285. Write query to select current date and time.</p>
+<p>286. Write query to format date as YYYY-MM-DD.</p>
+<p>287. Write query to add 7 days to a date.</p>
+<p>288. Write query to extract year from a date column.</p>
+<p>289. Write query to select employees who joined in 2020.</p>
+<p>290. Write query to implement pagination using LIMIT and OFFSET.</p>
+
+<h3 id="joins-relationships-30-questions-">Joins & Relationships (30 Questions)</h3>
+
+<p>291. What is a SQL Join and why is it necessary?</p>
+<p>292. Explain INNER JOIN with example.</p>
+<p>293. Explain LEFT (OUTER) JOIN with example.</p>
+<p>294. Explain RIGHT (OUTER) JOIN with example.</p>
+<p>295. Explain FULL (OUTER) JOIN (how to simulate in MySQL).</p>
+<p>296. What is a CROSS JOIN?</p>
+<p>297. What is a Self Join?</p>
+<p>298. What is the difference between ON and USING clauses in joins?</p>
+<p>299. Write query to join orders and customers tables.</p>
+<p>300. Write query to fetch orders with product details.</p>
+<p>301. Write query to perform self-join on employees to get manager names.</p>
+<p>302. Write query to find employees without managers.</p>
+<p>303. Write query to find employees who earn more than their managers.</p>
+<p>304. Write query to find customers with no orders.</p>
+<p>305. Write query to find products never ordered.</p>
+<p>306. Write query to join three tables (users, orders, products).</p>
+<p>307. Write query to find top customers by order count.</p>
+<p>308. Write query to find products ordered by specific customer.</p>
+<p>309. Write query to calculate total sales per customer.</p>
+<p>310. Write query to find customers who ordered in last 30 days.</p>
+<p>311. How do you implement many-to-many relationships?</p>
+<p>312. How do you handle hierarchical data in MySQL?</p>
+<p>313. What are junction tables and when do you use them?</p>
+<p>314. How do you optimize JOIN operations?</p>
+<p>315. What is the difference between EXISTS and IN clauses?</p>
+<p>316. Write query using EXISTS clause.</p>
+<p>317. Write query using correlated subquery.</p>
+<p>318. Write query using NOT IN clause.</p>
+<p>319. Write query using UNION.</p>
+<p>320. Write query using UNION ALL.</p>
+
+<p>---</p>
+
+<h2 id="advanced-sql-optimization">Advanced SQL & Optimization</h2>
+
+<h3 id="indexing-performance-25-questions-">Indexing & Performance (25 Questions)</h3>
+
+<p>321. What are indexes and how do they work?</p>
+<p>322. What are the different types of indexes in MySQL?</p>
+<p>323. How do you create and optimize composite indexes?</p>
+<p>324. What is the difference between clustered and non-clustered indexes?</p>
+<p>325. How do you analyze index usage and effectiveness?</p>
+<p>326. What is index cardinality and why is it important?</p>
+<p>327. How do you handle index maintenance and rebuilding?</p>
+<p>328. What are covering indexes and when do you use them?</p>
+<p>329. How do you implement full-text search indexes?</p>
+<p>330. What is the impact of indexes on INSERT/UPDATE/DELETE operations?</p>
+<p>331. How do you choose the right indexing strategy?</p>
+<p>332. When should you avoid using indexes?</p>
+<p>333. What is query optimization?</p>
+<p>334. How does EXPLAIN help in query optimization?</p>
+<p>335. What is a query execution plan?</p>
+<p>336. What is the slow query log in MySQL?</p>
+<p>337. How do you identify and optimize slow queries?</p>
+<p>338. What are optimizer hints in MySQL?</p>
+<p>339. How does caching work in MySQL?</p>
+<p>340. What is the query cache and how does it work?</p>
+<p>341. What are the best practices for writing efficient queries?</p>
+<p>342. How do you optimize GROUP BY and ORDER BY operations?</p>
+<p>343. How do you handle N+1 query problems?</p>
+<p>344. What are the common query optimization techniques?</p>
+<p>345. How do you profile MySQL queries for performance?</p>
+
+<h3 id="advanced-features-25-questions-">Advanced Features (25 Questions)</h3>
+
+<p>346. What are Database Transactions and ACID properties?</p>
+<p>347. How do you use START TRANSACTION, COMMIT, and ROLLBACK?</p>
+<p>348. What are MySQL isolation levels?</p>
+<p>349. Explain READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.</p>
+<p>350. What is phantom read, dirty read, and non-repeatable read?</p>
+<p>351. What is the difference between pessimistic and optimistic locking?</p>
+<p>352. How do you implement row-level locking in MySQL?</p>
+<p>353. What are deadlocks and how can they be avoided?</p>
+<p>354. How do you detect and resolve deadlocks?</p>
+<p>355. What is connection pooling and why is it important?</p>
+<p>356. What are prepared statements and their benefits?</p>
+<p>357. What are stored procedures and when do you use them?</p>
+<p>358. What are triggers in MySQL?</p>
+<p>359. What are MySQL functions and how do they differ from procedures?</p>
+<p>360. What are cursors in MySQL?</p>
+<p>361. What are SQL Views and why are they used?</p>
+<p>362. What are temporary tables?</p>
+<p>363. What is a Common Table Expression (CTE)?</p>
+<p>364. What are recursive CTEs?</p>
+<p>365. What are window functions in MySQL?</p>
+<p>366. How do you use ROW_NUMBER(), RANK(), and DENSE_RANK()?</p>
+<p>367. How do you implement pivot and unpivot operations?</p>
+<p>368. What are partitions in MySQL?</p>
+<p>369. What is database sharding?</p>
+<p>370. What is database replication and its benefits?</p>
+
+<h3 id="data-management-20-questions-">Data Management (20 Questions)</h3>
+
+<p>371. What is Database Normalization?</p>
+<p>372. Explain 1NF, 2NF, 3NF, and BCNF with examples.</p>
+<p>373. What are the advantages and disadvantages of normalization?</p>
+<p>374. What is Denormalization and when would you use it?</p>
+<p>375. How do you handle duplicate records?</p>
+<p>376. How do you implement soft delete functionality?</p>
+<p>377. How do you implement audit trails?</p>
+<p>378. How do you handle data migration?</p>
+<p>379. How do you implement data archiving?</p>
+<p>380. How do you handle data backup and recovery?</p>
+<p>381. What are the different backup strategies?</p>
+<p>382. How do you implement point-in-time recovery?</p>
+<p>383. How do you handle database schema changes?</p>
+<p>384. What are database migrations?</p>
+<p>385. How do you handle data seeding?</p>
+<p>386. How do you implement data validation at database level?</p>
+<p>387. How do you handle large datasets efficiently?</p>
+<p>388. How do you implement data compression?</p>
+<p>389. How do you handle JSON data in MySQL?</p>
+<p>390. How do you implement full-text search?</p>
+
+<p>---</p>
+
+<h2 id="node-js-mysql-integration">Node.js + MySQL Integration</h2>
+
+<h3 id="connection-setup-20-questions-">Connection & Setup (20 Questions)</h3>
+
+<p>391. How do you connect to a MySQL database from Node.js?</p>
+<p>392. What is the difference between mysql and mysql2 packages?</p>
+<p>393. What is a connection pool and why is it crucial?</p>
+<p>394. How do you configure a connection pool?</p>
+<p>395. How do you handle connection errors and retries?</p>
+<p>396. How do you gracefully shut down a connection pool?</p>
+<p>397. How do you use environment variables for database configuration?</p>
+<p>398. How do you handle different database configurations for different environments?</p>
+<p>399. How do you implement database health checks?</p>
+<p>400. How do you monitor database connections?</p>
+<p>401. How do you handle connection timeouts?</p>
+<p>402. How do you implement connection retry logic?</p>
+<p>403. How do you handle database failover?</p>
+<p>404. How do you implement read/write splitting?</p>
+<p>405. How do you handle database connection leaks?</p>
+<p>406. How do you optimize connection pool settings?</p>
+<p>407. How do you implement connection pooling with clustering?</p>
+<p>408. How do you handle database authentication?</p>
+<p>409. How do you implement SSL connections to MySQL?</p>
+<p>410. How do you handle database connection in serverless environments?</p>
+
+<h3 id="crud-operations-20-questions-">CRUD Operations (20 Questions)</h3>
+
+<p>411. Write code to perform a simple SELECT query.</p>
+<p>412. Write code to perform a SELECT query with WHERE clause.</p>
+<p>413. Write code to insert a new record using prepared statements.</p>
+<p>414. How do you get the LAST_INSERT_ID() after an insert?</p>
+<p>415. Write code to update a record using prepared statements.</p>
+<p>416. Write code to delete a record using prepared statements.</p>
+<p>417. How do you handle SQL errors in Node.js code?</p>
+<p>418. How do you implement bulk insert operations?</p>
+<p>419. How do you implement bulk update operations?</p>
+<p>420. How do you handle large result sets?</p>
+<p>421. How do you implement streaming queries?</p>
+<p>422. How do you execute multiple queries in parallel?</p>
+<p>423. How do you implement query batching?</p>
+<p>424. How do you handle query timeouts?</p>
+<p>425. How do you implement query caching?</p>
+<p>426. How do you handle database transactions in Node.js?</p>
+<p>427. How do you implement rollback on errors?</p>
+<p>428. How do you handle nested transactions?</p>
+<p>429. How do you implement optimistic locking?</p>
+<p>430. How do you implement pessimistic locking?</p>
+
+<h3 id="advanced-integration-20-questions-">Advanced Integration (20 Questions)</h3>
+
+<p>431. How do you implement database migrations in Node.js?</p>
+<p>432. How do you implement database seeding?</p>
+<p>433. How do you structure database queries in your application?</p>
+<p>434. How do you implement a Data Access Layer (DAL)?</p>
+<p>435. How do you implement the Repository pattern?</p>
+<p>436. How do you handle database schema versioning?</p>
+<p>437. How do you implement database connection monitoring?</p>
+<p>438. How do you handle database performance monitoring?</p>
+<p>439. How do you implement query logging?</p>
+<p>440. How do you handle database backup from Node.js?</p>
+<p>441. How do you implement data synchronization?</p>
+<p>442. How do you handle database replication in Node.js?</p>
+<p>443. How do you implement database sharding logic?</p>
+<p>444. How do you handle cross-database transactions?</p>
+<p>445. How do you implement database connection pooling across microservices?</p>
+<p>446. How do you handle database versioning in CI/CD?</p>
+<p>447. How do you implement database testing strategies?</p>
+<p>448. How do you handle database mocking in tests?</p>
+<p>449. How do you implement database performance testing?</p>
+<p>450. How do you handle database security in Node.js applications?</p>
+
+<p>---</p>
+
+<h2 id="authentication-security">Authentication & Security</h2>
+
+<h3 id="authentication-fundamentals-25-questions-">Authentication Fundamentals (25 Questions)</h3>
+
+<p>451. What is the difference between authentication and authorization?</p>
+<p>452. What is Session-based authentication and how does it work?</p>
+<p>453. What is Token-based authentication (JWT) and how does it work?</p>
+<p>454. What are the advantages and disadvantages of JWT vs sessions?</p>
+<p>455. What are the three parts of a JWT?</p>
+<p>456. What kind of data should you put in JWT payload?</p>
+<p>457. What should you never put in a JWT?</p>
+<p>458. How do you generate and verify JWT in Node.js?</p>
+<p>459. Where do you store JWT tokens securely?</p>
+<p>460. How do you handle token expiration?</p>
+<p>461. What are refresh tokens and how do you implement them?</p>
+<p>462. How do you implement token refresh mechanism?</p>
+<p>463. How do you invalidate JWT tokens?</p>
+<p>464. What is OAuth 2.0 and explain the flow?</p>
+<p>465. What is OpenID Connect (OIDC)?</p>
+<p>466. What is Single Sign-On (SSO)?</p>
+<p>467. How do you implement social login (Google, Facebook)?</p>
+<p>468. What is multi-factor authentication (MFA)?</p>
+<p>469. How do you implement 2FA in Node.js?</p>
+<p>470. What is password hashing and why is it important?</p>
+<p>471. What is salting and why is it necessary?</p>
+<p>472. What is bcrypt and how does it work?</p>
+<p>473. How do you implement secure password reset?</p>
+<p>474. How do you implement account lockout mechanisms?</p>
+<p>475. How do you handle password policies?</p>
+
+<h3 id="security-best-practices-25-questions-">Security Best Practices (25 Questions)</h3>
+
+<p>476. What are the OWASP Top 10 security risks?</p>
+<p>477. How do you prevent SQL injection attacks?</p>
+<p>478. How do you prevent Cross-Site Scripting (XSS)?</p>
+<p>479. How do you prevent Cross-Site Request Forgery (CSRF)?</p>
+<p>480. What is Content Security Policy (CSP)?</p>
+<p>481. How do you implement secure HTTP headers?</p>
+<p>482. What is Helmet.js and how do you use it?</p>
+<p>483. How do you handle sensitive data in applications?</p>
+<p>484. How do you secure API endpoints?</p>
+<p>485. How do you implement rate limiting for security?</p>
+<p>486. How do you prevent brute force attacks?</p>
+<p>487. How do you handle session security?</p>
+<p>488. How do you implement secure cookie handling?</p>
+<p>489. How do you handle file upload security?</p>
+<p>490. How do you prevent directory traversal attacks?</p>
+<p>491. How do you implement input validation and sanitization?</p>
+<p>492. How do you handle error messages securely?</p>
+<p>493. How do you implement audit logging?</p>
+<p>494. How do you handle secrets management?</p>
+<p>495. How do you implement secure communication (HTTPS)?</p>
+<p>496. How do you handle database security?</p>
+<p>497. How do you implement role-based access control?</p>
+<p>498. How do you handle security in microservices?</p>
+<p>499. How do you implement security monitoring?</p>
+<p>500. How do you handle security incident response?</p>
+
+<p>---</p>
+
+<h2 id="api-design-best-practices">API Design & Best Practices</h2>
+
+<h3 id="rest-api-design-20-questions-">REST API Design (20 Questions)</h3>
+
+<p>501. What is REST and what are its architectural constraints?</p>
+<p>502. What are Resources and URIs in REST?</p>
+<p>503. What are the HTTP methods and their properties?</p>
+<p>504. What are the key principles of RESTful API design?</p>
+<p>505. What is HATEOAS?</p>
+<p>506. How do you version your APIs?</p>
+<p>507. What are the common HTTP status codes?</p>
+<p>508. How do you choose the right status code?</p>
+<p>509. How do you implement API pagination?</p>
+<p>510. How do you implement filtering, sorting, and searching?</p>
+<p>511. How do you handle bulk operations in REST APIs?</p>
+<p>512. How do you implement partial updates (PATCH)?</p>
+<p>513. How do you handle nested resources?</p>
+<p>514. How do you implement API caching?</p>
+<p>515. How do you handle API deprecation?</p>
+<p>516. How do you implement API documentation?</p>
+<p>517. What is OpenAPI/Swagger?</p>
+<p>518. How do you implement API testing?</p>
+<p>519. How do you handle API errors consistently?</p>
+<p>520. What are the best practices for API response design?</p>
+
+<h3 id="advanced-api-concepts-20-questions-">Advanced API Concepts (20 Questions)</h3>
+
+<p>521. What is GraphQL and how does it compare to REST?</p>
+<p>522. When would you choose GraphQL over REST?</p>
+<p>523. How do you implement real-time APIs?</p>
+<p>524. What are WebSockets and when do you use them?</p>
+<p>525. What are Server-Sent Events (SSE)?</p>
+<p>526. How do you implement webhooks?</p>
+<p>527. How do you handle webhook security?</p>
+<p>528. How do you implement API rate limiting?</p>
+<p>529. How do you implement API throttling?</p>
+<p>530. How do you handle API monitoring and analytics?</p>
+<p>531. How do you implement API logging?</p>
+<p>532. How do you handle API performance optimization?</p>
+<p>533. How do you implement API load balancing?</p>
+<p>534. How do you handle API circuit breakers?</p>
+<p>535. How do you implement API retries?</p>
+<p>536. How do you handle API timeouts?</p>
+<p>537. How do you implement API mocking?</p>
+<p>538. How do you handle API backward compatibility?</p>
+<p>539. How do you implement API governance?</p>
+<p>540. How do you handle API security scanning?</p>
+
+<p>---</p>
+
+<h2 id="performance-scaling">Performance & Scaling</h2>
+
+<h3 id="node-js-performance-20-questions-">Node.js Performance (20 Questions)</h3>
+
+<p>541. What are common performance bottlenecks in Node.js?</p>
+<p>542. How do you profile CPU usage in Node.js?</p>
+<p>543. How do you identify memory leaks?</p>
+<p>544. How do you optimize memory usage?</p>
+<p>545. How do you handle CPU-intensive tasks?</p>
+<p>546. How do you use worker threads for performance?</p>
+<p>547. How do you implement clustering for scaling?</p>
+<p>548. How do you monitor event loop latency?</p>
+<p>549. How do you optimize async operations?</p>
+<p>550. How do you implement caching strategies?</p>
+<p>551. How do you use Redis for performance optimization?</p>
+<p>552. How do you optimize database queries?</p>
+<p>553. How do you implement connection pooling optimization?</p>
+<p>554. How do you handle large payloads efficiently?</p>
+<p>555. How do you optimize file operations?</p>
+<p>556. How do you implement streaming for large data?</p>
+<p>557. How do you optimize JSON parsing?</p>
+<p>558. How do you handle garbage collection optimization?</p>
+<p>559. How do you implement performance monitoring?</p>
+<p>560. How do you use APM tools for performance tracking?</p>
+
+<h3 id="scaling-strategies-20-questions-">Scaling Strategies (20 Questions)</h3>
+
+<p>561. What is horizontal vs vertical scaling?</p>
+<p>562. How do you implement load balancing?</p>
+<p>563. What are the different load balancing algorithms?</p>
+<p>564. How do you implement database scaling?</p>
+<p>565. What is database sharding and when do you use it?</p>
+<p>566. How do you implement read replicas?</p>
+<p>567. How do you handle database connection scaling?</p>
+<p>568. How do you implement caching at different levels?</p>
+<p>569. How do you use CDN for scaling?</p>
+<p>570. How do you implement microservices architecture?</p>
+<p>571. How do you handle inter-service communication?</p>
+<p>572. How do you implement service discovery?</p>
+<p>573. How do you handle distributed transactions?</p>
+<p>574. How do you implement eventual consistency?</p>
+<p>575. How do you handle session management in scaled applications?</p>
+<p>576. How do you implement distributed caching?</p>
+<p>577. How do you handle file storage scaling?</p>
+<p>578. How do you implement message queues for scaling?</p>
+<p>579. How do you handle monitoring in scaled systems?</p>
+<p>580. How do you implement auto-scaling strategies?</p>
+
+<p>---</p>
+
+<h2 id="testing-debugging">Testing & Debugging</h2>
+
+<h3 id="testing-strategies-15-questions-">Testing Strategies (15 Questions)</h3>
+
+<p>581. What are the different types of testing?</p>
+<p>582. How do you write unit tests for Node.js applications?</p>
+<p>583. How do you write integration tests?</p>
+<p>584. How do you write end-to-end tests?</p>
+<p>585. What is Test-Driven Development (TDD)?</p>
+<p>586. How do you mock dependencies in tests?</p>
+<p>587. How do you test async code?</p>
+<p>588. How do you test database operations?</p>
+<p>589. How do you implement test fixtures?</p>
+<p>590. How do you measure test coverage?</p>
+<p>591. How do you implement continuous testing?</p>
+<p>592. How do you test error scenarios?</p>
+<p>593. How do you implement performance testing?</p>
+<p>594. How do you test security vulnerabilities?</p>
+<p>595. How do you implement contract testing?</p>
+
+<h3 id="debugging-techniques-15-questions-">Debugging Techniques (15 Questions)</h3>
+
+<p>596. How do you debug Node.js applications?</p>
+<p>597. How do you use debugging tools effectively?</p>
+<p>598. How do you debug memory leaks?</p>
+<p>599. How do you debug performance issues?</p>
+<p>600. How do you debug async code?</p>
+<p>601. How do you debug database queries?</p>
+<p>602. How do you implement effective logging?</p>
+<p>603. How do you use structured logging?</p>
+<p>604. How do you debug production issues?</p>
+<p>605. How do you implement error tracking?</p>
+<p>606. How do you debug clustering issues?</p>
+<p>607. How do you debug network issues?</p>
+<p>608. How do you use profiling tools?</p>
+<p>609. How do you debug security issues?</p>
+<p>610. How do you implement monitoring and alerting?</p>
+
+<p>---</p>
+
+<h2 id="devops-deployment">DevOps & Deployment</h2>
+
+<h3 id="deployment-strategies-15-questions-">Deployment Strategies (15 Questions)</h3>
+
+<p>611. How do you prepare Node.js applications for production?</p>
+<p>612. What is containerization and why use Docker?</p>
+<p>613. How do you create Docker images for Node.js applications?</p>
+<p>614. How do you implement multi-stage Docker builds?</p>
+<p>615. How do you use Docker Compose for development?</p>
+<p>616. How do you implement CI/CD pipelines?</p>
+<p>617. How do you implement automated testing in CI/CD?</p>
+<p>618. How do you implement blue-green deployment?</p>
+<p>619. How do you implement canary deployments?</p>
+<p>620. How do you implement rolling deployments?</p>
+<p>621. How do you handle database migrations in deployment?</p>
+<p>622. How do you implement environment-specific configurations?</p>
+<p>623. How do you handle secrets in deployment?</p>
+<p>624. How do you implement health checks?</p>
+<p>625. How do you implement graceful shutdown?</p>
+
+<h3 id="infrastructure-monitoring-15-questions-">Infrastructure & Monitoring (15 Questions)</h3>
+
+<p>626. How do you use process managers like PM2?</p>
+<p>627. How do you implement reverse proxy with Nginx?</p>
+<p>628. How do you implement SSL/TLS termination?</p>
+<p>629. How do you implement load balancing with Nginx?</p>
+<p>630. How do you monitor application performance?</p>
+<p>631. How do you implement log aggregation?</p>
+<p>632. How do you implement metrics collection?</p>
+<p>633. How do you implement alerting systems?</p>
+<p>634. How do you handle application scaling?</p>
+<p>635. How do you implement backup strategies?</p>
+<p>636. How do you handle disaster recovery?</p>
+<p>637. How do you implement security scanning?</p>
+<p>638. How do you handle compliance requirements?</p>
+<p>639. How do you implement infrastructure as code?</p>
+<p>640. How do you handle cloud deployment strategies?</p>
+
+<p>---</p>
+
+<h2 id="system-design-architecture">System Design & Architecture</h2>
+
+<h3 id="design-principles-15-questions-">Design Principles (15 Questions)</h3>
+
+<p>641. How do you design scalable systems?</p>
+<p>642. What are the principles of microservices architecture?</p>
+<p>643. How do you handle data consistency in distributed systems?</p>
+<p>644. How do you implement event-driven architecture?</p>
+<p>645. How do you design for high availability?</p>
+<p>646. How do you implement fault tolerance?</p>
+<p>647. How do you handle system resilience?</p>
+<p>648. How do you implement circuit breaker patterns?</p>
+<p>649. How do you design for observability?</p>
+<p>650. How do you implement distributed tracing?</p>
+<p>651. How do you handle system security architecture?</p>
+<p>652. How do you implement API gateway patterns?</p>
+<p>653. How do you design for performance?</p>
+<p>654. How do you handle system monitoring architecture?</p>
+<p>655. How do you implement disaster recovery architecture?</p>
+
+<h3 id="real-world-scenarios-15-questions-">Real-World Scenarios (15 Questions)</h3>
+
+<p>656. How would you design a social media platform?</p>
+<p>657. How would you design an e-commerce system?</p>
+<p>658. How would you design a chat application?</p>
+<p>659. How would you design a video streaming platform?</p>
+<p>660. How would you design a ride-sharing application?</p>
+<p>661. How would you design a payment processing system?</p>
+<p>662. How would you design a notification system?</p>
+<p>663. How would you design a search engine?</p>
+<p>664. How would you design a content delivery network?</p>
+<p>665. How would you design a real-time analytics system?</p>
+<p>666. How would you design a booking system?</p>
+<p>667. How would you design a inventory management system?</p>
+<p>668. How would you design a recommendation system?</p>
+<p>669. How would you design a logging system?</p>
+<p>670. How would you design a monitoring system?</p>
+
+<p>---</p>
+
+<h2 id="practical-coding-challenges">Practical Coding Challenges</h2>
+
+<h3 id="implementation-challenges-25-questions-">Implementation Challenges (25 Questions)</h3>
+
+<p>671. Implement a LRU cache using Node.js</p>
+<p>672. Create a rate limiter using sliding window algorithm</p>
+<p>673. Implement a simple blockchain in Node.js</p>
+<p>674. Create a URL shortener service</p>
+<p>675. Implement a distributed lock mechanism</p>
+<p>676. Create a simple search engine with indexing</p>
+<p>677. Implement a recommendation system</p>
+<p>678. Create a real-time analytics system</p>
+<p>679. Implement a simple message queue</p>
+<p>680. Create a file synchronization system</p>
+<p>681. Implement a connection pool from scratch</p>
+<p>682. Create a simple ORM with query builder</p>
+<p>683. Implement database migration system</p>
+<p>684. Create a database seeding system</p>
+<p>685. Implement soft delete functionality</p>
+<p>686. Create an audit log system</p>
+<p>687. Implement optimistic locking</p>
+<p>688. Create a database backup system</p>
+<p>689. Implement read/write splitting</p>
+<p>690. Create a database health monitoring system</p>
+<p>691. Build a RESTful API with complete CRUD operations</p>
+<p>692. Implement GraphQL API with subscriptions</p>
+<p>693. Create API versioning system</p>
+<p>694. Implement API rate limiting with different strategies</p>
+<p>695. Build webhook system with retry mechanism</p>
+
+<h3 id="advanced-challenges-25-questions-">Advanced Challenges (25 Questions)</h3>
+
+<p>696. Build a real-time chat application</p>
+<p>697. Create a collaborative document editor</p>
+<p>698. Implement real-time gaming backend</p>
+<p>699. Build live streaming platform backend</p>
+<p>700. Create real-time notification system</p>
+<p>701. Implement real-time dashboard</p>
+<p>702. Build real-time location tracking</p>
+<p>703. Create real-time auction system</p>
+<p>704. Implement real-time voting system</p>
+<p>705. Build real-time monitoring system</p>
+<p>706. Design and implement a social media feed</p>
+<p>707. Create a distributed file storage system</p>
+<p>708. Implement a load balancer</p>
+<p>709. Build a content delivery network (CDN)</p>
+<p>710. Create a distributed cache system</p>
+<p>711. Implement a job queue system</p>
+<p>712. Build a logging and monitoring system</p>
+<p>713. Create a service discovery system</p>
+<p>714. Implement a configuration management system</p>
+<p>715. Build a deployment automation system</p>
+<p>716. Implement secure authentication system</p>
+<p>717. Create authorization and RBAC system</p>
+<p>718. Build secure file upload system</p>
+<p>719. Implement data encryption/decryption</p>
+<p>720. Create secure API communication system</p>
+
+<p>---</p>
+
+<h2 id="scenario-based-questions">Scenario-Based Questions</h2>
+
+<h3 id="production-issues-20-questions-">Production Issues (20 Questions)</h3>
+
+<p>721. Your Node.js application is consuming 100% CPU. How do you diagnose and fix it?</p>
+<p>722. Database connections are being exhausted. What steps do you take?</p>
+<p>723. API response times have suddenly increased. How do you investigate?</p>
+<p>724. Memory usage keeps growing until the application crashes. How do you debug?</p>
+<p>725. Users are reporting intermittent 500 errors. How do you troubleshoot?</p>
+<p>726. Database queries are timing out. What could be the causes and solutions?</p>
+<p>727. Your application stops responding after high traffic. How do you handle it?</p>
+<p>728. File uploads are failing randomly. How do you debug and fix?</p>
+<p>729. WebSocket connections are dropping frequently. What do you check?</p>
+<p>730. Your application is throwing unhandled promise rejections. How do you fix?</p>
+<p>731. You discover a SQL injection vulnerability. What immediate steps do you take?</p>
+<p>732. User passwords may have been compromised. How do you handle this?</p>
+<p>733. API keys are exposed in your code repository. What do you do?</p>
+<p>734. You detect unusual API traffic patterns. How do you investigate?</p>
+<p>735. A DDoS attack is targeting your application. How do you respond?</p>
+<p>736. Sensitive data was accidentally logged. How do you handle this?</p>
+<p>737. You find unauthorized access in your logs. What actions do you take?</p>
+<p>738. A third-party service you use has been breached. How do you respond?</p>
+<p>739. You discover XSS vulnerabilities in your application. How do you fix them?</p>
+<p>740. Database access logs show suspicious queries. How do you investigate?</p>
+
+<h3 id="business-logic-scenarios-20-questions-">Business Logic Scenarios (20 Questions)</h3>
+
+<p>741. Design a system for handling financial transactions with ACID properties</p>
+<p>742. Implement a booking system that prevents double bookings</p>
+<p>743. Create an inventory management system with real-time updates</p>
+<p>744. Design a multi-tenant application with data isolation</p>
+<p>745. Implement a workflow system with approval processes</p>
+<p>746. Create a notification system with delivery guarantees</p>
+<p>747. Design a content moderation system</p>
+<p>748. Implement a recommendation engine</p>
+<p>749. Create a loyalty points system</p>
+<p>750. Design a subscription billing system</p>
+<p>751. How would you implement surge pricing logic in SQL?</p>
+<p>752. How do you design a notification system in Node.js + MySQL?</p>
+<p>753. How would you implement multi-tenancy in MySQL?</p>
+<p>754. How do you handle multi-language content in MySQL?</p>
+<p>755. How do you implement a leaderboard system?</p>
+<p>756. How do you design schema for inventory + stock management?</p>
+<p>757. How do you implement a "follow/unfollow" system like Twitter?</p>
+<p>758. How do you detect inactive users in the last 90 days?</p>
+<p>759. How do you build an API for exporting reports in Excel format?</p>
+<p>760. How do you implement a distributed job queue with Bull.js and MySQL?</p>
+
+<p>---</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This comprehensive guide covers over 760 questions spanning all aspects of Node.js and MySQL backend development. The questions are designed to test both theoretical knowledge and practical implementation skills, from basic concepts to advanced production scenarios.</p>
+
+<h3 id="study-strategy-">Study Strategy:</h3>
+<p>1. Master the fundamentals (Questions 1-200)</p>
+<p>2. Practice coding challenges daily (Questions 671-720)</p>
+<p>3. Study real-world scenarios (Questions 721-760)</p>
+<p>4. Build complete projects using the concepts covered</p>
+<p>5. Focus on problem-solving approach rather than memorizing answers</p>
+
+<h3 id="interview-preparation-tips-">Interview Preparation Tips:</h3>
+<p>- Understand the "why" behind each concept, not just the "what"</p>
+<p>- Practice explaining complex topics in simple terms</p>
+<p>- Be prepared to write code on a whiteboard or in a shared editor</p>
+<p>- Understand trade-offs and be able to discuss alternatives</p>
+<p>- Stay updated with the latest Node.js and MySQL features</p>
+<p>- Practice system design questions for senior positions</p>
+
+<p>This collection will prepare you for interviews at any level, from junior positions to senior architect roles. Good luck with your interview preparation!</p>
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#ultimate-node-js-mysql-backend-developer-interview-guide" class="h1-link">Ultimate Node.js + MySQL Backend Developer Interview Guide</a></li><li><a href="#600-questions-from-beginner-to-advanced-level" class="h2-link">600+ Questions from Beginner to Advanced Level</a></li><li><a href="#table-of-contents" class="h2-link">Table of Contents</a></li><li><a href="#javascript-fundamentals" class="h2-link">JavaScript Fundamentals</a></li><li><a href="#core-concepts-25-questions-" class="h3-link" style="padding-left: 1rem;">Core Concepts (25 Questions)</a></li><li><a href="#advanced-concepts-25-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Concepts (25 Questions)</a></li><li><a href="#node-js-core-concepts" class="h2-link">Node.js Core Concepts</a></li><li><a href="#architecture-runtime-20-questions-" class="h3-link" style="padding-left: 1rem;">Architecture & Runtime (20 Questions)</a></li><li><a href="#modules-package-management-20-questions-" class="h3-link" style="padding-left: 1rem;">Modules & Package Management (20 Questions)</a></li><li><a href="#file-system-streams-20-questions-" class="h3-link" style="padding-left: 1rem;">File System & Streams (20 Questions)</a></li><li><a href="#process-management-performance-20-questions-" class="h3-link" style="padding-left: 1rem;">Process Management & Performance (20 Questions)</a></li><li><a href="#express-js-framework" class="h2-link">Express.js Framework</a></li><li><a href="#fundamentals-20-questions-" class="h3-link" style="padding-left: 1rem;">Fundamentals (20 Questions)</a></li><li><a href="#advanced-concepts-20-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Concepts (20 Questions)</a></li><li><a href="#testing-security-20-questions-" class="h3-link" style="padding-left: 1rem;">Testing & Security (20 Questions)</a></li><li><a href="#asynchronous-programming" class="h2-link">Asynchronous Programming</a></li><li><a href="#promises-async-await-25-questions-" class="h3-link" style="padding-left: 1rem;">Promises & Async/Await (25 Questions)</a></li><li><a href="#advanced-patterns-25-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Patterns (25 Questions)</a></li><li><a href="#mysql-database-fundamentals" class="h2-link">MySQL Database Fundamentals</a></li><li><a href="#core-concepts-25-questions-" class="h3-link" style="padding-left: 1rem;">Core Concepts (25 Questions)</a></li><li><a href="#sql-queries-operations-25-questions-" class="h3-link" style="padding-left: 1rem;">SQL Queries & Operations (25 Questions)</a></li><li><a href="#joins-relationships-30-questions-" class="h3-link" style="padding-left: 1rem;">Joins & Relationships (30 Questions)</a></li><li><a href="#advanced-sql-optimization" class="h2-link">Advanced SQL & Optimization</a></li><li><a href="#indexing-performance-25-questions-" class="h3-link" style="padding-left: 1rem;">Indexing & Performance (25 Questions)</a></li><li><a href="#advanced-features-25-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Features (25 Questions)</a></li><li><a href="#data-management-20-questions-" class="h3-link" style="padding-left: 1rem;">Data Management (20 Questions)</a></li><li><a href="#node-js-mysql-integration" class="h2-link">Node.js + MySQL Integration</a></li><li><a href="#connection-setup-20-questions-" class="h3-link" style="padding-left: 1rem;">Connection & Setup (20 Questions)</a></li><li><a href="#crud-operations-20-questions-" class="h3-link" style="padding-left: 1rem;">CRUD Operations (20 Questions)</a></li><li><a href="#advanced-integration-20-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Integration (20 Questions)</a></li><li><a href="#authentication-security" class="h2-link">Authentication & Security</a></li><li><a href="#authentication-fundamentals-25-questions-" class="h3-link" style="padding-left: 1rem;">Authentication Fundamentals (25 Questions)</a></li><li><a href="#security-best-practices-25-questions-" class="h3-link" style="padding-left: 1rem;">Security Best Practices (25 Questions)</a></li><li><a href="#api-design-best-practices" class="h2-link">API Design & Best Practices</a></li><li><a href="#rest-api-design-20-questions-" class="h3-link" style="padding-left: 1rem;">REST API Design (20 Questions)</a></li><li><a href="#advanced-api-concepts-20-questions-" class="h3-link" style="padding-left: 1rem;">Advanced API Concepts (20 Questions)</a></li><li><a href="#performance-scaling" class="h2-link">Performance & Scaling</a></li><li><a href="#node-js-performance-20-questions-" class="h3-link" style="padding-left: 1rem;">Node.js Performance (20 Questions)</a></li><li><a href="#scaling-strategies-20-questions-" class="h3-link" style="padding-left: 1rem;">Scaling Strategies (20 Questions)</a></li><li><a href="#testing-debugging" class="h2-link">Testing & Debugging</a></li><li><a href="#testing-strategies-15-questions-" class="h3-link" style="padding-left: 1rem;">Testing Strategies (15 Questions)</a></li><li><a href="#debugging-techniques-15-questions-" class="h3-link" style="padding-left: 1rem;">Debugging Techniques (15 Questions)</a></li><li><a href="#devops-deployment" class="h2-link">DevOps & Deployment</a></li><li><a href="#deployment-strategies-15-questions-" class="h3-link" style="padding-left: 1rem;">Deployment Strategies (15 Questions)</a></li><li><a href="#infrastructure-monitoring-15-questions-" class="h3-link" style="padding-left: 1rem;">Infrastructure & Monitoring (15 Questions)</a></li><li><a href="#system-design-architecture" class="h2-link">System Design & Architecture</a></li><li><a href="#design-principles-15-questions-" class="h3-link" style="padding-left: 1rem;">Design Principles (15 Questions)</a></li><li><a href="#real-world-scenarios-15-questions-" class="h3-link" style="padding-left: 1rem;">Real-World Scenarios (15 Questions)</a></li><li><a href="#practical-coding-challenges" class="h2-link">Practical Coding Challenges</a></li><li><a href="#implementation-challenges-25-questions-" class="h3-link" style="padding-left: 1rem;">Implementation Challenges (25 Questions)</a></li><li><a href="#advanced-challenges-25-questions-" class="h3-link" style="padding-left: 1rem;">Advanced Challenges (25 Questions)</a></li><li><a href="#scenario-based-questions" class="h2-link">Scenario-Based Questions</a></li><li><a href="#production-issues-20-questions-" class="h3-link" style="padding-left: 1rem;">Production Issues (20 Questions)</a></li><li><a href="#business-logic-scenarios-20-questions-" class="h3-link" style="padding-left: 1rem;">Business Logic Scenarios (20 Questions)</a></li><li><a href="#conclusion" class="h2-link">Conclusion</a></li><li><a href="#study-strategy-" class="h3-link" style="padding-left: 1rem;">Study Strategy:</a></li><li><a href="#interview-preparation-tips-" class="h3-link" style="padding-left: 1rem;">Interview Preparation Tips:</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
