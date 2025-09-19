@@ -1,0 +1,817 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+- What is React
+- Virtual DOM Concept
+- Component-Based Architecture
+- Declarative vs Imperative Programming
+- React vs Vanilla JavaScript
+- Create React App (CRA)
+- Vite with React
+- Development Environment Setup
+
+
+### Core Concepts
+
+- JSX (JavaScript XML)
+- Elements vs Components
+- Rendering Elements
+- Component Hierarchy
+- Props and State
+- One-Way Data Flow
+- React Developer Tools
+
+
+### JSX Deep Dive
+
+- JSX Syntax Rules
+- Embedding Expressions
+- JSX Attributes
+- JSX Children
+- Conditional Rendering in JSX
+- Lists and Keys
+- JSX Fragments
+- JSX vs HTML Differences
+
+
+## **COMPONENTS**
+
+### Functional Components
+
+- Function Component Syntax
+- Arrow Function Components
+- Component Props
+- Default Props
+- Props Destructuring
+- Children Prop
+- Component Composition
+
+
+### Class Components (Legacy)
+
+- Class Component Syntax
+- Constructor Method
+- render() Method
+- this Binding
+- Class Properties
+- Static Methods
+
+
+### Component Patterns
+
+- Higher-Order Components (HOCs)
+- Render Props Pattern
+- Compound Components
+- Controlled vs Uncontrolled Components
+- Container vs Presentational Components
+
+
+## **PROPS & STATE**
+
+### Props
+
+- Passing Props
+- Props Validation (PropTypes)
+- Default Props
+- Props Drilling
+- Props Spreading
+- Children as Props
+- Render Props
+
+
+### State Management
+
+- useState Hook
+- State Updates
+- State Immutability
+- Functional State Updates
+- Multiple State Variables
+- State Lifting
+- Derived State
+
+
+### State Patterns
+
+- State Normalization
+- State Composition
+- State Machines
+- Optimistic Updates
+- State Synchronization
+
+
+## **HOOKS**
+
+### Basic Hooks
+
+- useState
+- useEffect
+- useContext
+- useReducer
+- useCallback
+- useMemo
+- useRef
+- useImperativeHandle
+- useLayoutEffect
+- useDebugValue
+
+
+### Hook Rules
+
+- Rules of Hooks
+- Hook Dependencies
+- Hook Optimization
+- Custom Hook Creation
+- Hook Testing Patterns
+
+
+### Advanced Hook Patterns
+
+- Custom Hooks
+- Hook Composition
+- Hook Libraries
+- State Management with Hooks
+- Side Effect Management
+
+
+### useEffect Deep Dive
+
+- Effect Dependencies
+- Effect Cleanup
+- Effect Timing
+- Conditional Effects
+- Effect Optimization
+- Common Effect Patterns
+
+
+## **EVENT HANDLING**
+
+### Event Basics
+
+- SyntheticEvent
+- Event Handlers
+- Event Binding
+- Event Parameters
+- Preventing Default Behavior
+- Event Propagation
+
+
+### Event Patterns
+
+- Event Delegation
+- Custom Events
+- Event Pooling (Legacy)
+- Keyboard Events
+- Mouse Events
+- Form Events
+- Touch Events
+
+
+## **CONDITIONAL RENDERING**
+
+### Rendering Techniques
+
+- if/else Statements
+- Ternary Operators
+- Logical && Operator
+- Switch Statements
+- Conditional Components
+- Early Returns
+
+
+### Advanced Patterns
+
+- Render Nothing (null)
+- Conditional Styling
+- Dynamic Component Rendering
+- Feature Flags
+- A/B Testing Patterns
+
+
+## **LISTS & KEYS**
+
+### List Rendering
+
+- map() Function
+- Rendering Arrays
+- Key Prop Importance
+- Unique Keys
+- Index as Keys (Anti-pattern)
+
+
+### List Patterns
+
+- Dynamic Lists
+- Filtered Lists
+- Sorted Lists
+- Paginated Lists
+- Infinite Scrolling
+- Virtual Scrolling
+
+
+## **FORMS & INPUT HANDLING**
+
+### Form Basics
+
+- Controlled Components
+- Uncontrolled Components
+- Form Submission
+- Input Validation
+- Form State Management
+
+
+### Form Libraries
+
+- Formik
+- React Hook Form
+- React Final Form
+- Unform
+- Custom Form Solutions
+
+
+### Input Types
+
+- Text Inputs
+- Checkboxes
+- Radio Buttons
+- Select Dropdowns
+- File Inputs
+- Custom Input Components
+
+
+### Validation Patterns
+
+- Client-side Validation
+- Real-time Validation
+- Async Validation
+- Error Display
+- Validation Libraries (Yup, Zod, Joi)
+
+
+## **STYLING**
+
+### CSS Approaches
+
+- CSS Modules
+- Styled Components
+- Emotion
+- CSS-in-JS Libraries
+- Inline Styles
+- CSS Classes
+
+
+### Styling Libraries
+
+- Material-UI (MUI)
+- Ant Design
+- Chakra UI
+- React Bootstrap
+- Semantic UI React
+- Tailwind CSS with React
+
+
+### Dynamic Styling
+
+- Conditional Classes
+- Style Props
+- Theme Providers
+- CSS Variables
+- Responsive Styling
+
+
+## **COMPONENT LIFECYCLE**
+
+### Class Component Lifecycle
+
+- Mounting Phase
+- Updating Phase
+- Unmounting Phase
+- Error Boundaries
+- Lifecycle Methods (componentDidMount, componentDidUpdate, etc.)
+
+
+### Functional Component Lifecycle
+
+- useEffect for Lifecycle
+- Component Mount
+- Component Update
+- Component Unmount
+- Dependency Arrays
+
+
+### Lifecycle Patterns
+
+- Data Fetching
+- Cleanup Operations
+- Performance Optimization
+- Memory Leak Prevention
+
+
+## **STATE MANAGEMENT**
+
+### Local State Management
+
+- Component State
+- State Lifting
+- State Drilling Solutions
+- Context API
+- useReducer for Complex State
+
+
+### Global State Management
+
+- Redux
+- Redux Toolkit (RTK)
+- MobX
+- Zustand
+- Jotai
+- Valtio
+- Recoil
+
+
+### State Management Patterns
+
+- Flux Architecture
+- Redux Patterns
+- Action Creators
+- Reducers
+- Middleware
+- Selectors
+- Normalized State
+
+
+## **CONTEXT API**
+
+### Context Basics
+
+- Creating Context
+- Context Provider
+- Context Consumer
+- useContext Hook
+- Multiple Contexts
+
+
+### Context Patterns
+
+- Theme Context
+- Authentication Context
+- Language Context
+- Context Composition
+- Context Optimization
+
+
+### Context Best Practices
+
+- Context Splitting
+- Context Performance
+- Context vs Props
+- When to Use Context
+
+
+## **ERROR HANDLING**
+
+### Error Boundaries
+
+- Class-based Error Boundaries
+- Error Boundary Implementation
+- Error Fallback UI
+- Error Reporting
+- Recovery Strategies
+
+
+### Error Handling Patterns
+
+- Try-Catch in Components
+- Async Error Handling
+- Form Error Handling
+- API Error Handling
+- Global Error Handling
+
+
+## **PERFORMANCE OPTIMIZATION**
+
+### React Performance
+
+- React.memo
+- useMemo Hook
+- useCallback Hook
+- Component Optimization
+- Render Optimization
+- Bundle Size Optimization
+
+
+### Performance Patterns
+
+- Code Splitting
+- Lazy Loading
+- Virtual Scrolling
+- Debouncing and Throttling
+- Memoization Strategies
+- Profiling Components
+
+
+### Performance Tools
+
+- React DevTools Profiler
+- Chrome DevTools
+- Bundle Analyzers
+- Performance Monitoring
+- Lighthouse Audits
+
+
+## **TESTING**
+
+### Testing Libraries
+
+- Jest
+- React Testing Library
+- Enzyme (Legacy)
+- Testing Library Utilities
+- Mock Service Worker (MSW)
+
+
+### Testing Strategies
+
+- Unit Testing
+- Integration Testing
+- Component Testing
+- Snapshot Testing
+- Visual Regression Testing
+
+
+### Testing Patterns
+
+- Testing Hooks
+- Testing Context
+- Testing Async Components
+- Testing User Interactions
+- Testing Error Boundaries
+- Mocking Dependencies
+
+
+## **ROUTING**
+
+### React Router
+
+- BrowserRouter
+- Route Components
+- Link and NavLink
+- useNavigate Hook
+- useParams Hook
+- useLocation Hook
+- Nested Routes
+
+
+### Routing Patterns
+
+- Protected Routes
+- Dynamic Routes
+- Query Parameters
+- Route Guards
+- Programmatic Navigation
+- Route-based Code Splitting
+
+
+### Alternative Routers
+
+- Reach Router (Merged with React Router)
+- Next.js Router
+- Gatsby Router
+- Custom Routing Solutions
+
+
+## **DATA FETCHING**
+
+### Fetching Strategies
+
+- useEffect for Data Fetching
+- Fetch API
+- Axios
+- Custom Hooks for Fetching
+- Error Handling
+- Loading States
+
+
+### Data Fetching Libraries
+
+- SWR
+- React Query (TanStack Query)
+- Apollo Client (GraphQL)
+- Relay (GraphQL)
+- urql (GraphQL)
+
+
+### Fetching Patterns
+
+- Parallel Fetching
+- Sequential Fetching
+- Dependent Queries
+- Infinite Queries
+- Real-time Data
+- Caching Strategies
+
+
+## **ADVANCED PATTERNS**
+
+### Higher-Order Components (HOCs)
+
+- HOC Creation
+- HOC Composition
+- HOC Best Practices
+- HOC vs Hooks
+- Common HOC Patterns
+
+
+### Render Props
+
+- Render Prop Pattern
+- Function as Children
+- Render Prop Libraries
+- Render Prop vs Hooks
+
+
+### Compound Components
+
+- Component Composition
+- Implicit State Sharing
+- Flexible APIs
+- Component Collections
+
+
+### Portals
+
+- ReactDOM.createPortal
+- Modal Implementation
+- Tooltip Implementation
+- Portal Use Cases
+
+
+## **CONCURRENT FEATURES**
+
+### React 18 Features
+
+- Concurrent Rendering
+- Automatic Batching
+- Transitions
+- Suspense Improvements
+- Streaming SSR
+
+
+### Suspense
+
+- Suspense Boundaries
+- Lazy Loading with Suspense
+- Data Fetching with Suspense
+- Error Boundaries with Suspense
+- Suspense Patterns
+
+
+### Transitions
+
+- useTransition Hook
+- useDeferredValue Hook
+- Concurrent Features
+- Priority-based Updates
+
+
+## **SERVER-SIDE RENDERING (SSR)**
+
+### SSR Concepts
+
+- Server-Side Rendering
+- Hydration
+- Universal/Isomorphic Apps
+- SEO Benefits
+- Performance Considerations
+
+
+### SSR Frameworks
+
+- Next.js
+- Gatsby
+- Remix
+- Custom SSR Setup
+
+
+### SSR Patterns
+
+- Data Fetching on Server
+- Client-Side Hydration
+- Progressive Enhancement
+- SSR vs SSG vs CSR
+
+
+## **STATIC SITE GENERATION (SSG)**
+
+### SSG Concepts
+
+- Build-time Rendering
+- Static Export
+- JAMstack Architecture
+- Performance Benefits
+
+
+### SSG Tools
+
+- Gatsby
+- Next.js SSG
+- React Static
+- Custom SSG Solutions
+
+
+## **MOBILE DEVELOPMENT**
+
+### React Native
+
+- React Native Basics
+- Native Components
+- Navigation
+- Platform-specific Code
+- Native Modules
+
+
+### Progressive Web Apps (PWA)
+
+- Service Workers
+- App Manifest
+- Offline Functionality
+- Push Notifications
+- Installation Prompts
+
+
+## **DEVELOPMENT TOOLS**
+
+### Development Environment
+
+- Create React App
+- Vite
+- Webpack Configuration
+- Babel Configuration
+- ESLint and Prettier
+
+
+### Debugging Tools
+
+- React Developer Tools
+- Browser DevTools
+- Error Boundaries
+- Console Debugging
+- Source Maps
+
+
+### Build Tools
+
+- Webpack
+- Rollup
+- Parcel
+- esbuild
+- Bundle Analysis
+
+
+## **TYPESCRIPT WITH REACT**
+
+### TypeScript Setup
+
+- TypeScript Configuration
+- React TypeScript Templates
+- Type Definitions
+- JSX with TypeScript
+
+
+### React TypeScript Patterns
+
+- Component Props Types
+- Event Handler Types
+- Ref Types
+- Hook Types
+- Context Types
+- Generic Components
+
+
+## **ACCESSIBILITY (A11Y)**
+
+### Accessibility Basics
+
+- Semantic HTML
+- ARIA Attributes
+- Keyboard Navigation
+- Screen Reader Support
+- Focus Management
+
+
+### Accessibility Tools
+
+- React A11y ESLint Plugin
+- axe-core
+- Accessibility Testing
+- WAVE Tool
+- Lighthouse Accessibility Audit
+
+
+### Accessible Patterns
+
+- Accessible Forms
+- Accessible Modals
+- Accessible Navigation
+- Accessible Data Tables
+- Skip Links
+
+
+## **ANIMATION**
+
+### Animation Libraries
+
+- Framer Motion
+- React Spring
+- React Transition Group
+- Lottie React
+- React Pose (Deprecated)
+
+
+### Animation Patterns
+
+- Enter/Exit Animations
+- Layout Animations
+- Gesture Animations
+- SVG Animations
+- CSS Animations with React
+
+
+## **SECURITY**
+
+### Security Best Practices
+
+- XSS Prevention
+- CSRF Protection
+- Input Sanitization
+- Secure Authentication
+- Content Security Policy
+
+
+### Security Patterns
+
+- Secure State Management
+- API Security
+- Route Protection
+- Data Validation
+- Error Information Leakage
+
+
+## **DEPLOYMENT**
+
+### Deployment Platforms
+
+- Vercel
+- Netlify
+- GitHub Pages
+- AWS S3/CloudFront
+- Firebase Hosting
+- Heroku
+
+
+### Build Optimization
+
+- Production Builds
+- Code Splitting
+- Tree Shaking
+- Bundle Size Optimization
+- Asset Optimization
+
+
+### CI/CD
+
+- GitHub Actions
+- Travis CI
+- CircleCI
+- Jenkins
+- Automated Testing
+- Automated Deployment
+
+
+## **ECOSYSTEM & LIBRARIES**
+
+### UI Component Libraries
+
+- Material-UI (MUI)
+- Ant Design
+- Chakra UI
+- React Bootstrap
+- Semantic UI React
+- Mantine
+
+
+### Utility Libraries
+
+- Lodash
+- Ramda
+- Date-fns
+- Moment.js (Legacy)
+- React Utils Libraries
+
+
+### Development Libraries
+
+- Storybook
+- React Hot Loader (Legacy)
+- React Fast Refresh
+- React Error Overlay

@@ -1,0 +1,724 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+- What is Node.js
+- V8 JavaScript Engine
+- Event-Driven Architecture
+- Non-blocking I/O
+- Installation and Setup
+- Node Version Manager (nvm)
+- REPL (Read-Eval-Print Loop)
+- Running Node.js Scripts
+
+
+### Core Concepts
+
+- Global Objects (global, process, __dirname, __filename)
+- Module System Overview
+- Blocking vs Non-blocking Code
+- Single-threaded Event Loop
+- Libuv Library
+- Node.js Runtime Architecture
+
+
+## **MODULE SYSTEM**
+
+### CommonJS Modules
+
+- require() Function
+- module.exports vs exports
+- Module Caching
+- Module Resolution Algorithm
+- Circular Dependencies
+- Core Modules vs Local Modules vs Third-party Modules
+
+
+### ES6 Modules in Node.js
+
+- import/export Statements
+- .mjs Files
+- package.json "type": "module"
+- Dynamic Imports
+- Mixed Module Systems
+
+
+### Module Patterns
+
+- Module Wrapper Function
+- Revealing Module Pattern
+- Singleton Pattern in Modules
+- Factory Functions
+
+
+## **CORE MODULES**
+
+### File System (fs)
+
+- Synchronous vs Asynchronous Methods
+- Reading Files (readFile, readFileSync)
+- Writing Files (writeFile, writeFileSync)
+- File Stats (stat, lstat)
+- Directory Operations (readdir, mkdir, rmdir)
+- File Watching (watchFile, unwatchFile)
+- Streams with Files
+- File Permissions and Access
+
+
+### Path Module
+
+- path.join()
+- path.resolve()
+- path.dirname(), path.basename()
+- path.extname()
+- path.parse(), path.format()
+- Platform-specific Paths
+- Relative vs Absolute Paths
+
+
+### HTTP Module
+
+- Creating HTTP Server
+- Request and Response Objects
+- HTTP Methods (GET, POST, PUT, DELETE)
+- Headers Manipulation
+- Status Codes
+- URL Parsing
+- Query Parameters
+- HTTP Client Requests
+
+
+### HTTPS Module
+
+- SSL/TLS Certificates
+- Creating HTTPS Server
+- HTTPS Client Requests
+- Certificate Validation
+
+
+### URL Module
+
+- URL Constructor
+- URL Parsing
+- URLSearchParams
+- Legacy url.parse()
+- URL Resolution
+
+
+### Query String Module
+
+- Parsing Query Strings
+- Stringifying Objects
+- URL Encoding/Decoding
+
+
+### Crypto Module
+
+- Hashing (createHash)
+- HMAC (createHmac)
+- Encryption/Decryption
+- Random Bytes Generation
+- Digital Signatures
+- Certificate Handling
+
+
+### OS Module
+
+- Operating System Information
+- CPU Information
+- Memory Information
+- Network Interfaces
+- User Information
+- Platform Detection
+
+
+### Util Module
+
+- util.promisify()
+- util.callbackify()
+- util.inherits()
+- util.inspect()
+- util.format()
+- util.deprecate()
+
+
+## **STREAMS**
+
+### Stream Types
+
+- Readable Streams
+- Writable Streams
+- Duplex Streams
+- Transform Streams
+
+
+### Stream Operations
+
+- Piping Streams
+- Stream Events (data, end, error, finish)
+- Backpressure Handling
+- Stream Modes (flowing vs paused)
+- Object Mode Streams
+
+
+### Built-in Streams
+
+- process.stdin, process.stdout, process.stderr
+- File Streams
+- HTTP Request/Response Streams
+- Compression Streams (zlib)
+
+
+### Custom Streams
+
+- Creating Custom Readable Streams
+- Creating Custom Writable Streams
+- Creating Custom Transform Streams
+- Stream Implementation Patterns
+
+
+## **EVENTS**
+
+### EventEmitter
+
+- Creating Event Emitters
+- Emitting Events
+- Listening to Events (on, once, addListener)
+- Removing Listeners
+- Error Events
+- Maximum Listeners
+- Event Loop Integration
+
+
+### Event-Driven Patterns
+
+- Observer Pattern
+- Pub/Sub Pattern
+- Event Delegation
+- Custom Event Systems
+
+
+## **BUFFER**
+
+### Buffer Basics
+
+- Creating Buffers
+- Buffer vs String
+- Buffer Encoding (utf8, ascii, base64, hex)
+- Buffer Methods (write, toString, slice, copy)
+- Buffer Concatenation
+- Buffer Comparison
+
+
+### Buffer Operations
+
+- Buffer Allocation (alloc, allocUnsafe)
+- Buffer Pooling
+- Buffer and Streams
+- Binary Data Handling
+
+
+## **PROCESS & CHILD PROCESSES**
+
+### Process Object
+
+- process.argv
+- process.env
+- process.cwd(), process.chdir()
+- process.exit()
+- process.nextTick()
+- Process Events (exit, uncaughtException, unhandledRejection)
+- Signal Handling
+
+
+### Child Processes
+
+- spawn()
+- exec()
+- execFile()
+- fork()
+- Child Process Communication
+- IPC (Inter-Process Communication)
+- Process Pools
+
+
+## **CLUSTER MODULE**
+
+### Clustering Concepts
+
+- Master-Worker Architecture
+- Load Balancing
+- Process Forking
+- Worker Management
+- Cluster Events
+- Graceful Shutdown
+- PM2 and Process Management
+
+
+## **TIMERS**
+
+- setTimeout(), clearTimeout()
+- setInterval(), clearInterval()
+- setImmediate(), clearImmediate()
+- process.nextTick()
+- Timer Phases in Event Loop
+
+
+## **ASYNCHRONOUS PROGRAMMING**
+
+### Callbacks
+
+- Callback Patterns
+- Error-First Callbacks
+- Callback Hell
+- Callback Best Practices
+
+
+### Promises
+
+- Promise Creation and Handling
+- Promise Chaining
+- Promise Utilities (all, race, allSettled)
+- Converting Callbacks to Promises
+- util.promisify()
+
+
+### Async/Await
+
+- Async Functions
+- Error Handling with try/catch
+- Sequential vs Parallel Execution
+- Async Iterators
+
+
+### Event Loop Deep Dive
+
+- Call Stack
+- Callback Queue
+- Microtask Queue
+- Timer Queue
+- I/O Queue
+- Check Queue
+- Close Queue
+
+
+## **ERROR HANDLING**
+
+### Error Types
+
+- System Errors
+- User-Specified Errors
+- Assertion Errors
+- JavaScript Errors
+
+
+### Error Handling Strategies
+
+- try/catch with Async/Await
+- Error-First Callbacks
+- Promise Rejection Handling
+- Global Error Handlers
+- Domain Module (Deprecated)
+- AsyncLocalStorage
+
+
+### Debugging
+
+- Node.js Debugger
+- Chrome DevTools
+- VS Code Debugging
+- Console Methods
+- Stack Traces
+- Memory Leaks Detection
+
+
+## **NETWORKING**
+
+### TCP/UDP
+
+- Net Module
+- Creating TCP Servers
+- TCP Client Connections
+- UDP with Dgram Module
+- Socket Programming
+
+
+### DNS
+
+- DNS Resolution
+- dns.lookup() vs dns.resolve()
+- DNS Caching
+- Custom DNS Servers
+
+
+### TLS/SSL
+
+- TLS Module
+- Certificate Management
+- Secure Connections
+- Certificate Validation
+
+
+## **DATABASE INTEGRATION**
+
+### SQL Databases
+
+- MySQL Integration
+- PostgreSQL Integration
+- SQLite Integration
+- Connection Pooling
+- Query Builders
+- ORMs (Sequelize, TypeORM, Prisma)
+
+
+### NoSQL Databases
+
+- MongoDB Integration
+- Redis Integration
+- Document Databases
+- Key-Value Stores
+- Graph Databases
+
+
+### Database Patterns
+
+- Connection Management
+- Transaction Handling
+- Migration Strategies
+- Database Seeding
+
+
+## **WEB FRAMEWORKS**
+
+### Express.js
+
+- Express Application
+- Routing
+- Middleware
+- Request/Response Objects
+- Template Engines
+- Static File Serving
+- Error Handling Middleware
+
+
+### Other Frameworks
+
+- Koa.js
+- Fastify
+- Hapi.js
+- NestJS
+- AdonisJS
+
+
+### Framework Concepts
+
+- MVC Architecture
+- RESTful APIs
+- GraphQL Integration
+- WebSocket Support
+- Session Management
+- Authentication/Authorization
+
+
+## **TESTING**
+
+### Testing Frameworks
+
+- Jest
+- Mocha
+- Jasmine
+- AVA
+- Tap
+
+
+### Testing Types
+
+- Unit Testing
+- Integration Testing
+- End-to-End Testing
+- API Testing
+- Performance Testing
+
+
+### Testing Tools
+
+- Assertion Libraries (Chai, Should.js)
+- Test Runners
+- Mocking Libraries (Sinon.js)
+- Code Coverage (nyc, c8)
+- Supertest for HTTP Testing
+
+
+## **SECURITY**
+
+### Common Vulnerabilities
+
+- Injection Attacks
+- Cross-Site Scripting (XSS)
+- Cross-Site Request Forgery (CSRF)
+- Insecure Dependencies
+- Authentication Flaws
+
+
+### Security Best Practices
+
+- Input Validation
+- Output Encoding
+- Secure Headers
+- Rate Limiting
+- HTTPS Implementation
+- Environment Variables Security
+
+
+### Security Tools
+
+- Helmet.js
+- bcrypt for Password Hashing
+- JWT (JSON Web Tokens)
+- OAuth Implementation
+- Security Auditing (npm audit)
+
+
+## **PERFORMANCE & OPTIMIZATION**
+
+### Performance Monitoring
+
+- Performance Hooks
+- Profiling Applications
+- Memory Usage Monitoring
+- CPU Usage Monitoring
+- Event Loop Lag
+
+
+### Optimization Techniques
+
+- Code Optimization
+- Memory Management
+- Garbage Collection Tuning
+- Caching Strategies
+- Connection Pooling
+- Load Balancing
+
+
+### Performance Tools
+
+- Clinic.js
+- 0x Profiler
+- Node.js Performance Timeline
+- Benchmark.js
+- Artillery for Load Testing
+
+
+## **DEPLOYMENT & DEVOPS**
+
+### Process Management
+
+- PM2
+- Forever
+- Nodemon
+- Supervisor
+- SystemD Services
+
+
+### Containerization
+
+- Docker with Node.js
+- Docker Compose
+- Multi-stage Builds
+- Container Optimization
+
+
+### Cloud Deployment
+
+- AWS (EC2, Lambda, ECS)
+- Google Cloud Platform
+- Microsoft Azure
+- Heroku
+- Vercel
+- Netlify Functions
+
+
+### CI/CD
+
+- GitHub Actions
+- Jenkins
+- Travis CI
+- CircleCI
+- GitLab CI
+
+
+## **MICROSERVICES**
+
+### Microservice Patterns
+
+- Service Discovery
+- API Gateway
+- Circuit Breaker
+- Bulkhead Pattern
+- Saga Pattern
+
+
+### Communication
+
+- HTTP/REST APIs
+- GraphQL
+- Message Queues (RabbitMQ, Apache Kafka)
+- gRPC
+- WebSockets
+
+
+### Tools & Frameworks
+
+- Seneca.js
+- Moleculer
+- NestJS Microservices
+- Express Gateway
+
+
+## **REAL-TIME APPLICATIONS**
+
+### WebSockets
+
+- WebSocket Protocol
+- Socket.io
+- ws Library
+- Real-time Communication
+- Broadcasting
+- Rooms and Namespaces
+
+
+### Server-Sent Events
+
+- EventSource API
+- Streaming Data
+- Long Polling vs SSE
+
+
+## **LOGGING & MONITORING**
+
+### Logging Libraries
+
+- Winston
+- Bunyan
+- Pino
+- Morgan (HTTP Logging)
+- Debug Module
+
+
+### Monitoring Tools
+
+- New Relic
+- DataDog
+- AppDynamics
+- Prometheus
+- Grafana
+
+
+### Log Management
+
+- Log Levels
+- Log Rotation
+- Centralized Logging
+- Structured Logging
+- Log Analysis
+
+
+## **PACKAGE MANAGEMENT**
+
+### npm
+
+- package.json Configuration
+- npm Scripts
+- Dependency Management
+- Semantic Versioning
+- npm Registry
+- Publishing Packages
+- npm Workspaces
+
+
+### Alternative Package Managers
+
+- Yarn
+- pnpm
+- Package Lock Files
+- Dependency Resolution
+
+
+## **BUILD TOOLS & BUNDLERS**
+
+### Build Tools
+
+- Webpack
+- Rollup
+- Parcel
+- esbuild
+- Vite
+
+
+### Task Runners
+
+- Gulp
+- Grunt
+- npm Scripts
+- Make
+
+
+### Transpilation
+
+- Babel
+- TypeScript
+- SWC
+
+
+## **TYPESCRIPT WITH NODE.JS**
+
+### TypeScript Setup
+
+- TypeScript Configuration
+- Type Definitions (@types)
+- Compilation Process
+- Source Maps
+
+
+### Node.js Types
+
+- Built-in Module Types
+- Custom Type Definitions
+- Declaration Files
+- Type-safe APIs
+
+
+## **ADVANCED TOPICS**
+
+### Worker Threads
+
+- Creating Worker Threads
+- Message Passing
+- Shared Array Buffers
+- Thread Pools
+
+
+### Native Addons
+
+- N-API
+- node-gyp
+- C++ Addons
+- Native Module Development
+
+
+### Memory Management
+
+- Heap and Stack
+- Garbage Collection
+- Memory Leaks
+- Memory Profiling
+- Weak References
+
+
+### Internationalization (i18n)
+
+- Locale Support
+- Character Encoding
+- Date/Time Formatting
+- Number Formatting
+- Message Translation

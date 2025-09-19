@@ -1,0 +1,714 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+- What is MongoDB
+- Document-Oriented Database Concepts
+- NoSQL vs SQL Databases
+- MongoDB vs Other NoSQL Databases
+- BSON (Binary JSON) Format
+- MongoDB Installation and Setup
+- MongoDB Compass (GUI)
+- MongoDB Shell (mongosh)
+- MongoDB Atlas (Cloud)
+
+
+### Core Concepts
+
+- Databases and Collections
+- Documents and Fields
+- Primary Keys (_id field)
+- Schema-less Design
+- Flexible Schema
+- Embedded Documents vs References
+- Data Modeling Principles
+
+
+## **DATA TYPES**
+
+### BSON Data Types
+
+- String
+- Number (Int32, Int64, Double, Decimal128)
+- Boolean
+- Date and Timestamp
+- ObjectId
+- Array
+- Embedded Document (Object)
+- Binary Data
+- Regular Expression
+- JavaScript Code
+- Null and Undefined
+
+
+### Special Data Types
+
+- ObjectId Structure
+- UUID/GUID
+- GridFS for Large Files
+- GeoJSON for Geospatial Data
+- Time Series Data
+- Decimal128 for Financial Data
+
+
+## **DATABASE OPERATIONS**
+
+### Database Management
+
+- use database
+- show dbs
+- db.dropDatabase()
+- Database Naming Conventions
+- Database Statistics
+- Database Profiling
+
+
+### Collection Operations
+
+- db.createCollection()
+- db.collection.drop()
+- show collections
+- Collection Naming Conventions
+- Capped Collections
+- Collection Statistics
+- Collection Validation
+
+
+## **CRUD OPERATIONS**
+
+### Insert Operations
+
+- insertOne()
+- insertMany()
+- Insert Options
+- Ordered vs Unordered Inserts
+- Write Concerns
+- Bulk Insert Operations
+- Insert Performance Optimization
+
+
+### Find Operations (Read)
+
+- find()
+- findOne()
+- Query Filters
+- Projection
+- Cursor Methods
+- Query Options
+- Read Preferences
+- Read Concerns
+
+
+### Update Operations
+
+- updateOne()
+- updateMany()
+- replaceOne()
+- findOneAndUpdate()
+- Update Operators
+- Upsert Operations
+- Array Update Operators
+- Update Performance
+
+
+### Delete Operations
+
+- deleteOne()
+- deleteMany()
+- findOneAndDelete()
+- Delete Options
+- Bulk Delete Operations
+- Soft Deletes Pattern
+
+
+## **QUERYING & FILTERING**
+
+### Query Operators
+
+- Comparison Operators ($eq, $ne, $gt, $gte, $lt, $lte)
+- Logical Operators ($and, $or, $not, $nor)
+- Element Operators ($exists, $type)
+- Evaluation Operators ($regex, $text, $where, $expr)
+- Array Operators ($all, $elemMatch, $size, $in, $nin)
+
+
+### Query Patterns
+
+- Exact Match Queries
+- Range Queries
+- Pattern Matching with Regex
+- Null and Missing Field Queries
+- Array Queries
+- Embedded Document Queries
+- Nested Field Queries
+
+
+### Advanced Querying
+
+- Query Optimization
+- Query Plans (explain())
+- Index Hints
+- Query Performance Analysis
+- Cursor Timeout
+- Batch Size Optimization
+
+
+## **PROJECTION & SORTING**
+
+### Projection
+
+- Field Inclusion/Exclusion
+- Nested Field Projection
+- Array Element Projection
+- Positional Operators ($, $elemMatch, $slice)
+- Projection Performance
+
+
+### Sorting
+
+- sort() Method
+- Single Field Sorting
+- Multiple Field Sorting
+- Index-based Sorting
+- Memory Limits for Sorting
+- Collation for Sorting
+
+
+### Limiting and Skipping
+
+- limit() Method
+- skip() Method
+- Pagination Patterns
+- Performance Considerations
+- Cursor-based Pagination
+
+
+## **INDEXES**
+
+### Index Types
+
+- Single Field Index
+- Compound Index
+- Multikey Index
+- Text Index
+- Geospatial Index (2d, 2dsphere)
+- Hashed Index
+- Wildcard Index
+- Partial Index
+
+
+### Index Operations
+
+- createIndex()
+- dropIndex()
+- listIndexes()
+- reIndex()
+- Index Background Building
+- Index Statistics
+
+
+### Index Optimization
+
+- Index Selection Strategy
+- Index Intersection
+- Index Prefix
+- Index Cardinality
+- Index Size Monitoring
+- Index Usage Statistics
+
+
+### Advanced Indexing
+
+- Sparse Indexes
+- TTL (Time To Live) Indexes
+- Unique Indexes
+- Case-Insensitive Indexes
+- Collation Indexes
+- Hidden Indexes
+
+
+## **AGGREGATION FRAMEWORK**
+
+### Aggregation Pipeline
+
+- Pipeline Concept
+- Stage Order Importance
+- Pipeline Optimization
+- Pipeline Operators
+- Memory Usage in Pipelines
+
+
+### Core Pipeline Stages
+
+- $match
+- $project
+- $group
+- $sort
+- $limit and $skip
+- $unwind
+- $lookup (Joins)
+- $addFields
+- $replaceRoot
+
+
+### Advanced Pipeline Stages
+
+- $facet
+- $bucket and $bucketAuto
+- $sortByCount
+- $sample
+- $unionWith
+- $merge
+- $out
+- $geoNear
+
+
+### Aggregation Operators
+
+- Arithmetic Operators
+- Array Operators
+- Boolean Operators
+- Comparison Operators
+- Conditional Operators
+- Date Operators
+- String Operators
+- Type Operators
+
+
+### Aggregation Patterns
+
+- Data Transformation
+- Data Enrichment
+- Statistical Analysis
+- Time Series Analysis
+- Geospatial Analysis
+- Text Analysis
+
+
+## **DATA MODELING**
+
+### Document Design Patterns
+
+- Embedded Documents
+- References
+- One-to-One Relationships
+- One-to-Many Relationships
+- Many-to-Many Relationships
+- Polymorphic Patterns
+
+
+### Schema Design Principles
+
+- Denormalization Strategies
+- Data Duplication Trade-offs
+- Query-Driven Design
+- Write vs Read Optimization
+- Schema Evolution
+- Versioning Strategies
+
+
+### Advanced Patterns
+
+- Bucket Pattern
+- Outlier Pattern
+- Computed Pattern
+- Subset Pattern
+- Extended Reference Pattern
+- Tree Structures
+
+
+## **TRANSACTIONS**
+
+### Transaction Basics
+
+- ACID Properties in MongoDB
+- Multi-Document Transactions
+- Transaction Lifecycle
+- startTransaction()
+- commitTransaction()
+- abortTransaction()
+
+
+### Transaction Patterns
+
+- Error Handling in Transactions
+- Retry Logic
+- Transaction Best Practices
+- Performance Considerations
+- Distributed Transactions
+
+
+### Session Management
+
+- Client Sessions
+- Session Options
+- Causal Consistency
+- Read/Write Concerns in Transactions
+
+
+## **REPLICATION**
+
+### Replica Set Concepts
+
+- Primary and Secondary Nodes
+- Automatic Failover
+- Data Redundancy
+- Read Scaling
+- Replica Set Architecture
+
+
+### Replica Set Operations
+
+- Replica Set Initialization
+- Adding/Removing Members
+- Priority and Votes
+- Hidden Members
+- Delayed Members
+- Arbiter Nodes
+
+
+### Replication Features
+
+- Oplog (Operations Log)
+- Read Preferences
+- Write Concerns
+- Read Concerns
+- Causal Consistency
+- Change Streams
+
+
+## **SHARDING**
+
+### Sharding Concepts
+
+- Horizontal Scaling
+- Shard Key Selection
+- Chunk Distribution
+- Balancer Process
+- Mongos Router
+- Config Servers
+
+
+### Sharding Operations
+
+- Shard Cluster Setup
+- Enabling Sharding
+- Shard Key Patterns
+- Chunk Splitting
+- Chunk Migration
+- Shard Management
+
+
+### Sharding Strategies
+
+- Range-based Sharding
+- Hash-based Sharding
+- Zone Sharding
+- Compound Shard Keys
+- Shard Key Limitations
+
+
+## **SECURITY**
+
+### Authentication
+
+- Authentication Methods
+- SCRAM-SHA Authentication
+- x.509 Certificate Authentication
+- LDAP Authentication
+- Kerberos Authentication
+- Internal Authentication
+
+
+### Authorization
+
+- Role-Based Access Control (RBAC)
+- Built-in Roles
+- Custom Roles
+- Database-level Privileges
+- Collection-level Privileges
+- Field-level Security
+
+
+### Security Features
+
+- TLS/SSL Encryption
+- Encryption at Rest
+- Network Security
+- Auditing
+- Security Hardening
+- Client-Side Field Level Encryption
+
+
+## **ADMINISTRATION**
+
+### Server Administration
+
+- MongoDB Configuration
+- Process Management
+- Log File Management
+- Monitoring and Alerting
+- Performance Tuning
+- Resource Management
+
+
+### Database Maintenance
+
+- Database Repair
+- Compact Operations
+- Index Maintenance
+- Statistics Collection
+- Profiling and Optimization
+
+
+### Backup and Recovery
+
+- mongodump and mongorestore
+- Filesystem Snapshots
+- Replica Set Backups
+- Point-in-Time Recovery
+- Backup Strategies
+- Disaster Recovery
+
+
+## **MONITORING & PERFORMANCE**
+
+### Performance Monitoring
+
+- Database Profiler
+- mongostat and mongotop
+- Performance Metrics
+- Slow Query Analysis
+- Resource Utilization
+- Connection Monitoring
+
+
+### Performance Optimization
+
+- Query Optimization
+- Index Optimization
+- Schema Optimization
+- Hardware Considerations
+- Memory Management
+- I/O Optimization
+
+
+### Diagnostic Tools
+
+- explain() Plans
+- Database Profiler
+- MongoDB Compass Insights
+- Third-party Monitoring Tools
+- Custom Monitoring Solutions
+
+
+## **CHANGE STREAMS**
+
+### Change Stream Basics
+
+- Real-time Data Changes
+- Change Stream Events
+- Resume Tokens
+- Change Stream Cursors
+- Filtering Changes
+
+
+### Change Stream Operations
+
+- watch() Method
+- Collection-level Streams
+- Database-level Streams
+- Cluster-level Streams
+- Change Stream Aggregation
+
+
+### Use Cases
+
+- Real-time Applications
+- Data Synchronization
+- Audit Trails
+- Cache Invalidation
+- Event-driven Architecture
+
+
+## **GEOSPATIAL FEATURES**
+
+### Geospatial Data Types
+
+- GeoJSON Objects
+- Legacy Coordinate Pairs
+- Point, LineString, Polygon
+- MultiPoint, MultiLineString, MultiPolygon
+- GeometryCollection
+
+
+### Geospatial Indexes
+
+- 2d Index
+- 2dsphere Index
+- Index Properties
+- Sparse Geospatial Indexes
+
+
+### Geospatial Queries
+
+- $near and $nearSphere
+- $geoWithin
+- $geoIntersects
+- $geometry
+- Distance Calculations
+- Geospatial Aggregation
+
+
+## **TEXT SEARCH**
+
+### Text Index
+
+- Text Index Creation
+- Language Support
+- Text Index Weights
+- Compound Text Indexes
+- Text Index Limitations
+
+
+### Text Search Queries
+
+- $text Operator
+- Text Search Scoring
+- Text Search Options
+- Case Sensitivity
+- Diacritic Sensitivity
+- Language-specific Search
+
+
+## **GRIDFS**
+
+### GridFS Concepts
+
+- Large File Storage
+- File Chunking
+- GridFS Collections (fs.files, fs.chunks)
+- File Metadata
+- GridFS vs Regular Documents
+
+
+### GridFS Operations
+
+- File Upload
+- File Download
+- File Deletion
+- File Listing
+- Streaming Operations
+- GridFS Indexes
+
+
+## **TIME SERIES COLLECTIONS**
+
+### Time Series Concepts
+
+- Time Series Data Model
+- Measurement Data
+- Time-based Queries
+- Data Retention
+- Automatic Bucketing
+
+
+### Time Series Operations
+
+- Creating Time Series Collections
+- Inserting Time Series Data
+- Querying Time Series Data
+- Aggregating Time Series Data
+- Time Series Indexes
+
+
+## **ATLAS & CLOUD FEATURES**
+
+### MongoDB Atlas
+
+- Cluster Management
+- Automated Backups
+- Performance Advisor
+- Real-time Performance Panel
+- Atlas Search
+- Atlas Data Lake
+
+
+### Cloud-specific Features
+
+- Auto-scaling
+- Global Clusters
+- Cross-region Replication
+- VPC Peering
+- Private Endpoints
+- Compliance Features
+
+
+## **DRIVERS & INTEGRATION**
+
+### Official Drivers
+
+- Node.js Driver
+- Python Driver (PyMongo)
+- Java Driver
+- C# Driver
+- PHP Driver
+- Go Driver
+
+
+### Driver Features
+
+- Connection Pooling
+- Automatic Retry
+- Load Balancing
+- Monitoring and Events
+- Bulk Operations
+- GridFS Support
+
+
+### ODM/ORM Integration
+
+- Mongoose (Node.js)
+- MongoEngine (Python)
+- Spring Data MongoDB (Java)
+- Doctrine ODM (PHP)
+
+
+## **MIGRATION & INTEGRATION**
+
+### Data Migration
+
+- SQL to MongoDB Migration
+- Schema Migration Strategies
+- Data Transformation
+- Migration Tools
+- Validation and Testing
+
+
+### Integration Patterns
+
+- ETL Processes
+- Real-time Synchronization
+- API Integration
+- Message Queue Integration
+- Microservices Architecture
+
+
+## **DEVELOPMENT TOOLS**
+
+### MongoDB Tools
+
+- MongoDB Compass
+- MongoDB Shell (mongosh)
+- MongoDB Database Tools
+- MongoDB Connector for BI
+- MongoDB Charts
+
+
+### Third-party Tools
+
+- Studio 3T
+- Robo 3T
+- NoSQLBooster
+- MongoDB Monitoring Tools
+- Schema Analysis Tools

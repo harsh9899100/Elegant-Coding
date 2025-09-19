@@ -1,0 +1,488 @@
+## **FUNDAMENTALS & BASICS**
+
+### Core Syntax
+
+- Variables (var, let, const)
+- Data Types (primitive vs reference)
+- Type Conversion & Coercion
+- Operators (arithmetic, comparison, logical, assignment)
+- Comments (single-line, multi-line, JSDoc)
+- Semicolons and ASI (Automatic Semicolon Insertion)
+
+
+### Control Flow
+
+- Conditional Statements (if, else if, else)
+- Switch Statements
+- Ternary Operator
+- Loops (for, while, do-while, for...in, for...of)
+- Break and Continue
+- Labels
+
+
+### Functions
+
+- Function Declarations vs Expressions
+- Arrow Functions
+- Parameters and Arguments
+- Default Parameters
+- Rest Parameters (...args)
+- Return Statements
+- Function Scope
+- IIFE (Immediately Invoked Function Expressions)
+
+
+## **DATA STRUCTURES**
+
+### Arrays
+
+- Array Creation and Initialization
+- Array Methods (push, pop, shift, unshift, splice, slice)
+- Array Iteration (forEach, map, filter, reduce, find, some, every)
+- Array Destructuring
+- Spread Operator with Arrays
+- Multi-dimensional Arrays
+- Array-like Objects
+
+
+### Objects
+
+- Object Creation (literal, constructor, Object.create)
+- Property Access (dot notation, bracket notation)
+- Object Methods
+- Object Destructuring
+- Spread Operator with Objects
+- Object.keys(), Object.values(), Object.entries()
+- Property Descriptors
+- Getters and Setters
+
+
+### Strings
+
+- String Creation and Literals
+- Template Literals
+- String Methods (charAt, substring, slice, split, join, etc.)
+- String Interpolation
+- Regular Expressions with Strings
+- Unicode and String Encoding
+
+
+### Other Data Types
+
+- Numbers and Math Object
+- BigInt
+- Symbols
+- null vs undefined
+- Boolean and Truthy/Falsy values
+- Date Object
+- Maps and Sets
+- WeakMap and WeakSet
+
+
+## **ADVANCED CONCEPTS**
+
+### Scope and Closures
+
+- Global Scope
+- Function Scope
+- Block Scope
+- Lexical Scope
+- Closures and Practical Applications
+- Module Pattern
+- Hoisting (var, let, const, functions)
+- Temporal Dead Zone
+
+
+### This Keyword and Context
+
+- Global Context
+- Function Context
+- Method Context
+- Constructor Context
+- Arrow Functions and 'this'
+- call(), apply(), bind()
+- Explicit vs Implicit Binding
+
+
+### Prototypes and Inheritance
+
+- Prototype Chain
+- Object.prototype
+- Constructor Functions
+- Prototype Methods
+- Prototypal Inheritance
+- Object.create()
+- instanceof Operator
+- hasOwnProperty()
+
+
+### Classes (ES6+)
+
+- Class Declarations
+- Class Expressions
+- Constructor Method
+- Instance Methods
+- Static Methods
+- Inheritance with extends
+- super Keyword
+- Private Fields and Methods
+- Getters and Setters in Classes
+
+
+## **ASYNCHRONOUS JAVASCRIPT**
+
+### Callbacks
+
+- Callback Functions
+- Higher-Order Functions
+- Callback Hell
+- Error Handling with Callbacks
+
+
+### Promises
+
+- Promise Creation
+- Promise States (pending, fulfilled, rejected)
+- .then(), .catch(), .finally()
+- Promise Chaining
+- Promise.all(), Promise.race(), Promise.allSettled()
+- Promise.resolve(), Promise.reject()
+
+
+### Async/Await
+
+- async Functions
+- await Keyword
+- Error Handling with try/catch
+- Async/Await vs Promises
+- Parallel vs Sequential Execution
+
+
+### Event Loop
+
+- Call Stack
+- Web APIs
+- Callback Queue
+- Event Loop Mechanism
+- Microtasks vs Macrotasks
+- setTimeout, setInterval, setImmediate
+
+
+## **ERROR HANDLING**
+
+- try/catch/finally
+- throw Statement
+- Error Objects
+- Custom Error Types
+- Error Propagation
+- Debugging Techniques
+- Console Methods
+
+
+## **MODULES**
+
+### ES6 Modules
+
+- import/export Statements
+- Default Exports
+- Named Exports
+- Module Scope
+- Dynamic Imports
+- Re-exports
+
+
+### CommonJS (Node.js)
+
+- require() and module.exports
+- exports vs module.exports
+- Module Caching
+- Circular Dependencies
+
+
+### AMD and UMD
+
+- RequireJS
+- Universal Module Definition
+
+
+## **ADVANCED FEATURES**
+
+### Destructuring
+
+- Array Destructuring
+- Object Destructuring
+- Nested Destructuring
+- Default Values
+- Rest in Destructuring
+- Destructuring in Function Parameters
+
+
+### Spread and Rest
+
+- Spread Operator (...)
+- Rest Parameters
+- Rest in Destructuring
+- Spread vs Rest
+
+
+### Iterators and Generators
+
+- Iterator Protocol
+- Iterable Protocol
+- for...of Loop
+- Generator Functions
+- yield Keyword
+- Generator Methods
+- Async Generators
+
+
+### Symbols
+
+- Symbol Creation
+- Symbol Properties
+- Well-known Symbols
+- Symbol.iterator
+- Symbol Registry
+
+
+### Proxy and Reflect
+
+- Proxy Object
+- Proxy Handlers
+- Reflect API
+- Meta-programming
+
+
+### WeakMap and WeakSet
+
+- Weak References
+- Garbage Collection
+- Use Cases
+
+
+## **FUNCTIONAL PROGRAMMING**
+
+- Pure Functions
+- Immutability
+- Higher-Order Functions
+- Function Composition
+- Currying
+- Partial Application
+- Recursion
+- Memoization
+
+
+## **OBJECT-ORIENTED PROGRAMMING**
+
+- Encapsulation
+- Inheritance
+- Polymorphism
+- Abstraction
+- Design Patterns (Singleton, Factory, Observer, etc.)
+- SOLID Principles in JavaScript
+
+
+## **REGULAR EXPRESSIONS**
+
+- RegExp Object
+- Literal Notation
+- Flags (g, i, m, s, u, y)
+- Character Classes
+- Quantifiers
+- Anchors
+- Groups and Capturing
+- Lookahead and Lookbehind
+- Methods (test, exec, match, replace, search, split)
+
+
+## **DOM MANIPULATION**
+
+### Selection and Traversal
+
+- getElementById, getElementsByClassName, getElementsByTagName
+- querySelector, querySelectorAll
+- Parent, Child, Sibling Navigation
+- NodeList vs HTMLCollection
+
+
+### Manipulation
+
+- innerHTML, textContent, innerText
+- createElement, appendChild, removeChild
+- setAttribute, getAttribute
+- classList Methods
+- Style Manipulation
+
+
+### Events
+
+- Event Listeners (addEventListener, removeEventListener)
+- Event Object
+- Event Propagation (Bubbling, Capturing)
+- Event Delegation
+- preventDefault(), stopPropagation()
+- Custom Events
+
+
+## **BROWSER APIs**
+
+### Storage
+
+- localStorage
+- sessionStorage
+- IndexedDB
+- Cookies
+
+
+### Network
+
+- Fetch API
+- XMLHttpRequest
+- WebSockets
+- Server-Sent Events
+
+
+### Other APIs
+
+- Geolocation API
+- File API
+- Canvas API
+- Web Workers
+- Service Workers
+- Intersection Observer
+- Mutation Observer
+- History API
+- Notification API
+
+
+## **PERFORMANCE & OPTIMIZATION**
+
+- Memory Management
+- Garbage Collection
+- Performance Measurement
+- Debouncing and Throttling
+- Lazy Loading
+- Code Splitting
+- Tree Shaking
+- Minification and Compression
+
+
+## **TESTING**
+
+- Unit Testing Concepts
+- Testing Frameworks (Jest, Mocha, Jasmine)
+- Assertion Libraries
+- Mocking and Stubbing
+- Test-Driven Development (TDD)
+- Behavior-Driven Development (BDD)
+
+
+## **TOOLS & ENVIRONMENT**
+
+### Development Tools
+
+- Browser Developer Tools
+- Debugging Techniques
+- Source Maps
+- Linting (ESLint)
+- Formatting (Prettier)
+
+
+### Build Tools
+
+- Webpack
+- Rollup
+- Parcel
+- Vite
+- Babel
+- TypeScript
+
+
+### Package Management
+
+- npm
+- yarn
+- pnpm
+- package.json
+- Semantic Versioning
+
+
+## **MODERN JAVASCRIPT (ES6+)**
+
+### ES6 (ES2015)
+
+- let and const
+- Arrow Functions
+- Template Literals
+- Destructuring
+- Classes
+- Modules
+- Promises
+- Symbols
+- Iterators and Generators
+
+
+### ES2016+
+
+- Exponentiation Operator (**)
+- Array.includes()
+- Object.values(), Object.entries()
+- String padding
+- Async/Await
+- Rest/Spread Properties
+- Optional Chaining (?.)
+- Nullish Coalescing (??)
+- BigInt
+- Dynamic Imports
+- Private Class Fields
+- Logical Assignment Operators
+
+
+## **SECURITY**
+
+- XSS (Cross-Site Scripting)
+- CSRF (Cross-Site Request Forgery)
+- Content Security Policy
+- Same-Origin Policy
+- CORS (Cross-Origin Resource Sharing)
+- Input Validation and Sanitization
+
+
+## **DESIGN PATTERNS**
+
+- Module Pattern
+- Revealing Module Pattern
+- Singleton Pattern
+- Factory Pattern
+- Observer Pattern
+- Pub/Sub Pattern
+- Command Pattern
+- Strategy Pattern
+- Decorator Pattern
+- Facade Pattern
+
+
+## **ALGORITHMS & DATA STRUCTURES**
+
+- Big O Notation
+- Sorting Algorithms
+- Searching Algorithms
+- Linked Lists
+- Stacks and Queues
+- Trees and Graphs
+- Hash Tables
+- Dynamic Programming
+
+
+## **NODE.JS SPECIFIC**
+
+- Global Objects
+- Process Object
+- File System (fs)
+- Path Module
+- HTTP Module
+- Events Module
+- Streams
+- Buffer
+- Child Processes
+- Cluster Module

@@ -1,0 +1,788 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+- What is MySQL
+- Relational Database Concepts
+- RDBMS vs NoSQL
+- MySQL vs Other Databases (PostgreSQL, SQLite, Oracle)
+- MySQL Installation and Setup
+- MySQL Workbench
+- Command Line Interface (CLI)
+- MySQL Configuration Files
+
+
+### Basic Concepts
+
+- Databases and Schemas
+- Tables, Rows, and Columns
+- Primary Keys and Foreign Keys
+- Data Types Overview
+- NULL Values
+- Default Values
+- Auto Increment
+- Character Sets and Collations
+
+
+## **DATA TYPES**
+
+### Numeric Data Types
+
+- TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT
+- DECIMAL and NUMERIC
+- FLOAT and DOUBLE
+- BIT Data Type
+- UNSIGNED Attribute
+- ZEROFILL Attribute
+
+
+### String Data Types
+
+- CHAR and VARCHAR
+- BINARY and VARBINARY
+- TEXT Types (TINYTEXT, TEXT, MEDIUMTEXT, LONGTEXT)
+- BLOB Types (TINYBLOB, BLOB, MEDIUMBLOB, LONGBLOB)
+- ENUM and SET
+- Character Set Considerations
+
+
+### Date and Time Data Types
+
+- DATE, TIME, DATETIME
+- TIMESTAMP
+- YEAR
+- Time Zone Handling
+- Date Format Functions
+
+
+### JSON Data Type
+
+- JSON Column Type
+- JSON Functions
+- JSON Path Expressions
+- JSON Indexing
+- JSON vs TEXT Storage
+
+
+## **DATABASE OPERATIONS**
+
+### Database Management
+
+- CREATE DATABASE
+- DROP DATABASE
+- ALTER DATABASE
+- USE Statement
+- SHOW DATABASES
+- Database Naming Conventions
+
+
+### Table Operations
+
+- CREATE TABLE
+- DROP TABLE
+- ALTER TABLE
+- TRUNCATE TABLE
+- RENAME TABLE
+- SHOW TABLES
+- DESCRIBE/DESC
+- SHOW CREATE TABLE
+
+
+### Column Operations
+
+- ADD COLUMN
+- DROP COLUMN
+- MODIFY COLUMN
+- CHANGE COLUMN
+- Column Positioning (FIRST, AFTER)
+
+
+## **CRUD OPERATIONS**
+
+### INSERT Operations
+
+- INSERT INTO
+- INSERT VALUES
+- INSERT SELECT
+- Multiple Row Inserts
+- ON DUPLICATE KEY UPDATE
+- REPLACE Statement
+- INSERT IGNORE
+
+
+### SELECT Operations
+
+- Basic SELECT
+- SELECT DISTINCT
+- WHERE Clause
+- ORDER BY
+- LIMIT and OFFSET
+- Column Aliases
+- Table Aliases
+
+
+### UPDATE Operations
+
+- UPDATE Statement
+- UPDATE with WHERE
+- UPDATE with JOIN
+- Multi-table UPDATE
+- UPDATE with LIMIT
+- Safe Updates Mode
+
+
+### DELETE Operations
+
+- DELETE Statement
+- DELETE with WHERE
+- DELETE with JOIN
+- Multi-table DELETE
+- DELETE with LIMIT
+- TRUNCATE vs DELETE
+
+
+## **QUERYING & FILTERING**
+
+### WHERE Clause
+
+- Comparison Operators (=, !=, `<, >`, `<=, >`=)
+- BETWEEN Operator
+- IN and NOT IN
+- LIKE and Wildcards (%, _)
+- REGEXP/RLIKE
+- IS NULL and IS NOT NULL
+
+
+### Logical Operators
+
+- AND, OR, NOT
+- Operator Precedence
+- Complex Conditions
+- Parentheses Grouping
+
+
+### Pattern Matching
+
+- LIKE Operator
+- Regular Expressions
+- SOUNDEX Function
+- Full-Text Search
+- MATCH AGAINST
+
+
+## **SORTING & GROUPING**
+
+### ORDER BY
+
+- Single Column Sorting
+- Multiple Column Sorting
+- ASC and DESC
+- Sorting by Expression
+- Sorting NULL Values
+- Custom Sort Orders
+
+
+### GROUP BY
+
+- Basic Grouping
+- Multiple Column Grouping
+- GROUP BY with Functions
+- HAVING Clause
+- GROUP BY vs DISTINCT
+- SQL_MODE and GROUP BY
+
+
+### Aggregate Functions
+
+- COUNT, SUM, AVG
+- MIN and MAX
+- GROUP_CONCAT
+- Standard Deviation Functions
+- Variance Functions
+
+
+## **JOINS**
+
+### Join Types
+
+- INNER JOIN
+- LEFT JOIN (LEFT OUTER JOIN)
+- RIGHT JOIN (RIGHT OUTER JOIN)
+- FULL OUTER JOIN (Simulation)
+- CROSS JOIN
+- NATURAL JOIN
+
+
+### Join Conditions
+
+- ON Clause
+- USING Clause
+- Multiple Join Conditions
+- Self Joins
+- Non-Equi Joins
+
+
+### Advanced Join Patterns
+
+- Multiple Table Joins
+- Subqueries in Joins
+- Join Performance Optimization
+- Join vs Subquery Performance
+
+
+## **SUBQUERIES**
+
+### Subquery Types
+
+- Scalar Subqueries
+- Row Subqueries
+- Table Subqueries
+- Correlated Subqueries
+- Non-Correlated Subqueries
+
+
+### Subquery Operators
+
+- EXISTS and NOT EXISTS
+- IN and NOT IN with Subqueries
+- ANY, SOME, ALL
+- Comparison Operators with Subqueries
+
+
+### Common Table Expressions (CTEs)
+
+- WITH Clause
+- Recursive CTEs
+- Multiple CTEs
+- CTE vs Subqueries
+- CTE Performance
+
+
+## **FUNCTIONS**
+
+### String Functions
+
+- CONCAT, CONCAT_WS
+- SUBSTRING, LEFT, RIGHT
+- LENGTH, CHAR_LENGTH
+- UPPER, LOWER, TRIM
+- REPLACE, REVERSE
+- LOCATE, POSITION
+- FORMAT Function
+
+
+### Numeric Functions
+
+- ABS, ROUND, CEILING, FLOOR
+- MOD, POW, SQRT
+- RAND, SIGN
+- Trigonometric Functions
+- Logarithmic Functions
+
+
+### Date and Time Functions
+
+- NOW, CURDATE, CURTIME
+- DATE, TIME, YEAR, MONTH, DAY
+- DATE_ADD, DATE_SUB
+- DATEDIFF, TIMESTAMPDIFF
+- DATE_FORMAT, STR_TO_DATE
+- UNIX_TIMESTAMP, FROM_UNIXTIME
+
+
+### Conditional Functions
+
+- IF Function
+- CASE Statement
+- IFNULL, NULLIF
+- COALESCE
+- GREATEST, LEAST
+
+
+### Conversion Functions
+
+- CAST and CONVERT
+- Type Conversion
+- Character Set Conversion
+- Date Format Conversion
+
+
+## **INDEXES**
+
+### Index Types
+
+- Primary Index
+- Unique Index
+- Composite Index
+- Partial Index
+- Functional Index
+- Full-Text Index
+
+
+### Index Operations
+
+- CREATE INDEX
+- DROP INDEX
+- ALTER TABLE ADD INDEX
+- SHOW INDEX
+- Index Hints (USE INDEX, FORCE INDEX, IGNORE INDEX)
+
+
+### Index Optimization
+
+- Index Selection Strategy
+- Index Cardinality
+- Index Statistics
+- Covering Indexes
+- Index Merge
+- Index Condition Pushdown
+
+
+## **CONSTRAINTS**
+
+### Constraint Types
+
+- PRIMARY KEY
+- FOREIGN KEY
+- UNIQUE Constraint
+- NOT NULL Constraint
+- CHECK Constraint
+- DEFAULT Constraint
+
+
+### Referential Integrity
+
+- Foreign Key Relationships
+- CASCADE Options
+- ON DELETE and ON UPDATE
+- Referential Actions
+- Constraint Naming
+
+
+### Constraint Management
+
+- Adding Constraints
+- Dropping Constraints
+- Modifying Constraints
+- Constraint Validation
+- Deferred Constraints
+
+
+## **VIEWS**
+
+### View Basics
+
+- CREATE VIEW
+- SELECT from Views
+- DROP VIEW
+- ALTER VIEW
+- SHOW CREATE VIEW
+
+
+### View Types
+
+- Simple Views
+- Complex Views
+- Updatable Views
+- Materialized Views (Workarounds)
+- Recursive Views
+
+
+### View Security
+
+- View-based Security
+- Definer vs Invoker Rights
+- View Permissions
+- Data Hiding with Views
+
+
+## **STORED PROCEDURES & FUNCTIONS**
+
+### Stored Procedures
+
+- CREATE PROCEDURE
+- Procedure Parameters (IN, OUT, INOUT)
+- CALL Statement
+- DROP PROCEDURE
+- Procedure Variables
+- Control Flow Statements
+
+
+### Stored Functions
+
+- CREATE FUNCTION
+- Function Parameters
+- RETURN Statement
+- Deterministic vs Non-Deterministic
+- Function Security
+
+
+### Control Structures
+
+- IF-THEN-ELSE
+- CASE Statement
+- WHILE Loop
+- REPEAT Loop
+- FOR Loop
+- LEAVE and ITERATE
+
+
+### Exception Handling
+
+- DECLARE HANDLER
+- CONDITION Handling
+- SQLSTATE and SQLEXCEPTION
+- Custom Error Messages
+- Error Propagation
+
+
+## **TRIGGERS**
+
+### Trigger Basics
+
+- CREATE TRIGGER
+- Trigger Events (INSERT, UPDATE, DELETE)
+- Trigger Timing (BEFORE, AFTER)
+- DROP TRIGGER
+- SHOW TRIGGERS
+
+
+### Trigger Applications
+
+- Data Validation
+- Audit Trails
+- Automatic Calculations
+- Data Synchronization
+- Business Logic Enforcement
+
+
+### Trigger Limitations
+
+- Performance Considerations
+- Debugging Triggers
+- Trigger Recursion
+- Multiple Triggers
+
+
+## **TRANSACTIONS**
+
+### Transaction Basics
+
+- START TRANSACTION
+- COMMIT and ROLLBACK
+- AUTOCOMMIT Mode
+- Transaction Isolation
+- ACID Properties
+
+
+### Isolation Levels
+
+- READ UNCOMMITTED
+- READ COMMITTED
+- REPEATABLE READ
+- SERIALIZABLE
+- Setting Isolation Levels
+
+
+### Locking
+
+- Table Locking
+- Row Locking
+- Shared vs Exclusive Locks
+- Lock Timeouts
+- Deadlock Detection
+- Lock Monitoring
+
+
+### Savepoints
+
+- SAVEPOINT Statement
+- ROLLBACK TO SAVEPOINT
+- RELEASE SAVEPOINT
+- Nested Transactions
+
+
+## **USER MANAGEMENT & SECURITY**
+
+### User Accounts
+
+- CREATE USER
+- DROP USER
+- ALTER USER
+- RENAME USER
+- User Authentication
+- Password Management
+
+
+### Privileges
+
+- GRANT Statement
+- REVOKE Statement
+- Privilege Types
+- Object-level Privileges
+- Global Privileges
+- Role-based Access Control
+
+
+### Security Best Practices
+
+- Password Policies
+- SSL/TLS Configuration
+- Firewall Rules
+- Audit Logging
+- Data Encryption
+- Secure Installation
+
+
+## **BACKUP & RECOVERY**
+
+### Backup Methods
+
+- mysqldump
+- MySQL Enterprise Backup
+- Physical Backups
+- Logical Backups
+- Incremental Backups
+- Point-in-Time Recovery
+
+
+### Backup Strategies
+
+- Full Backups
+- Differential Backups
+- Transaction Log Backups
+- Backup Scheduling
+- Backup Verification
+- Backup Retention
+
+
+### Recovery Procedures
+
+- Database Restoration
+- Table Recovery
+- Binary Log Recovery
+- Crash Recovery
+- Data Corruption Recovery
+
+
+## **REPLICATION**
+
+### Replication Types
+
+- Master-Slave Replication
+- Master-Master Replication
+- Chain Replication
+- Circular Replication
+- Group Replication
+
+
+### Replication Setup
+
+- Binary Logging
+- Replication User Setup
+- Slave Configuration
+- Replication Monitoring
+- Replication Troubleshooting
+
+
+### Replication Features
+
+- Statement-based Replication
+- Row-based Replication
+- Mixed Replication
+- GTID Replication
+- Semi-synchronous Replication
+
+
+## **PERFORMANCE OPTIMIZATION**
+
+### Query Optimization
+
+- EXPLAIN Statement
+- Query Execution Plans
+- Index Usage Analysis
+- Query Rewriting
+- Subquery Optimization
+- Join Optimization
+
+
+### Performance Monitoring
+
+- Performance Schema
+- SHOW STATUS
+- SHOW PROCESSLIST
+- Slow Query Log
+- General Query Log
+- Error Log Analysis
+
+
+### Configuration Tuning
+
+- my.cnf Configuration
+- Buffer Pool Tuning
+- Connection Settings
+- Cache Configuration
+- Memory Allocation
+- I/O Optimization
+
+
+### Performance Tools
+
+- MySQL Workbench Performance Dashboard
+- pt-query-digest
+- MySQLTuner
+- Percona Toolkit
+- Third-party Monitoring Tools
+
+
+## **PARTITIONING**
+
+### Partition Types
+
+- RANGE Partitioning
+- LIST Partitioning
+- HASH Partitioning
+- KEY Partitioning
+- Subpartitioning
+
+
+### Partition Management
+
+- CREATE TABLE with Partitions
+- ALTER TABLE Partitioning
+- Partition Pruning
+- Partition-wise Joins
+- Partition Maintenance
+
+
+## **FULL-TEXT SEARCH**
+
+### Full-Text Indexes
+
+- FULLTEXT Index Creation
+- Natural Language Mode
+- Boolean Mode
+- Query Expansion
+- Full-Text Functions
+
+
+### Search Optimization
+
+- Stopwords
+- Minimum Word Length
+- Relevance Scoring
+- Full-Text Configuration
+
+
+## **JSON SUPPORT**
+
+### JSON Functions
+
+- JSON_EXTRACT
+- JSON_SET, JSON_INSERT, JSON_REPLACE
+- JSON_REMOVE
+- JSON_KEYS, JSON_LENGTH
+- JSON_SEARCH
+- JSON_VALID
+
+
+### JSON Path Expressions
+
+- Path Syntax
+- Wildcard Operators
+- Array Indexing
+- Nested Object Access
+
+
+## **SPATIAL DATA**
+
+### Spatial Data Types
+
+- GEOMETRY
+- POINT, LINESTRING, POLYGON
+- Multi-geometry Types
+- Spatial Reference Systems
+
+
+### Spatial Functions
+
+- Spatial Analysis Functions
+- Distance Calculations
+- Geometric Operations
+- Spatial Indexing
+
+
+## **ADVANCED FEATURES**
+
+### Window Functions
+
+- ROW_NUMBER, RANK, DENSE_RANK
+- LAG and LEAD
+- FIRST_VALUE, LAST_VALUE
+- Window Frame Specifications
+- Partition BY and ORDER BY
+
+
+### Common Table Expressions (CTEs)
+
+- Recursive CTEs
+- CTE Optimization
+- Multiple CTEs
+- CTE vs Derived Tables
+
+
+### Generated Columns
+
+- Virtual Generated Columns
+- Stored Generated Columns
+- Generated Column Indexing
+- Use Cases
+
+
+## **ADMINISTRATION**
+
+### Server Administration
+
+- MySQL Server Startup/Shutdown
+- Configuration Management
+- Log File Management
+- Process Management
+- Resource Monitoring
+
+
+### Maintenance Tasks
+
+- Table Optimization
+- Index Maintenance
+- Statistics Updates
+- Consistency Checks
+- Repair Operations
+
+
+### Monitoring & Troubleshooting
+
+- Performance Monitoring
+- Error Diagnosis
+- Connection Issues
+- Lock Contention
+- Resource Bottlenecks
+
+
+## **MIGRATION & UPGRADES**
+
+### Data Migration
+
+- Import/Export Operations
+- Data Format Conversion
+- Schema Migration
+- Cross-platform Migration
+- Version Compatibility
+
+
+### Upgrade Procedures
+
+- In-place Upgrades
+- Logical Upgrades
+- Upgrade Planning
+- Compatibility Testing
+- Rollback Procedures

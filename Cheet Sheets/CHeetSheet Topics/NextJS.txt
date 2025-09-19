@@ -1,0 +1,752 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+- What is Next.js
+- React vs Next.js
+- Server-Side Rendering (SSR) vs Client-Side Rendering (CSR)
+- Static Site Generation (SSG)
+- Incremental Static Regeneration (ISR)
+- Installation and Setup
+- Project Structure
+- Development vs Production Builds
+
+
+### Core Concepts
+
+- File-based Routing
+- Pages vs Components
+- Automatic Code Splitting
+- Built-in CSS Support
+- Image Optimization
+- Font Optimization
+- Script Optimization
+
+
+## **ROUTING SYSTEMS**
+
+### App Router (Next.js 13+)
+
+- app Directory Structure
+- Layout Files (layout.js/tsx)
+- Page Files (page.js/tsx)
+- Route Groups
+- Parallel Routes
+- Intercepting Routes
+- Dynamic Routes ([slug])
+- Catch-all Routes ([...slug])
+- Optional Catch-all Routes ([[...slug]])
+
+
+### Pages Router (Legacy)
+
+- pages Directory Structure
+- Index Routes
+- Dynamic Routes
+- API Routes in pages/api
+- Custom App (_app.js)
+- Custom Document (_document.js)
+- Custom Error Page (_error.js)
+- 404 Page (404.js)
+
+
+### Navigation
+
+- Link Component
+- useRouter Hook
+- Router Object
+- Programmatic Navigation
+- Shallow Routing
+- Route Prefetching
+- Route Guards
+
+
+## **RENDERING METHODS**
+
+### Server-Side Rendering (SSR)
+
+- getServerSideProps
+- Server Components (App Router)
+- Request-time Data Fetching
+- Dynamic Rendering
+- Streaming SSR
+
+
+### Static Site Generation (SSG)
+
+- getStaticProps
+- getStaticPaths
+- Build-time Data Fetching
+- Static Exports
+- Static Optimization
+
+
+### Incremental Static Regeneration (ISR)
+
+- revalidate Property
+- On-demand Revalidation
+- Background Regeneration
+- Stale-while-revalidate
+
+
+### Client-Side Rendering (CSR)
+
+- useEffect for Data Fetching
+- SWR Integration
+- React Query Integration
+- Client-only Components
+
+
+## **APP ROUTER DEEP DIVE**
+
+### Server Components
+
+- React Server Components
+- Server vs Client Components
+- Component Composition Patterns
+- Data Fetching in Server Components
+- Async Components
+- Streaming and Suspense
+
+
+### Client Components
+
+- 'use client' Directive
+- Hydration
+- Interactive Components
+- Event Handlers
+- Browser APIs Usage
+
+
+### Layouts and Templates
+
+- Root Layout
+- Nested Layouts
+- Layout Groups
+- Template Files
+- Shared UI Patterns
+- Layout Composition
+
+
+### Loading and Error Handling
+
+- loading.js Files
+- error.js Files
+- not-found.js Files
+- Global Error Handling
+- Error Boundaries
+- Suspense Boundaries
+
+
+### Route Handlers (API Routes)
+
+- GET, POST, PUT, DELETE Methods
+- Request and Response Objects
+- Route Parameters
+- Query Parameters
+- Headers Manipulation
+- Middleware Integration
+- Edge Runtime
+
+
+## **DATA FETCHING**
+
+### Server-Side Data Fetching
+
+- fetch() in Server Components
+- Database Queries
+- External API Calls
+- Data Caching
+- Request Memoization
+
+
+### Client-Side Data Fetching
+
+- SWR (Stale-While-Revalidate)
+- React Query/TanStack Query
+- useEffect Patterns
+- Custom Hooks for Data Fetching
+
+
+### Data Fetching Patterns
+
+- Parallel Data Fetching
+- Sequential Data Fetching
+- Waterfall Prevention
+- Loading States
+- Error States
+- Optimistic Updates
+
+
+### Caching Strategies
+
+- Request Memoization
+- Data Cache
+- Full Route Cache
+- Router Cache
+- Cache Invalidation
+- Time-based Revalidation
+
+
+## **STYLING**
+
+### CSS Support
+
+- Global CSS
+- CSS Modules
+- Sass/SCSS Support
+- CSS-in-JS Libraries
+- PostCSS Configuration
+
+
+### Tailwind CSS Integration
+
+- Installation and Setup
+- Configuration
+- JIT Mode
+- Custom Utilities
+- Component Libraries (shadcn/ui)
+
+
+### Styled Components
+
+- Server-Side Rendering with Styled Components
+- Theme Providers
+- Dynamic Styling
+- CSS Prop
+
+
+### Other Styling Solutions
+
+- Emotion
+- Stitches
+- Vanilla Extract
+- Linaria
+
+
+## **PERFORMANCE OPTIMIZATION**
+
+### Image Optimization
+
+- Next.js Image Component
+- Image Formats (WebP, AVIF)
+- Responsive Images
+- Image Loading Strategies
+- Image Placeholders
+- External Image Optimization
+
+
+### Font Optimization
+
+- next/font
+- Google Fonts Integration
+- Local Font Files
+- Font Display Strategies
+- Font Preloading
+
+
+### Script Optimization
+
+- next/script Component
+- Script Loading Strategies
+- Third-party Scripts
+- Inline Scripts
+- Script Prioritization
+
+
+### Code Splitting
+
+- Automatic Code Splitting
+- Dynamic Imports
+- Route-based Splitting
+- Component-based Splitting
+- Bundle Analysis
+
+
+### Performance Monitoring
+
+- Web Vitals
+- Core Web Vitals
+- Performance Metrics
+- Real User Monitoring (RUM)
+- Lighthouse Integration
+
+
+## **MIDDLEWARE**
+
+### Middleware Basics
+
+- middleware.js/ts File
+- Request/Response Manipulation
+- URL Rewriting
+- Redirects
+- Header Modification
+
+
+### Middleware Use Cases
+
+- Authentication Checks
+- Geolocation-based Routing
+- A/B Testing
+- Bot Detection
+- Rate Limiting
+- CORS Handling
+
+
+### Edge Runtime
+
+- Edge Functions
+- Edge Middleware
+- Runtime Limitations
+- Performance Benefits
+
+
+## **API DEVELOPMENT**
+
+### API Routes (Pages Router)
+
+- Creating API Endpoints
+- HTTP Methods Handling
+- Request/Response Objects
+- Query Parameters
+- Request Body Parsing
+- File Uploads
+
+
+### Route Handlers (App Router)
+
+- Modern API Development
+- TypeScript Support
+- Middleware Integration
+- Error Handling
+- Response Streaming
+
+
+### API Patterns
+
+- RESTful API Design
+- GraphQL Integration
+- Authentication Middleware
+- Rate Limiting
+- Input Validation
+- Error Responses
+
+
+## **AUTHENTICATION & AUTHORIZATION**
+
+### Authentication Strategies
+
+- JWT (JSON Web Tokens)
+- Session-based Authentication
+- OAuth Integration
+- Social Login (Google, GitHub, etc.)
+- Magic Link Authentication
+
+
+### Authentication Libraries
+
+- NextAuth.js
+- Auth0 Integration
+- Firebase Auth
+- Supabase Auth
+- Custom Authentication
+
+
+### Authorization Patterns
+
+- Role-based Access Control (RBAC)
+- Route Protection
+- API Route Protection
+- Conditional Rendering
+- Permission Checks
+
+
+## **DATABASE INTEGRATION**
+
+### SQL Databases
+
+- PostgreSQL Integration
+- MySQL Integration
+- SQLite for Development
+- Connection Pooling
+- Query Optimization
+
+
+### ORMs and Query Builders
+
+- Prisma
+- Drizzle ORM
+- TypeORM
+- Sequelize
+- Knex.js
+
+
+### NoSQL Databases
+
+- MongoDB Integration
+- Firebase Firestore
+- Supabase
+- Redis for Caching
+- DynamoDB
+
+
+### Database Patterns
+
+- Connection Management
+- Migration Strategies
+- Seeding Data
+- Transaction Handling
+- Database Optimization
+
+
+## **STATE MANAGEMENT**
+
+### Client-Side State
+
+- React useState
+- useReducer
+- Context API
+- Custom Hooks
+
+
+### Global State Management
+
+- Redux Toolkit
+- Zustand
+- Jotai
+- Valtio
+- SWR for Server State
+
+
+### Server State Management
+
+- SWR
+- React Query/TanStack Query
+- Apollo Client (GraphQL)
+- Relay (GraphQL)
+
+
+## **FORMS & VALIDATION**
+
+### Form Libraries
+
+- React Hook Form
+- Formik
+- React Final Form
+- Uncontrolled vs Controlled Components
+
+
+### Validation Libraries
+
+- Zod
+- Yup
+- Joi
+- React Hook Form Validation
+- Custom Validation
+
+
+### Form Patterns
+
+- Form State Management
+- Error Handling
+- Async Validation
+- File Uploads
+- Multi-step Forms
+
+
+## **TESTING**
+
+### Testing Frameworks
+
+- Jest
+- React Testing Library
+- Cypress (E2E)
+- Playwright (E2E)
+- Vitest
+
+
+### Testing Strategies
+
+- Unit Testing
+- Integration Testing
+- End-to-End Testing
+- Visual Regression Testing
+- Performance Testing
+
+
+### Testing Patterns
+
+- Component Testing
+- API Route Testing
+- Mock Data
+- Test Utilities
+- Custom Render Functions
+
+
+## **DEPLOYMENT**
+
+### Vercel Deployment
+
+- Automatic Deployments
+- Preview Deployments
+- Environment Variables
+- Custom Domains
+- Edge Functions
+
+
+### Other Deployment Platforms
+
+- Netlify
+- AWS (Amplify, EC2, Lambda)
+- Google Cloud Platform
+- Microsoft Azure
+- Railway
+- Render
+
+
+### Deployment Strategies
+
+- Static Export
+- Serverless Deployment
+- Docker Containerization
+- CI/CD Pipelines
+- Environment Management
+
+
+## **INTERNATIONALIZATION (i18n)**
+
+### Built-in i18n Support
+
+- Locale Detection
+- Locale Routing
+- Domain-based Routing
+- Subdirectory Routing
+- Subdomain Routing
+
+
+### i18n Libraries
+
+- next-i18next
+- react-intl
+- LinguiJS
+- i18next
+
+
+### i18n Patterns
+
+- Translation Management
+- Pluralization
+- Date/Time Formatting
+- Number Formatting
+- RTL Support
+
+
+## **SEO & METADATA**
+
+### Metadata API (App Router)
+
+- Static Metadata
+- Dynamic Metadata
+- Metadata Templates
+- Open Graph
+- Twitter Cards
+
+
+### Head Management (Pages Router)
+
+- next/head Component
+- Title and Meta Tags
+- Structured Data
+- Canonical URLs
+
+
+### SEO Best Practices
+
+- Semantic HTML
+- Image Alt Text
+- Sitemap Generation
+- Robots.txt
+- Schema Markup
+
+
+## **ANALYTICS & MONITORING**
+
+### Analytics Integration
+
+- Google Analytics
+- Vercel Analytics
+- Mixpanel
+- Amplitude
+- Custom Analytics
+
+
+### Error Monitoring
+
+- Sentry
+- Bugsnag
+- LogRocket
+- Rollbar
+- Custom Error Tracking
+
+
+### Performance Monitoring
+
+- Vercel Speed Insights
+- New Relic
+- DataDog
+- Web Vitals Tracking
+
+
+## **SECURITY**
+
+### Security Best Practices
+
+- Content Security Policy (CSP)
+- HTTPS Enforcement
+- Secure Headers
+- XSS Prevention
+- CSRF Protection
+
+
+### Authentication Security
+
+- Secure Token Storage
+- Password Hashing
+- Rate Limiting
+- Session Management
+- OAuth Security
+
+
+### API Security
+
+- Input Validation
+- SQL Injection Prevention
+- API Rate Limiting
+- CORS Configuration
+- Authentication Middleware
+
+
+## **ADVANCED FEATURES**
+
+### Edge Computing
+
+- Edge Runtime
+- Edge Functions
+- Edge Middleware
+- Geographic Distribution
+- Cold Start Optimization
+
+
+### Streaming
+
+- React 18 Streaming
+- Suspense Integration
+- Progressive Enhancement
+- Loading States
+- Error Boundaries
+
+
+### Experimental Features
+
+- Server Actions
+- Partial Prerendering
+- Turbopack
+- React Server Components
+- Concurrent Features
+
+
+## **CONFIGURATION**
+
+### Next.js Configuration
+
+- next.config.js/mjs
+- Environment Variables
+- Custom Webpack Config
+- Babel Configuration
+- TypeScript Configuration
+
+
+### Build Configuration
+
+- Output Modes
+- Standalone Output
+- Static Export
+- Custom Build Process
+- Build Optimization
+
+
+### Runtime Configuration
+
+- Runtime Config
+- Public Runtime Config
+- Server Runtime Config
+- Environment-specific Config
+
+
+## **TYPESCRIPT INTEGRATION**
+
+### TypeScript Setup
+
+- TypeScript Configuration
+- Type Definitions
+- Custom Types
+- API Route Types
+- Component Props Types
+
+
+### Advanced TypeScript
+
+- Generic Components
+- Utility Types
+- Type Guards
+- Conditional Types
+- Template Literal Types
+
+
+## **MICROSERVICES & ARCHITECTURE**
+
+### Architectural Patterns
+
+- Monolithic vs Microservices
+- JAMstack Architecture
+- Headless CMS Integration
+- API-first Development
+- Component-driven Development
+
+
+### Integration Patterns
+
+- Third-party APIs
+- Webhook Handling
+- Event-driven Architecture
+- Message Queues
+- Service Communication
+
+
+## **DEVELOPMENT TOOLS**
+
+### Development Experience
+
+- Fast Refresh
+- Error Overlay
+- TypeScript Support
+- ESLint Integration
+- Prettier Integration
+
+
+### Debugging Tools
+
+- React Developer Tools
+- Next.js DevTools
+- Browser DevTools
+- VS Code Extensions
+- Debug Configuration
+
+
+### Build Tools
+
+- Turbopack (Experimental)
+- Webpack Configuration
+- Bundle Analyzer
+- Source Maps
+- Build Optimization
