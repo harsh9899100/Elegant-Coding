@@ -1,0 +1,2342 @@
+## **FUNDAMENTALS & BASICS**
+
+### Getting Started
+
+**What is MySQL**
+
+```sql
+-- MySQL is an open-source relational database management system (RDBMS)
+-- Based on Structured Query Language (SQL)
+-- Developed by Oracle Corporation
+-- Most popular database for web applications
+-- ACID compliant with transaction support
+```
+
+**Relational Database Concepts**
+
+```sql
+-- Tables: Store data in rows and columns
+-- Relationships: Connect tables through keys
+-- Schema: Database structure definition
+-- Normalization: Organize data to reduce redundancy
+-- ACID Properties:
+--   Atomicity: All or nothing transactions
+--   Consistency: Data integrity maintained
+--   Isolation: Concurrent transactions don't interfere
+--   Durability: Committed changes persist
+```
+
+**MySQL vs Other Databases**
+
+```sql
+-- MySQL vs PostgreSQL:
+--   MySQL: Faster for read-heavy workloads, simpler setup
+--   PostgreSQL: More advanced features, better for complex queries
+
+-- MySQL vs SQLite:
+--   MySQL: Client-server, multi-user, better for web apps
+--   SQLite: Embedded, single-user, better for mobile/desktop apps
+
+-- MySQL vs Oracle:
+--   MySQL: Open-source, cost-effective, web-focused
+--   Oracle: Enterprise features, better for large corporations
+```
+
+**MySQL Installation and Setup**
+
+```shellscript
+# Ubuntu/Debian
+sudo apt update
+sudo apt install mysql-server
+
+# CentOS/RHEL
+sudo yum install mysql-server
+
+# macOS (using Homebrew)
+brew install mysql
+
+# Windows: Download MySQL Installer from official website
+
+# Start MySQL service
+sudo systemctl start mysql
+sudo systemctl enable mysql
+
+# Secure installation
+sudo mysql_secure_installation
+```
+
+**Command Line Interface (CLI)**
+
+```shellscript
+# Connect to MySQL
+mysql -u username -p
+mysql -u root -p -h localhost -P 3306
+
+# Connect to specific database
+mysql -u username -p database_name
+
+# Execute SQL file
+mysql -u username -p database_name < script.sql
+
+# Common CLI options
+mysql -u username -p --host=hostname --port=3306 --database=dbname
+```
+
+### Basic Concepts
+
+**Databases and Schemas**
+
+```sql
+-- In MySQL, database and schema are synonymous
+-- A database contains tables, views, procedures, functions
+
+-- Show current database
+SELECT DATABASE();
+
+-- Show all databases
+SHOW DATABASES;
+
+-- Database information
+SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA;
+```
+
+**Tables, Rows, and Columns**
+
+```sql
+-- Table: Collection of related data in rows and columns
+-- Row (Record): Single instance of data
+-- Column (Field): Attribute of the data
+
+-- Example table structure
+CREATE TABLE employees (
+    id INT PRIMARY KEY,           -- Column
+    name VARCHAR(100),           -- Column
+    department VARCHAR(50),      -- Column
+    salary DECIMAL(10,2)         -- Column
+);
+-- Each INSERT creates a new row
+```
+
+**Primary Keys and Foreign Keys**
+
+```sql
+-- Primary Key: Uniquely identifies each row
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+
+-- Foreign Key: References primary key in another table
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Composite Primary Key
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    PRIMARY KEY (order_id, product_id)
+);
+```
+
+**Character Sets and Collations**
+
+```sql
+-- Character Set: Defines which characters can be stored
+-- Collation: Defines how characters are compared and sorted
+
+-- Show available character sets
+SHOW CHARACTER SET;
+
+-- Show collations
+SHOW COLLATION LIKE 'utf8%';
+
+-- Set character set for database
+CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Set character set for table
+CREATE TABLE mytable (
+    name VARCHAR(100)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+## **DATA TYPES**
+
+### Numeric Data Types
+
+**Integer Types**
+
+```sql
+-- TINYINT: -128 to 127 (1 byte)
+CREATE TABLE example1 (
+    age TINYINT UNSIGNED,        -- 0 to 255
+    status TINYINT               -- -128 to 127
+);
+
+-- SMALLINT: -32,768 to 32,767 (2 bytes)
+-- MEDIUMINT: -8,388,608 to 8,388,607 (3 bytes)
+-- INT: -2,147,483,648 to 2,147,483,647 (4 bytes)
+-- BIGINT: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (8 bytes)
+
+CREATE TABLE numeric_examples (
+    tiny_num TINYINT,
+    small_num SMALLINT,
+    medium_num MEDIUMINT,
+    regular_num INT,
+    big_num BIGINT,
+    unsigned_int INT UNSIGNED,    -- 0 to 4,294,967,295
+    zero_filled INT(5) ZEROFILL   -- Pads with zeros: 00123
+);
+```
+
+**Decimal and Floating Point**
+
+```sql
+-- DECIMAL/NUMERIC: Exact precision (recommended for money)
+CREATE TABLE financial (
+    price DECIMAL(10,2),         -- 10 digits total, 2 after decimal
+    tax_rate NUMERIC(5,4)        -- 5 digits total, 4 after decimal
+);
+
+-- FLOAT: Single precision (4 bytes)
+-- DOUBLE: Double precision (8 bytes)
+CREATE TABLE measurements (
+    temperature FLOAT(7,4),      -- 7 digits total, 4 after decimal
+    distance DOUBLE              -- No precision specified
+);
+
+-- Examples
+INSERT INTO financial VALUES (12345.67, 0.0825);
+INSERT INTO measurements VALUES (98.6789, 123.456789012345);
+```
+
+### String Data Types
+
+**Character Types**
+
+```sql
+-- CHAR: Fixed length (0-255 characters)
+-- VARCHAR: Variable length (0-65,535 characters)
+CREATE TABLE string_examples (
+    country_code CHAR(2),        -- Always 2 characters (US, UK, etc.)
+    name VARCHAR(100),           -- Up to 100 characters
+    description VARCHAR(1000)    -- Up to 1000 characters
+);
+
+-- BINARY and VARBINARY: Store binary data
+CREATE TABLE binary_data (
+    fixed_binary BINARY(16),     -- Fixed 16 bytes
+    var_binary VARBINARY(255)    -- Variable up to 255 bytes
+);
+```
+
+**Text Types**
+
+```sql
+-- TEXT types for large text data
+CREATE TABLE content (
+    summary TINYTEXT,            -- Up to 255 characters
+    article TEXT,                -- Up to 65,535 characters
+    book MEDIUMTEXT,             -- Up to 16,777,215 characters
+    encyclopedia LONGTEXT        -- Up to 4,294,967,295 characters
+);
+
+-- BLOB types for binary large objects
+CREATE TABLE files (
+    thumbnail TINYBLOB,          -- Up to 255 bytes
+    image BLOB,                  -- Up to 65,535 bytes
+    video MEDIUMBLOB,            -- Up to 16,777,215 bytes
+    backup LONGBLOB              -- Up to 4,294,967,295 bytes
+);
+```
+
+**ENUM and SET**
+
+```sql
+-- ENUM: Choose one value from a list
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    status ENUM('active', 'inactive', 'pending', 'banned') DEFAULT 'pending'
+);
+
+-- SET: Choose multiple values from a list
+CREATE TABLE permissions (
+    user_id INT,
+    rights SET('read', 'write', 'delete', 'admin')
+);
+
+-- Usage examples
+INSERT INTO users VALUES (1, 'John', 'active');
+INSERT INTO permissions VALUES (1, 'read,write');
+INSERT INTO permissions VALUES (2, 'read,write,delete,admin');
+```
+
+### Date and Time Data Types
+
+**Date and Time Types**
+
+```sql
+CREATE TABLE events (
+    id INT PRIMARY KEY,
+    event_date DATE,             -- YYYY-MM-DD (1000-01-01 to 9999-12-31)
+    event_time TIME,             -- HH:MM:SS (-838:59:59 to 838:59:59)
+    created_at DATETIME,         -- YYYY-MM-DD HH:MM:SS (1000-01-01 00:00:00 to 9999-12-31 23:59:59)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    birth_year YEAR              -- YYYY (1901 to 2155)
+);
+
+-- TIMESTAMP vs DATETIME
+-- TIMESTAMP: UTC storage, automatic timezone conversion, 1970-2038 range
+-- DATETIME: No timezone awareness, larger range (1000-9999)
+
+-- Examples
+INSERT INTO events VALUES (
+    1,
+    '2024-12-25',               -- DATE
+    '14:30:00',                 -- TIME
+    '2024-12-25 14:30:00',      -- DATETIME
+    NOW(),                      -- TIMESTAMP
+    2024                        -- YEAR
+);
+```
+
+**Time Zone Handling**
+
+```sql
+-- Show current timezone
+SELECT @@time_zone;
+
+-- Set timezone for session
+SET time_zone = '+05:30';      -- India Standard Time
+SET time_zone = 'America/New_York';
+
+-- Convert between timezones
+SELECT CONVERT_TZ('2024-01-01 12:00:00', 'UTC', 'America/New_York');
+
+-- UTC functions
+SELECT UTC_DATE(), UTC_TIME(), UTC_TIMESTAMP();
+```
+
+### JSON Data Type
+
+**JSON Column Type**
+
+```sql
+-- JSON data type (MySQL 5.7+)
+CREATE TABLE products (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    attributes JSON,             -- Store JSON data
+    metadata JSON
+);
+
+-- Insert JSON data
+INSERT INTO products VALUES (
+    1,
+    'Laptop',
+    '{"brand": "Dell", "ram": "16GB", "storage": "512GB SSD"}',
+    '{"warranty": "2 years", "color": "black"}'
+);
+
+-- Insert using JSON functions
+INSERT INTO products VALUES (
+    2,
+    'Phone',
+    JSON_OBJECT('brand', 'Apple', 'model', 'iPhone 15', 'storage', '128GB'),
+    JSON_ARRAY('waterproof', 'wireless_charging')
+);
+```
+
+**JSON Functions**
+
+```sql
+-- Extract JSON data
+SELECT 
+    name,
+    JSON_EXTRACT(attributes, '$.brand') AS brand,
+    attributes->>'$.ram' AS ram,           -- Shorthand for JSON_UNQUOTE(JSON_EXTRACT())
+    attributes->'$.storage' AS storage
+FROM products;
+
+-- JSON manipulation functions
+SELECT 
+    JSON_SET(attributes, '$.price', 999.99) AS updated_attributes,
+    JSON_INSERT(attributes, '$.warranty', '1 year') AS with_warranty,
+    JSON_REPLACE(attributes, '$.brand', 'HP') AS different_brand,
+    JSON_REMOVE(attributes, '$.storage') AS without_storage
+FROM products WHERE id = 1;
+
+-- JSON utility functions
+SELECT 
+    JSON_VALID('{"name": "John"}') AS is_valid,        -- 1 (true)
+    JSON_LENGTH('["a", "b", "c"]') AS array_length,    -- 3
+    JSON_KEYS('{"a": 1, "b": 2}') AS object_keys,      -- ["a", "b"]
+    JSON_TYPE(attributes) AS data_type                  -- OBJECT
+FROM products WHERE id = 1;
+```
+
+## **DATABASE OPERATIONS**
+
+### Database Management
+
+**Database Operations**
+
+```sql
+-- Create database
+CREATE DATABASE company_db;
+CREATE DATABASE IF NOT EXISTS company_db;
+
+-- Create with character set and collation
+CREATE DATABASE company_db 
+    CHARACTER SET utf8mb4 
+    COLLATE utf8mb4_unicode_ci;
+
+-- Use database
+USE company_db;
+
+-- Show databases
+SHOW DATABASES;
+SHOW DATABASES LIKE 'company%';
+
+-- Drop database
+DROP DATABASE company_db;
+DROP DATABASE IF EXISTS company_db;
+
+-- Alter database
+ALTER DATABASE company_db CHARACTER SET utf8mb4;
+```
+
+**Database Information**
+
+```sql
+-- Current database
+SELECT DATABASE();
+
+-- Database size
+SELECT 
+    table_schema AS 'Database',
+    ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'Size (MB)'
+FROM information_schema.tables 
+GROUP BY table_schema;
+
+-- Database metadata
+SELECT * FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'company_db';
+```
+
+### Table Operations
+
+**CREATE TABLE**
+
+```sql
+-- Basic table creation
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    hire_date DATE DEFAULT (CURRENT_DATE),
+    salary DECIMAL(10,2) CHECK (salary > 0),
+    department_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create table with foreign key
+CREATE TABLE departments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    manager_id INT
+);
+
+ALTER TABLE employees 
+ADD CONSTRAINT fk_department 
+FOREIGN KEY (department_id) REFERENCES departments(id);
+
+-- Create table from another table
+CREATE TABLE employees_backup AS SELECT * FROM employees;
+CREATE TABLE employees_structure LIKE employees;  -- Structure only
+```
+
+**ALTER TABLE**
+
+```sql
+-- Add column
+ALTER TABLE employees ADD COLUMN phone VARCHAR(20);
+ALTER TABLE employees ADD COLUMN middle_name VARCHAR(50) AFTER first_name;
+ALTER TABLE employees ADD COLUMN employee_code VARCHAR(10) FIRST;
+
+-- Modify column
+ALTER TABLE employees MODIFY COLUMN salary DECIMAL(12,2);
+ALTER TABLE employees CHANGE COLUMN phone phone_number VARCHAR(25);
+
+-- Drop column
+ALTER TABLE employees DROP COLUMN middle_name;
+
+-- Add constraints
+ALTER TABLE employees ADD CONSTRAINT uk_email UNIQUE (email);
+ALTER TABLE employees ADD CONSTRAINT chk_salary CHECK (salary BETWEEN 1000 AND 1000000);
+
+-- Drop constraints
+ALTER TABLE employees DROP CONSTRAINT chk_salary;
+ALTER TABLE employees DROP INDEX uk_email;
+```
+
+**Other Table Operations**
+
+```sql
+-- Show tables
+SHOW TABLES;
+SHOW TABLES LIKE 'emp%';
+
+-- Table information
+DESCRIBE employees;
+DESC employees;
+SHOW CREATE TABLE employees;
+SHOW TABLE STATUS LIKE 'employees';
+
+-- Rename table
+RENAME TABLE employees TO staff;
+ALTER TABLE staff RENAME TO employees;
+
+-- Truncate vs Delete
+TRUNCATE TABLE employees;  -- Fast, resets AUTO_INCREMENT, can't rollback
+DELETE FROM employees;     -- Slower, keeps AUTO_INCREMENT, can rollback
+
+-- Drop table
+DROP TABLE employees;
+DROP TABLE IF EXISTS employees;
+```
+
+## **CRUD OPERATIONS**
+
+### INSERT Operations
+
+**Basic INSERT**
+
+```sql
+-- Single row insert
+INSERT INTO employees (first_name, last_name, email, salary, department_id)
+VALUES ('John', 'Doe', 'john.doe@company.com', 50000.00, 1);
+
+-- Multiple rows insert
+INSERT INTO employees (first_name, last_name, email, salary, department_id) VALUES
+('Jane', 'Smith', 'jane.smith@company.com', 55000.00, 2),
+('Bob', 'Johnson', 'bob.johnson@company.com', 48000.00, 1),
+('Alice', 'Brown', 'alice.brown@company.com', 62000.00, 3);
+
+-- Insert with all columns
+INSERT INTO employees VALUES 
+(NULL, 'Mike', 'Wilson', 'mike.wilson@company.com', '2024-01-15', 58000.00, 2, NOW(), NOW());
+```
+
+**Advanced INSERT**
+
+```sql
+-- INSERT IGNORE (skip duplicates)
+INSERT IGNORE INTO employees (first_name, last_name, email, salary)
+VALUES ('John', 'Doe', 'john.doe@company.com', 50000.00);
+
+-- INSERT ... ON DUPLICATE KEY UPDATE
+INSERT INTO employees (id, first_name, last_name, email, salary)
+VALUES (1, 'John', 'Doe', 'john.doe@company.com', 55000.00)
+ON DUPLICATE KEY UPDATE 
+    salary = VALUES(salary),
+    updated_at = NOW();
+
+-- REPLACE (delete and insert)
+REPLACE INTO employees (id, first_name, last_name, email, salary)
+VALUES (1, 'John', 'Doe', 'john.doe@company.com', 60000.00);
+
+-- INSERT from SELECT
+INSERT INTO employees_backup 
+SELECT * FROM employees WHERE department_id = 1;
+
+INSERT INTO monthly_summary (department_id, avg_salary, employee_count)
+SELECT department_id, AVG(salary), COUNT(*)
+FROM employees
+GROUP BY department_id;
+```
+
+### SELECT Operations
+
+**Basic SELECT**
+
+```sql
+-- Select all columns
+SELECT * FROM employees;
+
+-- Select specific columns
+SELECT first_name, last_name, salary FROM employees;
+
+-- Column aliases
+SELECT 
+    first_name AS 'First Name',
+    last_name AS 'Last Name',
+    salary AS 'Annual Salary'
+FROM employees;
+
+-- Table aliases
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+JOIN departments d ON e.department_id = d.id;
+```
+
+**SELECT with Conditions**
+
+```sql
+-- WHERE clause
+SELECT * FROM employees WHERE salary > 50000;
+SELECT * FROM employees WHERE department_id = 1 AND salary BETWEEN 40000 AND 60000;
+SELECT * FROM employees WHERE first_name IN ('John', 'Jane', 'Bob');
+SELECT * FROM employees WHERE email LIKE '%@company.com';
+SELECT * FROM employees WHERE hire_date >= '2024-01-01';
+
+-- DISTINCT
+SELECT DISTINCT department_id FROM employees;
+SELECT DISTINCT first_name, last_name FROM employees;
+
+-- ORDER BY
+SELECT * FROM employees ORDER BY salary DESC;
+SELECT * FROM employees ORDER BY department_id ASC, salary DESC;
+SELECT * FROM employees ORDER BY RAND();  -- Random order
+
+-- LIMIT and OFFSET
+SELECT * FROM employees LIMIT 10;                    -- First 10 rows
+SELECT * FROM employees LIMIT 10 OFFSET 20;          -- Rows 21-30
+SELECT * FROM employees ORDER BY salary DESC LIMIT 5; -- Top 5 salaries
+```
+
+### UPDATE Operations
+
+**Basic UPDATE**
+
+```sql
+-- Update single row
+UPDATE employees 
+SET salary = 55000.00 
+WHERE id = 1;
+
+-- Update multiple columns
+UPDATE employees 
+SET salary = salary * 1.1, updated_at = NOW() 
+WHERE department_id = 1;
+
+-- Update with conditions
+UPDATE employees 
+SET salary = CASE 
+    WHEN salary < 40000 THEN salary * 1.15
+    WHEN salary < 60000 THEN salary * 1.10
+    ELSE salary * 1.05
+END
+WHERE hire_date < '2023-01-01';
+```
+
+**Advanced UPDATE**
+
+```sql
+-- UPDATE with JOIN
+UPDATE employees e
+JOIN departments d ON e.department_id = d.id
+SET e.salary = e.salary * 1.1
+WHERE d.name = 'Engineering';
+
+-- Multi-table UPDATE
+UPDATE employees e, departments d
+SET e.salary = e.salary * 1.05, d.budget = d.budget - 1000
+WHERE e.department_id = d.id AND d.name = 'Sales';
+
+-- UPDATE with subquery
+UPDATE employees 
+SET salary = (
+    SELECT AVG(salary) * 1.1 
+    FROM (SELECT salary FROM employees WHERE department_id = 1) AS dept_avg
+)
+WHERE department_id = 1;
+
+-- Safe updates (prevent accidental updates)
+SET SQL_SAFE_UPDATES = 1;  -- Requires WHERE clause with key column
+```
+
+### DELETE Operations
+
+**Basic DELETE**
+
+```sql
+-- Delete specific rows
+DELETE FROM employees WHERE id = 1;
+DELETE FROM employees WHERE salary < 30000;
+DELETE FROM employees WHERE hire_date < '2020-01-01';
+
+-- Delete all rows (but keep table structure)
+DELETE FROM employees;
+
+-- Delete with ORDER BY and LIMIT
+DELETE FROM employees 
+ORDER BY salary ASC 
+LIMIT 5;  -- Delete 5 lowest paid employees
+```
+
+**Advanced DELETE**
+
+```sql
+-- DELETE with JOIN
+DELETE e FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE d.name = 'Discontinued';
+
+-- Multi-table DELETE
+DELETE e, d FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE d.budget < 10000;
+
+-- DELETE with subquery
+DELETE FROM employees 
+WHERE department_id IN (
+    SELECT id FROM departments WHERE budget < 50000
+);
+
+-- TRUNCATE vs DELETE
+TRUNCATE TABLE employees;  -- Faster, resets AUTO_INCREMENT, DDL operation
+DELETE FROM employees;     -- Slower, keeps AUTO_INCREMENT, DML operation
+```
+
+## **QUERYING & FILTERING**
+
+### WHERE Clause
+
+**Comparison Operators**
+
+```sql
+-- Basic comparisons
+SELECT * FROM employees WHERE salary = 50000;
+SELECT * FROM employees WHERE salary != 50000;  -- or <>
+SELECT * FROM employees WHERE salary > 50000;
+SELECT * FROM employees WHERE salary >= 50000;
+SELECT * FROM employees WHERE salary < 50000;
+SELECT * FROM employees WHERE salary <= 50000;
+
+-- BETWEEN operator
+SELECT * FROM employees WHERE salary BETWEEN 40000 AND 60000;
+SELECT * FROM employees WHERE hire_date BETWEEN '2023-01-01' AND '2023-12-31';
+SELECT * FROM employees WHERE id NOT BETWEEN 10 AND 20;
+
+-- IN operator
+SELECT * FROM employees WHERE department_id IN (1, 2, 3);
+SELECT * FROM employees WHERE first_name IN ('John', 'Jane', 'Bob');
+SELECT * FROM employees WHERE department_id NOT IN (1, 2);
+
+-- Subquery with IN
+SELECT * FROM employees 
+WHERE department_id IN (
+    SELECT id FROM departments WHERE budget > 100000
+);
+```
+
+**Pattern Matching**
+
+```sql
+-- LIKE operator with wildcards
+SELECT * FROM employees WHERE first_name LIKE 'J%';      -- Starts with 'J'
+SELECT * FROM employees WHERE first_name LIKE '%n';      -- Ends with 'n'
+SELECT * FROM employees WHERE first_name LIKE '%oh%';    -- Contains 'oh'
+SELECT * FROM employees WHERE first_name LIKE 'J_n';     -- J + any char + n
+SELECT * FROM employees WHERE email LIKE '%@gmail.com';
+
+-- REGEXP/RLIKE for regular expressions
+SELECT * FROM employees WHERE first_name REGEXP '^[A-M]';  -- Starts with A-M
+SELECT * FROM employees WHERE email REGEXP '[0-9]';        -- Contains digits
+SELECT * FROM employees WHERE phone REGEXP '^[0-9]{3}-[0-9]{3}-[0-9]{4}$';
+
+-- Case-sensitive pattern matching
+SELECT * FROM employees WHERE first_name LIKE BINARY 'john';  -- Won't match 'John'
+```
+
+**NULL Handling**
+
+```sql
+-- IS NULL and IS NOT NULL
+SELECT * FROM employees WHERE phone IS NULL;
+SELECT * FROM employees WHERE phone IS NOT NULL;
+SELECT * FROM employees WHERE phone = '';  -- Empty string, not NULL
+
+-- NULL in calculations
+SELECT first_name, salary, salary * 12 AS annual_salary FROM employees;
+-- If salary is NULL, annual_salary will also be NULL
+
+-- COALESCE to handle NULLs
+SELECT first_name, COALESCE(phone, 'No phone') AS contact FROM employees;
+
+-- IFNULL function
+SELECT first_name, IFNULL(phone, 'No phone') AS contact FROM employees;
+```
+
+### Logical Operators
+
+**AND, OR, NOT**
+
+```sql
+-- AND operator
+SELECT * FROM employees 
+WHERE department_id = 1 AND salary > 50000;
+
+SELECT * FROM employees 
+WHERE hire_date >= '2023-01-01' AND hire_date <= '2023-12-31' AND salary > 45000;
+
+-- OR operator
+SELECT * FROM employees 
+WHERE department_id = 1 OR department_id = 2;
+
+SELECT * FROM employees 
+WHERE salary > 70000 OR (department_id = 3 AND salary > 40000);
+
+-- NOT operator
+SELECT * FROM employees WHERE NOT (salary < 40000);
+SELECT * FROM employees WHERE department_id NOT IN (1, 2);
+
+-- Operator precedence (AND has higher precedence than OR)
+SELECT * FROM employees 
+WHERE department_id = 1 OR department_id = 2 AND salary > 50000;
+-- This is equivalent to:
+-- WHERE department_id = 1 OR (department_id = 2 AND salary > 50000)
+
+-- Use parentheses for clarity
+SELECT * FROM employees 
+WHERE (department_id = 1 OR department_id = 2) AND salary > 50000;
+```
+
+**Complex Conditions**
+
+```sql
+-- Combining multiple conditions
+SELECT * FROM employees 
+WHERE (department_id IN (1, 2, 3) AND salary BETWEEN 40000 AND 80000)
+   OR (department_id = 4 AND salary > 60000)
+   OR (hire_date > '2024-01-01' AND first_name LIKE 'A%');
+
+-- EXISTS with subqueries
+SELECT * FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM departments d 
+    WHERE d.id = e.department_id AND d.budget > 100000
+);
+
+-- NOT EXISTS
+SELECT * FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM projects p 
+    WHERE p.employee_id = e.id
+);
+```
+
+## **SORTING & GROUPING**
+
+### ORDER BY
+
+**Basic Sorting**
+
+```sql
+-- Single column sorting
+SELECT * FROM employees ORDER BY salary;           -- Ascending (default)
+SELECT * FROM employees ORDER BY salary ASC;       -- Explicit ascending
+SELECT * FROM employees ORDER BY salary DESC;      -- Descending
+
+-- Multiple column sorting
+SELECT * FROM employees 
+ORDER BY department_id ASC, salary DESC;
+
+SELECT * FROM employees 
+ORDER BY department_id, hire_date DESC, last_name;
+```
+
+**Advanced Sorting**
+
+```sql
+-- Sorting by expression
+SELECT first_name, last_name, salary, salary * 12 AS annual_salary
+FROM employees 
+ORDER BY salary * 12 DESC;
+
+-- Sorting by column position
+SELECT first_name, last_name, salary 
+FROM employees 
+ORDER BY 3 DESC;  -- Sort by 3rd column (salary)
+
+-- Custom sort order with CASE
+SELECT * FROM employees 
+ORDER BY 
+    CASE department_id 
+        WHEN 1 THEN 1    -- HR first
+        WHEN 3 THEN 2    -- Engineering second
+        WHEN 2 THEN 3    -- Sales third
+        ELSE 4           -- Others last
+    END,
+    salary DESC;
+
+-- Sorting NULL values
+SELECT * FROM employees ORDER BY phone;              -- NULLs first
+SELECT * FROM employees ORDER BY phone DESC;         -- NULLs last
+SELECT * FROM employees ORDER BY phone IS NULL, phone;  -- NULLs last explicitly
+
+-- Random ordering
+SELECT * FROM employees ORDER BY RAND() LIMIT 5;     -- 5 random employees
+```
+
+### GROUP BY
+
+**Basic Grouping**
+
+```sql
+-- Group by single column
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees 
+GROUP BY department_id;
+
+-- Group by multiple columns
+SELECT department_id, YEAR(hire_date) AS hire_year, COUNT(*) AS count
+FROM employees 
+GROUP BY department_id, YEAR(hire_date);
+
+-- Group by expression
+SELECT 
+    CASE 
+        WHEN salary < 40000 THEN 'Low'
+        WHEN salary < 70000 THEN 'Medium'
+        ELSE 'High'
+    END AS salary_range,
+    COUNT(*) AS employee_count
+FROM employees 
+GROUP BY 
+    CASE 
+        WHEN salary < 40000 THEN 'Low'
+        WHEN salary < 70000 THEN 'Medium'
+        ELSE 'High'
+    END;
+```
+
+**HAVING Clause**
+
+```sql
+-- HAVING filters groups (use after GROUP BY)
+SELECT department_id, COUNT(*) AS employee_count, AVG(salary) AS avg_salary
+FROM employees 
+GROUP BY department_id
+HAVING COUNT(*) > 5 AND AVG(salary) > 50000;
+
+-- HAVING vs WHERE
+-- WHERE filters rows before grouping
+-- HAVING filters groups after grouping
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees 
+WHERE salary > 40000          -- Filter individual rows first
+GROUP BY department_id
+HAVING COUNT(*) > 3;          -- Then filter groups
+
+-- HAVING with subqueries
+SELECT department_id, AVG(salary) AS avg_salary
+FROM employees 
+GROUP BY department_id
+HAVING AVG(salary) > (
+    SELECT AVG(salary) FROM employees
+);
+```
+
+### Aggregate Functions
+
+**Basic Aggregate Functions**
+
+```sql
+-- COUNT
+SELECT COUNT(*) AS total_employees FROM employees;
+SELECT COUNT(phone) AS employees_with_phone FROM employees;  -- Excludes NULLs
+SELECT COUNT(DISTINCT department_id) AS unique_departments FROM employees;
+
+-- SUM
+SELECT SUM(salary) AS total_payroll FROM employees;
+SELECT department_id, SUM(salary) AS dept_payroll 
+FROM employees GROUP BY department_id;
+
+-- AVG
+SELECT AVG(salary) AS average_salary FROM employees;
+SELECT department_id, AVG(salary) AS avg_dept_salary 
+FROM employees GROUP BY department_id;
+
+-- MIN and MAX
+SELECT MIN(salary) AS lowest_salary, MAX(salary) AS highest_salary FROM employees;
+SELECT department_id, MIN(hire_date) AS first_hire, MAX(hire_date) AS last_hire
+FROM employees GROUP BY department_id;
+```
+
+**Advanced Aggregate Functions**
+
+```sql
+-- GROUP_CONCAT (MySQL specific)
+SELECT department_id, GROUP_CONCAT(first_name) AS employee_names
+FROM employees GROUP BY department_id;
+
+SELECT department_id, 
+       GROUP_CONCAT(first_name ORDER BY salary DESC SEPARATOR ', ') AS employees_by_salary
+FROM employees GROUP BY department_id;
+
+-- Statistical functions
+SELECT 
+    AVG(salary) AS mean_salary,
+    STDDEV(salary) AS standard_deviation,
+    VARIANCE(salary) AS variance_salary
+FROM employees;
+
+-- Aggregate with CASE
+SELECT 
+    COUNT(CASE WHEN salary > 50000 THEN 1 END) AS high_earners,
+    COUNT(CASE WHEN salary <= 50000 THEN 1 END) AS regular_earners,
+    COUNT(*) AS total_employees
+FROM employees;
+```
+
+## **JOINS**
+
+### Join Types
+
+**INNER JOIN**
+
+```sql
+-- Basic INNER JOIN
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id;
+
+-- Multiple conditions in JOIN
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id AND d.budget > 50000;
+
+-- INNER JOIN with WHERE
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id
+WHERE e.salary > 50000;
+```
+
+**LEFT JOIN (LEFT OUTER JOIN)**
+
+```sql
+-- LEFT JOIN - includes all records from left table
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.id;
+
+-- Find employees without departments
+SELECT e.first_name, e.last_name
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.id
+WHERE d.id IS NULL;
+
+-- LEFT JOIN with aggregation
+SELECT d.name AS department, COUNT(e.id) AS employee_count
+FROM departments d
+LEFT JOIN employees e ON d.id = e.department_id
+GROUP BY d.id, d.name;
+```
+
+**RIGHT JOIN (RIGHT OUTER JOIN)**
+
+```sql
+-- RIGHT JOIN - includes all records from right table
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.id;
+
+-- Find departments without employees
+SELECT d.name AS department
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.id
+WHERE e.id IS NULL;
+```
+
+**FULL OUTER JOIN (Simulation)**
+
+```sql
+-- MySQL doesn't have FULL OUTER JOIN, simulate with UNION
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.id
+UNION
+SELECT e.first_name, e.last_name, d.name AS department
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.id;
+```
+
+**CROSS JOIN**
+
+```sql
+-- CROSS JOIN - Cartesian product
+SELECT e.first_name, d.name AS department
+FROM employees e
+CROSS JOIN departments d;
+
+-- Useful for generating combinations
+SELECT p.name AS product, c.name AS category
+FROM products p
+CROSS JOIN categories c
+WHERE p.category_id IS NULL;  -- Products that could belong to any category
+```
+
+### Advanced Join Patterns
+
+**Self Joins**
+
+```sql
+-- Self join to find employees and their managers
+SELECT 
+    e.first_name AS employee,
+    m.first_name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+
+-- Find employees in the same department
+SELECT 
+    e1.first_name AS employee1,
+    e2.first_name AS employee2,
+    e1.department_id
+FROM employees e1
+JOIN employees e2 ON e1.department_id = e2.department_id AND e1.id < e2.id;
+```
+
+**Multiple Table Joins**
+
+```sql
+-- Join three tables
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name AS department,
+    p.title AS project
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN projects p ON e.id = p.employee_id;
+
+-- Complex multi-table join
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name AS department,
+    p.title AS project,
+    c.name AS client
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN employee_projects ep ON e.id = ep.employee_id
+JOIN projects p ON ep.project_id = p.id
+JOIN clients c ON p.client_id = c.id
+WHERE e.salary > 50000;
+```
+
+**Non-Equi Joins**
+
+```sql
+-- Join based on range conditions
+SELECT 
+    e.first_name,
+    e.salary,
+    sg.grade
+FROM employees e
+JOIN salary_grades sg ON e.salary BETWEEN sg.min_salary AND sg.max_salary;
+
+-- Date range joins
+SELECT 
+    o.order_id,
+    o.order_date,
+    p.promotion_name
+FROM orders o
+JOIN promotions p ON o.order_date BETWEEN p.start_date AND p.end_date;
+```
+
+## **SUBQUERIES**
+
+### Subquery Types
+
+**Scalar Subqueries**
+
+```sql
+-- Subquery returns single value
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+
+-- Subquery in SELECT clause
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    (SELECT AVG(salary) FROM employees) AS avg_salary,
+    salary - (SELECT AVG(salary) FROM employees) AS salary_diff
+FROM employees;
+
+-- Subquery with aggregate functions
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department_id
+HAVING COUNT(*) > (
+    SELECT AVG(dept_count) 
+    FROM (
+        SELECT COUNT(*) AS dept_count 
+        FROM employees 
+        GROUP BY department_id
+    ) AS dept_stats
+);
+```
+
+**Row Subqueries**
+
+```sql
+-- Subquery returns single row with multiple columns
+SELECT first_name, last_name, salary, department_id
+FROM employees
+WHERE (salary, department_id) = (
+    SELECT MAX(salary), department_id
+    FROM employees
+    WHERE department_id = 1
+);
+
+-- Multiple column comparison
+SELECT *
+FROM employees
+WHERE (department_id, salary) IN (
+    SELECT department_id, MAX(salary)
+    FROM employees
+    GROUP BY department_id
+);
+```
+
+**Table Subqueries**
+
+```sql
+-- Subquery returns multiple rows and columns
+SELECT e.first_name, e.last_name, high_earners.avg_salary
+FROM employees e
+JOIN (
+    SELECT department_id, AVG(salary) AS avg_salary
+    FROM employees
+    WHERE salary > 50000
+    GROUP BY department_id
+) AS high_earners ON e.department_id = high_earners.department_id;
+
+-- Derived table in FROM clause
+SELECT dept_name, total_salary
+FROM (
+    SELECT 
+        d.name AS dept_name,
+        SUM(e.salary) AS total_salary
+    FROM employees e
+    JOIN departments d ON e.department_id = d.id
+    GROUP BY d.id, d.name
+) AS dept_totals
+WHERE total_salary > 200000;
+```
+
+**Correlated Subqueries**
+
+```sql
+-- Subquery references outer query
+SELECT first_name, last_name, salary, department_id
+FROM employees e1
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees e2
+    WHERE e2.department_id = e1.department_id
+);
+
+-- Find employees with above-average salary in their department
+SELECT e1.first_name, e1.last_name, e1.salary
+FROM employees e1
+WHERE e1.salary > (
+    SELECT AVG(e2.salary)
+    FROM employees e2
+    WHERE e2.department_id = e1.department_id
+);
+
+-- Correlated subquery with EXISTS
+SELECT first_name, last_name
+FROM employees e
+WHERE EXISTS (
+    SELECT 1
+    FROM projects p
+    WHERE p.employee_id = e.id AND p.status = 'active'
+);
+```
+
+### Subquery Operators
+
+**EXISTS and NOT EXISTS**
+
+```sql
+-- EXISTS - check if subquery returns any rows
+SELECT first_name, last_name
+FROM employees e
+WHERE EXISTS (
+    SELECT 1
+    FROM employee_projects ep
+    WHERE ep.employee_id = e.id
+);
+
+-- NOT EXISTS - check if subquery returns no rows
+SELECT first_name, last_name
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employee_projects ep
+    WHERE ep.employee_id = e.id
+);
+
+-- EXISTS vs IN performance
+-- EXISTS is often faster for large datasets
+SELECT * FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM departments d 
+    WHERE d.id = e.department_id AND d.budget > 100000
+);
+```
+
+**ANY, SOME, ALL**
+
+```sql
+-- ANY/SOME - true if condition is true for any value
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > ANY (
+    SELECT salary FROM employees WHERE department_id = 1
+);
+
+-- ALL - true if condition is true for all values
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > ALL (
+    SELECT salary FROM employees WHERE department_id = 1
+);
+
+-- Equivalent expressions
+-- salary > ANY (...) is equivalent to salary > (SELECT MIN(...))
+-- salary > ALL (...) is equivalent to salary > (SELECT MAX(...))
+
+-- Using with comparison operators
+SELECT * FROM employees
+WHERE department_id = ANY (SELECT id FROM departments WHERE budget > 50000);
+```
+
+### Common Table Expressions (CTEs)
+
+**Basic CTEs**
+
+```sql
+-- WITH clause (MySQL 8.0+)
+WITH department_stats AS (
+    SELECT 
+        department_id,
+        COUNT(*) AS employee_count,
+        AVG(salary) AS avg_salary,
+        MAX(salary) AS max_salary
+    FROM employees
+    GROUP BY department_id
+)
+SELECT 
+    d.name AS department,
+    ds.employee_count,
+    ds.avg_salary,
+    ds.max_salary
+FROM department_stats ds
+JOIN departments d ON ds.department_id = d.id
+WHERE ds.employee_count > 5;
+
+-- Multiple CTEs
+WITH 
+high_earners AS (
+    SELECT * FROM employees WHERE salary > 60000
+),
+dept_summary AS (
+    SELECT department_id, COUNT(*) AS count, AVG(salary) AS avg_sal
+    FROM high_earners
+    GROUP BY department_id
+)
+SELECT d.name, ds.count, ds.avg_sal
+FROM dept_summary ds
+JOIN departments d ON ds.department_id = d.id;
+```
+
+**Recursive CTEs**
+
+```sql
+-- Recursive CTE for hierarchical data
+WITH RECURSIVE employee_hierarchy AS (
+    -- Anchor member: top-level managers
+    SELECT id, first_name, last_name, manager_id, 0 AS level
+    FROM employees
+    WHERE manager_id IS NULL
+    
+    UNION ALL
+    
+    -- Recursive member: employees with managers
+    SELECT e.id, e.first_name, e.last_name, e.manager_id, eh.level + 1
+    FROM employees e
+    JOIN employee_hierarchy eh ON e.manager_id = eh.id
+)
+SELECT 
+    CONCAT(REPEAT('  ', level), first_name, ' ', last_name) AS hierarchy,
+    level
+FROM employee_hierarchy
+ORDER BY level, first_name;
+
+-- Recursive CTE for generating sequences
+WITH RECURSIVE numbers AS (
+    SELECT 1 AS n
+    UNION ALL
+    SELECT n + 1 FROM numbers WHERE n < 10
+)
+SELECT * FROM numbers;
+```
+
+## **FUNCTIONS**
+
+### String Functions
+
+**Basic String Functions**
+
+```sql
+-- CONCAT and CONCAT_WS
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
+SELECT CONCAT_WS(' - ', first_name, last_name, email) AS employee_info FROM employees;
+
+-- SUBSTRING functions
+SELECT 
+    SUBSTRING(first_name, 1, 3) AS first_three,
+    LEFT(first_name, 2) AS first_two,
+    RIGHT(last_name, 3) AS last_three,
+    MID(email, 1, LOCATE('@', email) - 1) AS username
+FROM employees;
+
+-- Length functions
+SELECT 
+    first_name,
+    LENGTH(first_name) AS byte_length,
+    CHAR_LENGTH(first_name) AS character_length
+FROM employees;
+
+-- Case conversion and trimming
+SELECT 
+    UPPER(first_name) AS uppercase,
+    LOWER(last_name) AS lowercase,
+    TRIM('  ' FROM '  John  ') AS trimmed,
+    LTRIM('  John') AS left_trimmed,
+    RTRIM('John  ') AS right_trimmed
+FROM employees;
+```
+
+**Advanced String Functions**
+
+```sql
+-- REPLACE and manipulation
+SELECT 
+    REPLACE(email, '@company.com', '@newcompany.com') AS new_email,
+    REVERSE(first_name) AS reversed_name,
+    REPEAT('*', 5) AS stars,
+    SPACE(10) AS ten_spaces
+FROM employees;
+
+-- LOCATE and POSITION
+SELECT 
+    email,
+    LOCATE('@', email) AS at_position,
+    POSITION('.' IN email) AS dot_position,
+    INSTR(email, 'com') AS com_position
+FROM employees;
+
+-- String formatting
+SELECT 
+    FORMAT(salary, 2) AS formatted_salary,
+    LPAD(id, 5, '0') AS padded_id,
+    RPAD(first_name, 10, '.') AS padded_name
+FROM employees;
+
+-- Advanced string operations
+SELECT 
+    SOUNDEX('Smith') = SOUNDEX('Smyth') AS sounds_similar,
+    STRCMP('apple', 'banana') AS string_comparison,
+    ASCII('A') AS ascii_value,
+    CHAR(65) AS char_from_ascii
+FROM employees LIMIT 1;
+```
+
+### Numeric Functions
+
+**Basic Math Functions**
+
+```sql
+-- Basic arithmetic functions
+SELECT 
+    ABS(-15) AS absolute_value,
+    ROUND(salary / 12, 2) AS monthly_salary,
+    CEILING(salary / 1000) AS salary_thousands_up,
+    FLOOR(salary / 1000) AS salary_thousands_down,
+    TRUNCATE(salary / 12, 2) AS truncated_monthly
+FROM employees;
+
+-- Power and root functions
+SELECT 
+    POW(2, 3) AS power_result,
+    POWER(salary / 1000, 2) AS salary_squared,
+    SQRT(16) AS square_root,
+    EXP(1) AS euler_number,
+    LN(salary) AS natural_log,
+    LOG10(salary) AS base_10_log
+FROM employees LIMIT 1;
+
+-- Modulo and sign
+SELECT 
+    MOD(salary, 1000) AS salary_remainder,
+    salary % 1000 AS modulo_operator,
+    SIGN(salary - 50000) AS salary_comparison_sign
+FROM employees;
+```
+
+**Advanced Numeric Functions**
+
+```sql
+-- Trigonometric functions
+SELECT 
+    SIN(PI() / 2) AS sine_90_degrees,
+    COS(0) AS cosine_0_degrees,
+    TAN(PI() / 4) AS tangent_45_degrees,
+    DEGREES(PI()) AS pi_in_degrees,
+    RADIANS(180) AS degrees_to_radians;
+
+-- Random and statistical
+SELECT 
+    RAND() AS random_decimal,
+    RAND(123) AS seeded_random,
+    ROUND(RAND() * 100) AS random_integer,
+    GREATEST(10, 20, 5, 30) AS maximum_value,
+    LEAST(10, 20, 5, 30) AS minimum_value;
+
+-- Bit operations
+SELECT 
+    BIT_COUNT(29) AS bit_count,
+    29 & 15 AS bitwise_and,
+    29 | 15 AS bitwise_or,
+    29 ^ 15 AS bitwise_xor,
+    ~29 AS bitwise_not;
+```
+
+### Date and Time Functions
+
+**Current Date/Time Functions**
+
+```sql
+-- Current date and time
+SELECT 
+    NOW() AS current_datetime,
+    CURDATE() AS current_date,
+    CURRENT_DATE() AS current_date_alt,
+    CURTIME() AS current_time,
+    CURRENT_TIME() AS current_time_alt,
+    CURRENT_TIMESTAMP() AS current_timestamp,
+    UTC_DATE() AS utc_date,
+    UTC_TIME() AS utc_time,
+    UTC_TIMESTAMP() AS utc_timestamp;
+
+-- Unix timestamp
+SELECT 
+    UNIX_TIMESTAMP() AS current_unix_timestamp,
+    UNIX_TIMESTAMP('2024-01-01 00:00:00') AS specific_unix_timestamp,
+    FROM_UNIXTIME(1704067200) AS from_unix_timestamp;
+```
+
+**Date Extraction Functions**
+
+```sql
+-- Extract date parts
+SELECT 
+    hire_date,
+    YEAR(hire_date) AS hire_year,
+    MONTH(hire_date) AS hire_month,
+    DAY(hire_date) AS hire_day,
+    DAYOFWEEK(hire_date) AS day_of_week,
+    DAYOFYEAR(hire_date) AS day_of_year,
+    WEEK(hire_date) AS week_number,
+    MONTHNAME(hire_date) AS month_name,
+    DAYNAME(hire_date) AS day_name
+FROM employees;
+
+-- Time extraction
+SELECT 
+    created_at,
+    HOUR(created_at) AS hour_part,
+    MINUTE(created_at) AS minute_part,
+    SECOND(created_at) AS second_part,
+    MICROSECOND(created_at) AS microsecond_part
+FROM employees;
+```
+
+**Date Arithmetic**
+
+```sql
+-- DATE_ADD and DATE_SUB
+SELECT 
+    hire_date,
+    DATE_ADD(hire_date, INTERVAL 1 YEAR) AS one_year_later,
+    DATE_ADD(hire_date, INTERVAL 6 MONTH) AS six_months_later,
+    DATE_ADD(hire_date, INTERVAL 30 DAY) AS thirty_days_later,
+    DATE_SUB(NOW(), INTERVAL 1 WEEK) AS one_week_ago
+FROM employees;
+
+-- Alternative syntax
+SELECT 
+    hire_date + INTERVAL 1 YEAR AS one_year_later,
+    hire_date - INTERVAL 6 MONTH AS six_months_earlier
+FROM employees;
+
+-- Date differences
+SELECT 
+    first_name,
+    hire_date,
+    DATEDIFF(NOW(), hire_date) AS days_employed,
+    TIMESTAMPDIFF(YEAR, hire_date, NOW()) AS years_employed,
+    TIMESTAMPDIFF(MONTH, hire_date, NOW()) AS months_employed
+FROM employees;
+```
+
+**Date Formatting**
+
+```sql
+-- DATE_FORMAT function
+SELECT 
+    hire_date,
+    DATE_FORMAT(hire_date, '%Y-%m-%d') AS iso_date,
+    DATE_FORMAT(hire_date, '%M %d, %Y') AS formatted_date,
+    DATE_FORMAT(hire_date, '%W, %M %e, %Y') AS full_date,
+    DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS datetime_format,
+    DATE_FORMAT(created_at, '%r') AS twelve_hour_time
+FROM employees;
+
+-- STR_TO_DATE function
+SELECT 
+    STR_TO_DATE('2024-12-25', '%Y-%m-%d') AS parsed_date,
+    STR_TO_DATE('December 25, 2024', '%M %d, %Y') AS parsed_date2,
+    STR_TO_DATE('25/12/2024 14:30:00', '%d/%m/%Y %H:%i:%s') AS parsed_datetime;
+
+-- Common format specifiers:
+-- %Y - 4-digit year, %y - 2-digit year
+-- %M - Month name, %m - Month number, %c - Month number (no leading zero)
+-- %D - Day with suffix (1st, 2nd, etc.), %d - Day number, %e - Day number (no leading zero)
+-- %W - Weekday name, %w - Weekday number
+-- %H - Hour (24-hour), %h - Hour (12-hour), %i - Minutes, %s - Seconds
+-- %r - 12-hour time, %T - 24-hour time
+```
+
+### Conditional Functions
+
+**IF Function**
+
+```sql
+-- Basic IF function
+SELECT 
+    first_name,
+    salary,
+    IF(salary > 50000, 'High', 'Low') AS salary_category
+FROM employees;
+
+-- Nested IF
+SELECT 
+    first_name,
+    salary,
+    IF(salary > 70000, 'High', 
+        IF(salary > 50000, 'Medium', 'Low')
+    ) AS salary_category
+FROM employees;
+
+-- IF with NULL handling
+SELECT 
+    first_name,
+    phone,
+    IF(phone IS NULL, 'No phone', phone) AS contact_info
+FROM employees;
+```
+
+**CASE Statement**
+
+```sql
+-- Simple CASE
+SELECT 
+    first_name,
+    department_id,
+    CASE department_id
+        WHEN 1 THEN 'Human Resources'
+        WHEN 2 THEN 'Engineering'
+        WHEN 3 THEN 'Sales'
+        WHEN 4 THEN 'Marketing'
+        ELSE 'Other'
+    END AS department_name
+FROM employees;
+
+-- Searched CASE
+SELECT 
+    first_name,
+    salary,
+    CASE 
+        WHEN salary < 40000 THEN 'Entry Level'
+        WHEN salary < 60000 THEN 'Mid Level'
+        WHEN salary < 80000 THEN 'Senior Level'
+        ELSE 'Executive Level'
+    END AS position_level,
+    CASE 
+        WHEN salary < 40000 THEN salary * 1.15
+        WHEN salary < 60000 THEN salary * 1.10
+        ELSE salary * 1.05
+    END AS adjusted_salary
+FROM employees;
+
+-- CASE in aggregate functions
+SELECT 
+    department_id,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN salary > 50000 THEN 1 END) AS high_earners,
+    COUNT(CASE WHEN salary <= 50000 THEN 1 END) AS regular_earners,
+    SUM(CASE WHEN salary > 50000 THEN salary ELSE 0 END) AS high_earner_payroll
+FROM employees
+GROUP BY department_id;
+```
+
+**NULL Handling Functions**
+
+```sql
+-- IFNULL function
+SELECT 
+    first_name,
+    IFNULL(phone, 'No phone provided') AS phone_display,
+    IFNULL(middle_name, '') AS middle_name_display
+FROM employees;
+
+-- NULLIF function
+SELECT 
+    first_name,
+    NULLIF(phone, '') AS phone_or_null,  -- Convert empty string to NULL
+    NULLIF(salary, 0) AS salary_or_null   -- Convert 0 to NULL
+FROM employees;
+
+-- COALESCE function
+SELECT 
+    first_name,
+    COALESCE(phone, email, 'No contact info') AS primary_contact,
+    COALESCE(middle_name, first_name, 'Unknown') AS display_name
+FROM employees;
+
+-- GREATEST and LEAST with NULL handling
+SELECT 
+    salary,
+    bonus,
+    GREATEST(salary, IFNULL(bonus, 0)) AS higher_amount,
+    LEAST(salary, IFNULL(bonus, salary)) AS lower_amount
+FROM employees;
+```
+
+## **INDEXES**
+
+### Index Types
+
+**Primary Index**
+
+```sql
+-- Primary key automatically creates primary index
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- Primary index created automatically
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+-- Add primary key to existing table
+ALTER TABLE employees ADD PRIMARY KEY (id);
+
+-- Composite primary key
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    PRIMARY KEY (order_id, product_id)  -- Composite primary index
+);
+```
+
+**Unique Index**
+
+```sql
+-- Create unique index
+CREATE UNIQUE INDEX idx_employee_email ON employees (email);
+
+-- Add unique constraint (creates unique index)
+ALTER TABLE employees ADD CONSTRAINT uk_email UNIQUE (email);
+
+-- Composite unique index
+CREATE UNIQUE INDEX idx_employee_name ON employees (first_name, last_name, department_id);
+
+-- Show that unique indexes prevent duplicates
+-- INSERT INTO employees (email) VALUES ('john@company.com');  -- First insert OK
+-- INSERT INTO employees (email) VALUES ('john@company.com');  -- Second insert fails
+```
+
+**Composite Index**
+
+```sql
+-- Multi-column index
+CREATE INDEX idx_dept_salary ON employees (department_id, salary);
+
+-- Order matters in composite indexes
+-- This index helps with:
+-- WHERE department_id = 1
+-- WHERE department_id = 1 AND salary > 50000
+-- ORDER BY department_id, salary
+-- But NOT efficiently with:
+-- WHERE salary > 50000 (without department_id)
+
+-- Different column orders create different indexes
+CREATE INDEX idx_salary_dept ON employees (salary, department_id);  -- Different from above
+
+-- Include additional columns for covering index
+CREATE INDEX idx_dept_salary_covering ON employees (department_id, salary) 
+INCLUDE (first_name, last_name);  -- MySQL 8.0+ syntax
+```
+
+**Full-Text Index**
+
+```sql
+-- Create full-text index
+CREATE TABLE articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200),
+    content TEXT,
+    FULLTEXT(title, content)  -- Full-text index on multiple columns
+);
+
+-- Add full-text index to existing table
+ALTER TABLE articles ADD FULLTEXT(title);
+CREATE FULLTEXT INDEX idx_content ON articles (content);
+
+-- Full-text search queries
+SELECT * FROM articles 
+WHERE MATCH(title, content) AGAINST ('database optimization');
+
+-- Boolean mode search
+SELECT * FROM articles 
+WHERE MATCH(title, content) AGAINST ('+mysql -postgresql' IN BOOLEAN MODE);
+
+-- Natural language mode with relevance score
+SELECT *, MATCH(title, content) AGAINST ('database') AS relevance
+FROM articles 
+WHERE MATCH(title, content) AGAINST ('database')
+ORDER BY relevance DESC;
+```
+
+### Index Operations
+
+**Creating and Managing Indexes**
+
+```sql
+-- Create index
+CREATE INDEX idx_last_name ON employees (last_name);
+CREATE INDEX idx_hire_date ON employees (hire_date);
+CREATE INDEX idx_dept_hire ON employees (department_id, hire_date);
+
+-- Create index with specific length (for VARCHAR columns)
+CREATE INDEX idx_email_prefix ON employees (email(10));  -- Index first 10 characters
+
+-- Create descending index (MySQL 8.0+)
+CREATE INDEX idx_salary_desc ON employees (salary DESC);
+
+-- Show indexes
+SHOW INDEX FROM employees;
+SHOW INDEXES FROM employees;
+
+-- Get index information from information_schema
+SELECT 
+    TABLE_NAME,
+    INDEX_NAME,
+    COLUMN_NAME,
+    SEQ_IN_INDEX,
+    NON_UNIQUE,
+    CARDINALITY
+FROM INFORMATION_SCHEMA.STATISTICS 
+WHERE TABLE_SCHEMA = 'your_database' AND TABLE_NAME = 'employees';
+```
+
+**Dropping Indexes**
+
+```sql
+-- Drop index
+DROP INDEX idx_last_name ON employees;
+
+-- Drop index using ALTER TABLE
+ALTER TABLE employees DROP INDEX idx_hire_date;
+
+-- Drop primary key (removes primary index)
+ALTER TABLE employees DROP PRIMARY KEY;
+
+-- Drop foreign key constraint and its index
+ALTER TABLE employees DROP FOREIGN KEY fk_department;
+ALTER TABLE employees DROP INDEX fk_department;
+```
+
+**Index Hints**
+
+```sql
+-- USE INDEX - suggest which index to use
+SELECT * FROM employees 
+USE INDEX (idx_dept_salary)
+WHERE department_id = 1 AND salary > 50000;
+
+-- FORCE INDEX - force MySQL to use specific index
+SELECT * FROM employees 
+FORCE INDEX (idx_last_name)
+WHERE last_name = 'Smith';
+
+-- IGNORE INDEX - ignore specific index
+SELECT * FROM employees 
+IGNORE INDEX (idx_dept_salary)
+WHERE department_id = 1;
+
+-- Multiple index hints
+SELECT * FROM employees 
+USE INDEX FOR JOIN (idx_dept_salary)
+USE INDEX FOR ORDER BY (idx_hire_date)
+WHERE department_id = 1
+ORDER BY hire_date;
+```
+
+### Index Optimization
+
+**Index Selection Strategy**
+
+```sql
+-- Analyze query performance
+EXPLAIN SELECT * FROM employees WHERE department_id = 1 AND salary > 50000;
+
+-- Check index usage
+EXPLAIN FORMAT=JSON SELECT * FROM employees WHERE last_name = 'Smith';
+
+-- Index cardinality (uniqueness)
+SELECT 
+    INDEX_NAME,
+    CARDINALITY,
+    CARDINALITY / (SELECT COUNT(*) FROM employees) * 100 AS selectivity_percent
+FROM INFORMATION_SCHEMA.STATISTICS 
+WHERE TABLE_NAME = 'employees' AND TABLE_SCHEMA = DATABASE();
+
+-- Find unused indexes
+SELECT 
+    s.TABLE_SCHEMA,
+    s.TABLE_NAME,
+    s.INDEX_NAME
+FROM INFORMATION_SCHEMA.STATISTICS s
+LEFT JOIN INFORMATION_SCHEMA.INDEX_STATISTICS i 
+    ON s.TABLE_SCHEMA = i.TABLE_SCHEMA 
+    AND s.TABLE_NAME = i.TABLE_NAME 
+    AND s.INDEX_NAME = i.INDEX_NAME
+WHERE s.TABLE_SCHEMA = DATABASE() 
+    AND i.INDEX_NAME IS NULL 
+    AND s.INDEX_NAME != 'PRIMARY';
+```
+
+**Covering Indexes**
+
+```sql
+-- Covering index includes all columns needed for query
+CREATE INDEX idx_covering ON employees (department_id, salary, first_name, last_name);
+
+-- This query can be satisfied entirely from the index
+SELECT first_name, last_name, salary 
+FROM employees 
+WHERE department_id = 1 AND salary > 50000;
+
+-- Invisible indexes (MySQL 8.0+) - for testing
+CREATE INDEX idx_test ON employees (email) INVISIBLE;
+ALTER TABLE employees ALTER INDEX idx_test VISIBLE;
+```
+
+**Index Maintenance**
+
+```sql
+-- Analyze table to update index statistics
+ANALYZE TABLE employees;
+
+-- Optimize table to rebuild indexes
+OPTIMIZE TABLE employees;
+
+-- Check table and index integrity
+CHECK TABLE employees;
+
+-- Repair table if needed
+REPAIR TABLE employees;
+
+-- Show index statistics
+SELECT 
+    TABLE_NAME,
+    INDEX_NAME,
+    STAT_NAME,
+    STAT_VALUE
+FROM mysql.innodb_index_stats 
+WHERE database_name = DATABASE() AND table_name = 'employees';
+```
+
+## **CONSTRAINTS**
+
+### Constraint Types
+
+**PRIMARY KEY Constraint**
+
+```sql
+-- Primary key during table creation
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100)
+);
+
+-- Composite primary key
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    PRIMARY KEY (order_id, product_id)
+);
+
+-- Add primary key to existing table
+ALTER TABLE customers ADD PRIMARY KEY (customer_id);
+
+-- Named primary key constraint
+CREATE TABLE products (
+    product_id INT,
+    name VARCHAR(100),
+    CONSTRAINT pk_products PRIMARY KEY (product_id)
+);
+```
+
+**FOREIGN KEY Constraint**
+
+```sql
+-- Foreign key during table creation
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Named foreign key with referential actions
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    CONSTRAINT fk_orders_customer 
+        FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Add foreign key to existing table
+ALTER TABLE orders 
+ADD CONSTRAINT fk_orders_customer 
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+
+-- Composite foreign key
+CREATE TABLE order_details (
+    detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id, product_id) REFERENCES order_items(order_id, product_id)
+);
+```
+
+**UNIQUE Constraint**
+
+```sql
+-- Unique constraint during table creation
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20)
+);
+
+-- Named unique constraint
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
+    email VARCHAR(100),
+    CONSTRAINT uk_username UNIQUE (username),
+    CONSTRAINT uk_email UNIQUE (email)
+);
+
+-- Composite unique constraint
+CREATE TABLE employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    department_id INT,
+    employee_code VARCHAR(20),
+    UNIQUE KEY uk_employee_code (employee_code),
+    UNIQUE KEY uk_name_dept (first_name, last_name, department_id)
+);
+
+-- Add unique constraint to existing table
+ALTER TABLE users ADD CONSTRAINT uk_phone UNIQUE (phone);
+```
+
+**NOT NULL Constraint**
+
+```sql
+-- NOT NULL during table creation
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add NOT NULL to existing column
+ALTER TABLE products MODIFY COLUMN description TEXT NOT NULL;
+
+-- Remove NOT NULL constraint
+ALTER TABLE products MODIFY COLUMN description TEXT NULL;
+```
+
+**CHECK Constraint**
+
+```sql
+-- CHECK constraint (MySQL 8.0.16+)
+CREATE TABLE employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    age INT CHECK (age >= 18 AND age <= 65),
+    salary DECIMAL(10,2) CHECK (salary > 0),
+    email VARCHAR(100) CHECK (email LIKE '%@%.%'),
+    status ENUM('active', 'inactive') DEFAULT 'active'
+);
+
+-- Named CHECK constraints
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2),
+    discount_percent DECIMAL(5,2),
+    CONSTRAINT chk_price CHECK (price > 0),
+    CONSTRAINT chk_discount CHECK (discount_percent >= 0 AND discount_percent <= 100)
+);
+
+-- Add CHECK constraint to existing table
+ALTER TABLE employees 
+ADD CONSTRAINT chk_salary_range CHECK (salary BETWEEN 1000 AND 1000000);
+
+-- Complex CHECK constraint
+ALTER TABLE orders 
+ADD CONSTRAINT chk_order_date CHECK (order_date >= '2020-01-01' AND order_date <= CURDATE());
+```
+
+**DEFAULT Constraint**
+
+```sql
+-- DEFAULT values during table creation
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    login_count INT DEFAULT 0,
+    is_verified BOOLEAN DEFAULT FALSE
+);
+
+-- Add DEFAULT to existing column
+ALTER TABLE users ALTER COLUMN status SET DEFAULT 'pending';
+
+-- Remove DEFAULT constraint
+ALTER TABLE users ALTER COLUMN status DROP DEFAULT;
+
+-- DEFAULT with expressions (MySQL 8.0+)
+CREATE TABLE logs (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    message TEXT,
+    log_date DATE DEFAULT (CURDATE()),
+    log_time TIME DEFAULT (CURTIME()),
+    random_id VARCHAR(36) DEFAULT (UUID())
+);
+```
+
+### Referential Integrity
+
+**CASCADE Options**
+
+```sql
+-- ON DELETE CASCADE - delete child records when parent is deleted
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+        ON DELETE CASCADE
+);
+
+-- ON UPDATE CASCADE - update child records when parent key changes
+CREATE TABLE order_items (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- ON DELETE SET NULL - set foreign key to NULL when parent is deleted
+CREATE TABLE employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    manager_id INT,
+    FOREIGN KEY (manager_id) REFERENCES employees(employee_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+-- ON DELETE RESTRICT - prevent deletion of parent if children exist
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT
+);
+```
+
+**Referential Actions Examples**
+
+```sql
+-- Test CASCADE behavior
+INSERT INTO customers VALUES (1, 'John Doe', 'john@email.com');
+INSERT INTO orders VALUES (1, 1, '2024-01-01');
+INSERT INTO order_items VALUES (1, 1, 101, 2);
+
+-- This will delete the order and order_items due to CASCADE
+DELETE FROM customers WHERE customer_id = 1;
+
+-- Test SET NULL behavior
+INSERT INTO employees VALUES (1, 'Manager', NULL);
+INSERT INTO employees VALUES (2, 'Employee', 1);
+
+-- This will set manager_id to NULL for employee 2
+DELETE FROM employees WHERE employee_id = 1;
+
+-- Test RESTRICT behavior
+INSERT INTO departments VALUES (1, 'IT');
+INSERT INTO employees VALUES (3, 'Developer', 1);
+
+-- This will fail due to RESTRICT
+-- DELETE FROM departments WHERE dept_id = 1;  -- Error: Cannot delete
+```
+
+### Constraint Management
+
+**Adding and Dropping Constraints**
+
+```sql
+-- Add constraints to existing table
+ALTER TABLE employees 
+ADD CONSTRAINT pk_employees PRIMARY KEY (employee_id);
+
+ALTER TABLE employees 
+ADD CONSTRAINT fk_emp_dept 
+FOREIGN KEY (department_id) REFERENCES departments(dept_id);
+
+ALTER TABLE employees 
+ADD CONSTRAINT uk_emp_email UNIQUE (email);
+
+ALTER TABLE employees 
+ADD CONSTRAINT chk_emp_age CHECK (age >= 18);
+
+-- Drop constraints
+ALTER TABLE employees DROP PRIMARY KEY;
+ALTER TABLE employees DROP FOREIGN KEY fk_emp_dept;
+ALTER TABLE employees DROP INDEX uk_emp_email;  -- For unique constraints
+ALTER TABLE employees DROP CHECK chk_emp_age;
+
+-- Rename constraint (MySQL 8.0+)
+ALTER TABLE employees RENAME CONSTRAINT old_constraint_name TO new_constraint_name;
+```
+
+**Constraint Information**
+
+```sql
+-- View all constraints
+SELECT 
+    CONSTRAINT_NAME,
+    CONSTRAINT_TYPE,
+    TABLE_NAME,
+    COLUMN_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE TABLE_SCHEMA = DATABASE();
+
+-- View foreign key constraints
+SELECT 
+    CONSTRAINT_NAME,
+    TABLE_NAME,
+    COLUMN_NAME,
+    REFERENCED_TABLE_NAME,
+    REFERENCED_COLUMN_NAME,
+    DELETE_RULE,
+    UPDATE_RULE
+FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS r
+JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k 
+    ON r.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+WHERE r.CONSTRAINT_SCHEMA = DATABASE();
+
+-- View check constraints (MySQL 8.0+)
+SELECT 
+    CONSTRAINT_NAME,
+    TABLE_NAME,
+    CHECK_CLAUSE
+FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS
+WHERE CONSTRAINT_SCHEMA = DATABASE();
+```
+
+**Constraint Validation**
+
+```sql
+-- Disable foreign key checks temporarily
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Perform operations that might violate constraints
+INSERT INTO orders (customer_id) VALUES (999);  -- Non-existent customer
+
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Check for constraint violations
+-- This query finds orders with invalid customer references
+SELECT o.* 
+FROM orders o
+LEFT JOIN customers c ON o.customer_id = c.customer_id
+WHERE c.customer_id IS NULL;
+
+-- Validate all constraints by trying to recreate them
+-- ALTER TABLE orders DROP FOREIGN KEY fk_orders_customer;
+-- ALTER TABLE orders ADD CONSTRAINT fk_orders_customer 
+--     FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+```

@@ -1,0 +1,3307 @@
+## **FUNDAMENTALS & BASICS**
+
+### Core Syntax
+
+**Variables (var, let, const)**
+
+```javascript
+// var - function scoped, can be redeclared, hoisted
+var name = "John";
+var name = "Jane"; // OK
+
+// let - block scoped, cannot be redeclared, hoisted but not initialized
+let age = 25;
+// let age = 30; // Error
+
+// const - block scoped, cannot be redeclared or reassigned, hoisted but not initialized
+const PI = 3.14159;
+// PI = 3.14; // Error
+```
+
+**Data Types (primitive vs reference)**
+
+```javascript
+// Primitive Types (stored by value)
+let str = "Hello";          // String
+let num = 42;               // Number
+let bool = true;            // Boolean
+let nothing = null;         // Null
+let notDefined;             // Undefined
+let sym = Symbol('id');     // Symbol
+let bigNum = 123n;          // BigInt
+
+// Reference Types (stored by reference)
+let obj = { name: "John" };
+let arr = [1, 2, 3];
+let func = function() {};
+```
+
+**Type Conversion & Coercion**
+
+```javascript
+// Explicit Conversion
+String(123);        // "123"
+Number("123");      // 123
+Boolean(1);         // true
+parseInt("123px");  // 123
+parseFloat("12.34"); // 12.34
+
+// Implicit Coercion
+"5" + 3;           // "53" (string concatenation)
+"5" - 3;           // 2 (numeric subtraction)
+"5" * "2";         // 10 (numeric multiplication)
+!!"hello";         // true (boolean conversion)
+```
+
+**Operators**
+
+```javascript
+// Arithmetic
++, -, *, /, %, ** (exponentiation), ++, --
+
+// Comparison
+==, ===, !=, !==, <, >, <=, >=
+
+// Logical
+&&, ||, ! (NOT)
+
+// Assignment
+=, +=, -=, *=, /=, %=, **=
+
+// Bitwise
+&, |, ^, ~, <<, >>, >>>
+
+// Ternary
+condition ? value1 : value2;
+```
+
+**Comments**
+
+```javascript
+// Single-line comment
+
+/* 
+   Multi-line comment
+   Can span multiple lines
+*/
+
+/**
+ * JSDoc comment
+ * @param {string} name - The name parameter
+ * @returns {string} The greeting message
+ */
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+```
+
+### Control Flow
+
+**Conditional Statements**
+
+```javascript
+// if...else
+if (condition) {
+    // code
+} else if (anotherCondition) {
+    // code
+} else {
+    // code
+}
+
+// Switch
+switch (value) {
+    case 'a':
+        // code
+        break;
+    case 'b':
+        // code
+        break;
+    default:
+        // code
+}
+
+// Ternary Operator
+const result = condition ? value1 : value2;
+```
+
+**Loops**
+
+```javascript
+// for loop
+for (let i = 0; i < 5; i++) {
+    console.log(i);
+}
+
+// while loop
+while (condition) {
+    // code
+}
+
+// do-while loop
+do {
+    // code
+} while (condition);
+
+// for...in (iterates over object properties)
+for (let key in object) {
+    console.log(key, object[key]);
+}
+
+// for...of (iterates over iterable values)
+for (let value of array) {
+    console.log(value);
+}
+```
+
+**Break and Continue**
+
+```javascript
+for (let i = 0; i < 10; i++) {
+    if (i === 3) continue; // Skip iteration
+    if (i === 7) break;    // Exit loop
+    console.log(i);
+}
+
+// Labels
+outer: for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+        if (i === 1 && j === 1) break outer;
+        console.log(i, j);
+    }
+}
+```
+
+### Functions
+
+**Function Declarations vs Expressions**
+
+```javascript
+// Function Declaration (hoisted)
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+// Function Expression (not hoisted)
+const greet = function(name) {
+    return `Hello, ${name}!`;
+};
+
+// Named Function Expression
+const greet = function greeting(name) {
+    return `Hello, ${name}!`;
+};
+```
+
+**Arrow Functions**
+
+```javascript
+// Basic arrow function
+const add = (a, b) => a + b;
+
+// Single parameter (parentheses optional)
+const square = x => x * x;
+
+// No parameters
+const sayHello = () => "Hello!";
+
+// Multiple statements
+const processData = (data) => {
+    const processed = data.map(x => x * 2);
+    return processed.filter(x => x > 10);
+};
+```
+
+**Parameters and Arguments**
+
+```javascript
+// Default Parameters
+function greet(name = "World") {
+    return `Hello, ${name}!`;
+}
+
+// Rest Parameters
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
+}
+
+// Arguments object (not available in arrow functions)
+function oldWay() {
+    console.log(arguments); // Array-like object
+}
+```
+
+**IIFE (Immediately Invoked Function Expressions)**
+
+```javascript
+(function() {
+    console.log("IIFE executed!");
+})();
+
+// Arrow function IIFE
+(() => {
+    console.log("Arrow IIFE executed!");
+})();
+
+// With parameters
+((name) => {
+    console.log(`Hello, ${name}!`);
+})("John");
+```
+
+## **DATA STRUCTURES**
+
+### Arrays
+
+**Array Creation and Initialization**
+
+```javascript
+// Literal notation
+const arr1 = [1, 2, 3];
+const arr2 = [];
+
+// Constructor
+const arr3 = new Array(5); // Creates array with 5 empty slots
+const arr4 = new Array(1, 2, 3); // Creates [1, 2, 3]
+
+// Array.from()
+const arr5 = Array.from("hello"); // ['h', 'e', 'l', 'l', 'o']
+const arr6 = Array.from({length: 3}, (_, i) => i); // [0, 1, 2]
+
+// Array.of()
+const arr7 = Array.of(1, 2, 3); // [1, 2, 3]
+```
+
+**Array Methods**
+
+```javascript
+const arr = [1, 2, 3];
+
+// Mutating methods
+arr.push(4);        // Add to end: [1, 2, 3, 4]
+arr.pop();          // Remove from end: [1, 2, 3]
+arr.unshift(0);     // Add to beginning: [0, 1, 2, 3]
+arr.shift();        // Remove from beginning: [1, 2, 3]
+arr.splice(1, 1, 'new'); // Remove/add at index: [1, 'new', 3]
+
+// Non-mutating methods
+arr.slice(1, 3);    // Extract portion: [2, 3]
+arr.concat([4, 5]); // Combine arrays: [1, 2, 3, 4, 5]
+arr.join('-');      // Join to string: "1-2-3"
+```
+
+**Array Iteration**
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// forEach - execute function for each element
+numbers.forEach((num, index) => console.log(num, index));
+
+// map - transform each element
+const doubled = numbers.map(num => num * 2); // [2, 4, 6, 8, 10]
+
+// filter - select elements that pass test
+const evens = numbers.filter(num => num % 2 === 0); // [2, 4]
+
+// reduce - reduce to single value
+const sum = numbers.reduce((acc, num) => acc + num, 0); // 15
+
+// find - find first element that passes test
+const found = numbers.find(num => num > 3); // 4
+
+// some - test if any element passes test
+const hasEven = numbers.some(num => num % 2 === 0); // true
+
+// every - test if all elements pass test
+const allPositive = numbers.every(num => num > 0); // true
+```
+
+**Array Destructuring**
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+// Basic destructuring
+const [first, second] = arr; // first = 1, second = 2
+
+// Skip elements
+const [a, , c] = arr; // a = 1, c = 3
+
+// Rest pattern
+const [head, ...tail] = arr; // head = 1, tail = [2, 3, 4, 5]
+
+// Default values
+const [x, y, z = 0] = [1, 2]; // x = 1, y = 2, z = 0
+```
+
+### Objects
+
+**Object Creation**
+
+```javascript
+// Object literal
+const obj1 = {
+    name: "John",
+    age: 30,
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+};
+
+// Constructor function
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+}
+const obj2 = new Person("Jane", 25);
+
+// Object.create()
+const obj3 = Object.create(obj1);
+obj3.name = "Bob";
+
+// Class
+class PersonClass {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+const obj4 = new PersonClass("Alice", 28);
+```
+
+**Property Access**
+
+```javascript
+const obj = { name: "John", age: 30 };
+
+// Dot notation
+console.log(obj.name); // "John"
+obj.name = "Jane";
+
+// Bracket notation
+console.log(obj["age"]); // 30
+obj["age"] = 31;
+
+// Dynamic property access
+const prop = "name";
+console.log(obj[prop]); // "Jane"
+```
+
+**Object Methods**
+
+```javascript
+const obj = { a: 1, b: 2, c: 3 };
+
+// Object.keys() - get property names
+Object.keys(obj); // ["a", "b", "c"]
+
+// Object.values() - get property values
+Object.values(obj); // [1, 2, 3]
+
+// Object.entries() - get key-value pairs
+Object.entries(obj); // [["a", 1], ["b", 2], ["c", 3]]
+
+// Object.assign() - copy properties
+const copy = Object.assign({}, obj);
+
+// Object.freeze() - make immutable
+Object.freeze(obj);
+
+// Object.seal() - prevent adding/removing properties
+Object.seal(obj);
+```
+
+**Object Destructuring**
+
+```javascript
+const person = { name: "John", age: 30, city: "New York" };
+
+// Basic destructuring
+const { name, age } = person;
+
+// Rename variables
+const { name: fullName, age: years } = person;
+
+// Default values
+const { name, age, country = "USA" } = person;
+
+// Rest pattern
+const { name, ...rest } = person; // rest = { age: 30, city: "New York" }
+
+// Nested destructuring
+const user = { 
+    id: 1, 
+    profile: { name: "John", email: "john@email.com" } 
+};
+const { profile: { name, email } } = user;
+```
+
+### Strings
+
+**String Creation and Literals**
+
+```javascript
+// String literals
+const str1 = "Hello";
+const str2 = 'World';
+const str3 = `Template literal`;
+
+// String constructor
+const str4 = new String("Hello"); // String object (not recommended)
+
+// Template literals with expressions
+const name = "John";
+const age = 30;
+const message = `Hello, my name is ${name} and I'm ${age} years old.`;
+
+// Multi-line strings
+const multiline = `
+    This is a
+    multi-line
+    string
+`;
+```
+
+**String Methods**
+
+```javascript
+const str = "Hello World";
+
+// Length
+str.length; // 11
+
+// Character access
+str.charAt(0);    // "H"
+str[0];           // "H"
+str.charCodeAt(0); // 72
+
+// Substring methods
+str.substring(0, 5);  // "Hello"
+str.slice(0, 5);      // "Hello"
+str.slice(-5);        // "World"
+
+// Search methods
+str.indexOf("o");     // 4
+str.lastIndexOf("o"); // 7
+str.includes("World"); // true
+str.startsWith("Hello"); // true
+str.endsWith("World");   // true
+
+// Modification methods (return new string)
+str.toLowerCase();    // "hello world"
+str.toUpperCase();    // "HELLO WORLD"
+str.trim();          // Remove whitespace
+str.replace("World", "JavaScript"); // "Hello JavaScript"
+str.split(" ");      // ["Hello", "World"]
+```
+
+### Other Data Types
+
+**Numbers and Math Object**
+
+```javascript
+// Number methods
+const num = 123.456;
+num.toString();      // "123.456"
+num.toFixed(2);      // "123.46"
+num.toPrecision(4);  // "123.5"
+
+// Number static methods
+Number.isInteger(123);    // true
+Number.isNaN(NaN);        // true
+Number.parseFloat("12.34"); // 12.34
+Number.parseInt("123px");   // 123
+
+// Math object
+Math.PI;              // 3.141592653589793
+Math.abs(-5);         // 5
+Math.round(4.7);      // 5
+Math.floor(4.7);      // 4
+Math.ceil(4.3);       // 5
+Math.max(1, 2, 3);    // 3
+Math.min(1, 2, 3);    // 1
+Math.random();        // Random number 0-1
+Math.pow(2, 3);       // 8
+Math.sqrt(16);        // 4
+```
+
+**Maps and Sets**
+
+```javascript
+// Map
+const map = new Map();
+map.set('key1', 'value1');
+map.set('key2', 'value2');
+map.get('key1');      // 'value1'
+map.has('key1');      // true
+map.delete('key1');   // true
+map.size;             // 1
+map.clear();          // Remove all
+
+// Set
+const set = new Set();
+set.add(1);
+set.add(2);
+set.add(2);           // Duplicate ignored
+set.has(1);           // true
+set.delete(1);        // true
+set.size;             // 1
+set.clear();          // Remove all
+
+// Initialize with values
+const map2 = new Map([['a', 1], ['b', 2]]);
+const set2 = new Set([1, 2, 3, 3]); // [1, 2, 3]
+```
+
+## **ADVANCED CONCEPTS**
+
+### Scope and Closures
+
+**Scope Types**
+
+```javascript
+// Global scope
+var globalVar = "I'm global";
+
+function outerFunction() {
+    // Function scope
+    var functionScoped = "I'm function scoped";
+    
+    if (true) {
+        // Block scope (let/const only)
+        let blockScoped = "I'm block scoped";
+        const alsoBlockScoped = "Me too";
+        var notBlockScoped = "I'm function scoped";
+    }
+    
+    // console.log(blockScoped); // Error
+    console.log(notBlockScoped); // Works
+}
+```
+
+**Closures**
+
+```javascript
+// Basic closure
+function outerFunction(x) {
+    return function innerFunction(y) {
+        return x + y; // Inner function has access to outer's variables
+    };
+}
+const addFive = outerFunction(5);
+console.log(addFive(3)); // 8
+
+// Practical closure example - Counter
+function createCounter() {
+    let count = 0;
+    return {
+        increment: () => ++count,
+        decrement: () => --count,
+        getCount: () => count
+    };
+}
+const counter = createCounter();
+counter.increment(); // 1
+counter.increment(); // 2
+```
+
+**Hoisting**
+
+```javascript
+// Variable hoisting
+console.log(hoistedVar); // undefined (not error)
+var hoistedVar = "I'm hoisted";
+
+// Function hoisting
+hoistedFunction(); // Works!
+function hoistedFunction() {
+    console.log("I'm hoisted");
+}
+
+// let/const hoisting (Temporal Dead Zone)
+// console.log(notHoisted); // ReferenceError
+let notHoisted = "I'm not accessible before declaration";
+```
+
+### This Keyword and Context
+
+**This in Different Contexts**
+
+```javascript
+// Global context
+console.log(this); // Window object (browser) or global (Node.js)
+
+// Function context
+function regularFunction() {
+    console.log(this); // Window object (non-strict) or undefined (strict)
+}
+
+// Method context
+const obj = {
+    name: "John",
+    greet: function() {
+        console.log(this.name); // "John"
+    },
+    arrowGreet: () => {
+        console.log(this.name); // undefined (arrow functions don't have their own 'this')
+    }
+};
+
+// Constructor context
+function Person(name) {
+    this.name = name; // 'this' refers to new instance
+}
+const person = new Person("Jane");
+```
+
+**Explicit Binding**
+
+```javascript
+const person1 = { name: "John" };
+const person2 = { name: "Jane" };
+
+function greet(greeting, punctuation) {
+    console.log(`${greeting}, ${this.name}${punctuation}`);
+}
+
+// call() - invoke immediately with arguments
+greet.call(person1, "Hello", "!"); // "Hello, John!"
+
+// apply() - invoke immediately with arguments array
+greet.apply(person2, ["Hi", "."]);  // "Hi, Jane."
+
+// bind() - create new function with bound context
+const boundGreet = greet.bind(person1);
+boundGreet("Hey", "?"); // "Hey, John?"
+```
+
+### Prototypes and Inheritance
+
+**Prototype Chain**
+
+```javascript
+// Constructor function
+function Person(name) {
+    this.name = name;
+}
+
+// Add method to prototype
+Person.prototype.greet = function() {
+    return `Hello, I'm ${this.name}`;
+};
+
+const john = new Person("John");
+console.log(john.greet()); // "Hello, I'm John"
+
+// Prototype chain
+console.log(john.__proto__ === Person.prototype); // true
+console.log(Person.prototype.__proto__ === Object.prototype); // true
+console.log(Object.prototype.__proto__ === null); // true
+```
+
+**Prototypal Inheritance**
+
+```javascript
+// Parent constructor
+function Animal(name) {
+    this.name = name;
+}
+Animal.prototype.speak = function() {
+    return `${this.name} makes a sound`;
+};
+
+// Child constructor
+function Dog(name, breed) {
+    Animal.call(this, name); // Call parent constructor
+    this.breed = breed;
+}
+
+// Set up inheritance
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+// Add child-specific method
+Dog.prototype.bark = function() {
+    return `${this.name} barks`;
+};
+
+const dog = new Dog("Buddy", "Golden Retriever");
+console.log(dog.speak()); // "Buddy makes a sound"
+console.log(dog.bark());  // "Buddy barks"
+```
+
+### Classes (ES6+)
+
+**Class Declarations**
+
+```javascript
+class Person {
+    // Constructor
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Instance method
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+    
+    // Static method
+    static species() {
+        return "Homo sapiens";
+    }
+    
+    // Getter
+    get info() {
+        return `${this.name} is ${this.age} years old`;
+    }
+    
+    // Setter
+    set age(value) {
+        if (value < 0) throw new Error("Age cannot be negative");
+        this._age = value;
+    }
+}
+
+const person = new Person("John", 30);
+console.log(Person.species()); // "Homo sapiens"
+```
+
+**Class Inheritance**
+
+```javascript
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name); // Call parent constructor
+        this.breed = breed;
+    }
+    
+    speak() {
+        return `${this.name} barks`;
+    }
+    
+    getBreed() {
+        return this.breed;
+    }
+}
+
+const dog = new Dog("Buddy", "Labrador");
+console.log(dog.speak()); // "Buddy barks"
+```
+
+**Private Fields and Methods**
+
+```javascript
+class BankAccount {
+    #balance = 0; // Private field
+    
+    constructor(initialBalance) {
+        this.#balance = initialBalance;
+    }
+    
+    // Private method
+    #validateAmount(amount) {
+        return amount > 0;
+    }
+    
+    deposit(amount) {
+        if (this.#validateAmount(amount)) {
+            this.#balance += amount;
+        }
+    }
+    
+    getBalance() {
+        return this.#balance;
+    }
+}
+
+const account = new BankAccount(100);
+// console.log(account.#balance); // SyntaxError
+```
+
+## **ASYNCHRONOUS JAVASCRIPT**
+
+### Callbacks
+
+**Basic Callbacks**
+
+```javascript
+// Higher-order function with callback
+function processData(data, callback) {
+    const result = data.map(x => x * 2);
+    callback(result);
+}
+
+processData([1, 2, 3], (result) => {
+    console.log(result); // [2, 4, 6]
+});
+
+// Asynchronous callback
+function fetchData(callback) {
+    setTimeout(() => {
+        callback("Data received");
+    }, 1000);
+}
+
+fetchData((data) => {
+    console.log(data); // "Data received" after 1 second
+});
+```
+
+**Callback Hell**
+
+```javascript
+// Nested callbacks (callback hell)
+getData((a) => {
+    getMoreData(a, (b) => {
+        getEvenMoreData(b, (c) => {
+            getFinalData(c, (d) => {
+                // Finally got all data
+                console.log(d);
+            });
+        });
+    });
+});
+```
+
+### Promises
+
+**Promise Creation and States**
+
+```javascript
+// Creating a promise
+const myPromise = new Promise((resolve, reject) => {
+    const success = Math.random() > 0.5;
+    
+    setTimeout(() => {
+        if (success) {
+            resolve("Operation successful!");
+        } else {
+            reject(new Error("Operation failed!"));
+        }
+    }, 1000);
+});
+
+// Promise states: pending, fulfilled, rejected
+console.log(myPromise); // Promise { <pending> }
+```
+
+**Promise Methods**
+
+```javascript
+// .then() and .catch()
+myPromise
+    .then(result => {
+        console.log(result); // "Operation successful!"
+        return result.toUpperCase();
+    })
+    .then(upperResult => {
+        console.log(upperResult); // "OPERATION SUCCESSFUL!"
+    })
+    .catch(error => {
+        console.error(error.message); // "Operation failed!"
+    })
+    .finally(() => {
+        console.log("Promise completed");
+    });
+
+// Promise static methods
+const promise1 = Promise.resolve(1);
+const promise2 = Promise.resolve(2);
+const promise3 = Promise.resolve(3);
+
+// Promise.all() - wait for all to resolve
+Promise.all([promise1, promise2, promise3])
+    .then(values => console.log(values)); // [1, 2, 3]
+
+// Promise.race() - first to resolve/reject wins
+Promise.race([promise1, promise2, promise3])
+    .then(value => console.log(value)); // 1 (first to resolve)
+
+// Promise.allSettled() - wait for all to settle
+Promise.allSettled([promise1, promise2, Promise.reject("error")])
+    .then(results => console.log(results));
+```
+
+### Async/Await
+
+**Basic Async/Await**
+
+```javascript
+// Async function
+async function fetchUserData() {
+    try {
+        const response = await fetch('/api/user');
+        const userData = await response.json();
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+}
+
+// Using async function
+fetchUserData()
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+```
+
+**Parallel vs Sequential Execution**
+
+```javascript
+// Sequential execution (slower)
+async function sequential() {
+    const result1 = await fetch('/api/data1');
+    const result2 = await fetch('/api/data2');
+    const result3 = await fetch('/api/data3');
+    return [result1, result2, result3];
+}
+
+// Parallel execution (faster)
+async function parallel() {
+    const [result1, result2, result3] = await Promise.all([
+        fetch('/api/data1'),
+        fetch('/api/data2'),
+        fetch('/api/data3')
+    ]);
+    return [result1, result2, result3];
+}
+```
+
+### Event Loop
+
+**Understanding the Event Loop**
+
+```javascript
+console.log('1'); // Synchronous
+
+setTimeout(() => {
+    console.log('2'); // Macrotask
+}, 0);
+
+Promise.resolve().then(() => {
+    console.log('3'); // Microtask
+});
+
+console.log('4'); // Synchronous
+
+// Output: 1, 4, 3, 2
+// Microtasks have higher priority than macrotasks
+```
+
+**Microtasks vs Macrotasks**
+
+```javascript
+// Macrotasks: setTimeout, setInterval, setImmediate, I/O operations
+// Microtasks: Promise.then, queueMicrotask, MutationObserver
+
+setTimeout(() => console.log('Macrotask 1'), 0);
+setTimeout(() => console.log('Macrotask 2'), 0);
+
+Promise.resolve().then(() => console.log('Microtask 1'));
+Promise.resolve().then(() => console.log('Microtask 2'));
+
+queueMicrotask(() => console.log('Microtask 3'));
+
+// Output: Microtask 1, Microtask 2, Microtask 3, Macrotask 1, Macrotask 2
+```
+
+## **ERROR HANDLING**
+
+**Try/Catch/Finally**
+
+```javascript
+try {
+    // Code that might throw an error
+    const result = riskyOperation();
+    console.log(result);
+} catch (error) {
+    // Handle the error
+    console.error('An error occurred:', error.message);
+} finally {
+    // Always executes
+    console.log('Cleanup operations');
+}
+```
+
+**Throwing Custom Errors**
+
+```javascript
+// Throw statement
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error('Division by zero is not allowed');
+    }
+    return a / b;
+}
+
+// Custom error types
+class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ValidationError';
+    }
+}
+
+function validateAge(age) {
+    if (age < 0 || age > 150) {
+        throw new ValidationError('Age must be between 0 and 150');
+    }
+}
+
+try {
+    validateAge(-5);
+} catch (error) {
+    if (error instanceof ValidationError) {
+        console.log('Validation failed:', error.message);
+    } else {
+        console.log('Unexpected error:', error);
+    }
+}
+```
+
+**Async Error Handling**
+
+```javascript
+// Promise error handling
+async function fetchData() {
+    try {
+        const response = await fetch('/api/data');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Fetch failed:', error);
+        throw error; // Re-throw if needed
+    }
+}
+
+// Global error handlers
+window.addEventListener('error', (event) => {
+    console.error('Global error:', event.error);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+    event.preventDefault(); // Prevent default browser behavior
+});
+```
+
+## **MODULES**
+
+### ES6 Modules
+
+**Export Statements**
+
+```javascript
+// Named exports
+export const PI = 3.14159;
+export function add(a, b) {
+    return a + b;
+}
+export class Calculator {
+    // class implementation
+}
+
+// Export list
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+export { subtract, multiply };
+
+// Export with alias
+export { subtract as minus, multiply as times };
+
+// Default export
+export default function divide(a, b) {
+    return a / b;
+}
+
+// Mixed exports
+export { subtract };
+export default Calculator;
+```
+
+**Import Statements**
+
+```javascript
+// Named imports
+import { add, subtract } from './math.js';
+import { subtract as minus } from './math.js';
+
+// Default import
+import divide from './math.js';
+import Calculator from './math.js';
+
+// Mixed imports
+import Calculator, { add, subtract } from './math.js';
+
+// Import all
+import * as MathUtils from './math.js';
+console.log(MathUtils.add(2, 3));
+
+// Dynamic imports
+async function loadModule() {
+    const module = await import('./math.js');
+    return module.add(2, 3);
+}
+
+// Import for side effects only
+import './polyfills.js';
+```
+
+### CommonJS (Node.js)
+
+**Module.exports and Require**
+
+```javascript
+// Exporting (module.exports)
+// math.js
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+module.exports = {
+    add,
+    subtract
+};
+
+// Or individual exports
+exports.multiply = (a, b) => a * b;
+exports.divide = (a, b) => a / b;
+
+// Importing (require)
+const { add, subtract } = require('./math');
+const math = require('./math');
+const add = require('./math').add;
+
+// Module caching
+const module1 = require('./myModule'); // Loads and caches
+const module2 = require('./myModule'); // Returns cached version
+console.log(module1 === module2); // true
+```
+
+## **ADVANCED FEATURES**
+
+### Destructuring
+
+**Advanced Destructuring Patterns**
+
+```javascript
+// Nested object destructuring
+const user = {
+    id: 1,
+    name: 'John',
+    address: {
+        street: '123 Main St',
+        city: 'New York',
+        coordinates: {
+            lat: 40.7128,
+            lng: -74.0060
+        }
+    }
+};
+
+const {
+    name,
+    address: {
+        city,
+        coordinates: { lat, lng }
+    }
+} = user;
+
+// Array destructuring with objects
+const users = [
+    { name: 'John', age: 30 },
+    { name: 'Jane', age: 25 }
+];
+
+const [{ name: firstName }, { age: secondAge }] = users;
+
+// Function parameter destructuring
+function greetUser({ name, age = 0 }) {
+    return `Hello ${name}, you are ${age} years old`;
+}
+
+greetUser({ name: 'John', age: 30 });
+
+// Swapping variables
+let a = 1, b = 2;
+[a, b] = [b, a]; // a = 2, b = 1
+```
+
+### Spread and Rest
+
+**Spread Operator Applications**
+
+```javascript
+// Array spreading
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combined = [...arr1, ...arr2]; // [1, 2, 3, 4, 5, 6]
+
+// Object spreading
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
+const merged = { ...obj1, ...obj2 }; // { a: 1, b: 2, c: 3, d: 4 }
+
+// Function arguments
+function sum(a, b, c) {
+    return a + b + c;
+}
+const numbers = [1, 2, 3];
+console.log(sum(...numbers)); // 6
+
+// Copying arrays/objects
+const originalArray = [1, 2, 3];
+const copiedArray = [...originalArray];
+
+const originalObject = { name: 'John' };
+const copiedObject = { ...originalObject };
+```
+
+**Rest Parameters**
+
+```javascript
+// Function rest parameters
+function multiply(multiplier, ...numbers) {
+    return numbers.map(num => num * multiplier);
+}
+console.log(multiply(2, 1, 2, 3, 4)); // [2, 4, 6, 8]
+
+// Object rest
+const { name, ...otherProps } = { name: 'John', age: 30, city: 'NYC' };
+// name = 'John', otherProps = { age: 30, city: 'NYC' }
+
+// Array rest
+const [first, ...rest] = [1, 2, 3, 4, 5];
+// first = 1, rest = [2, 3, 4, 5]
+```
+
+### Iterators and Generators
+
+**Iterator Protocol**
+
+```javascript
+// Creating an iterator
+const myIterable = {
+    data: [1, 2, 3, 4, 5],
+    [Symbol.iterator]() {
+        let index = 0;
+        const data = this.data;
+        
+        return {
+            next() {
+                if (index < data.length) {
+                    return { value: data[index++], done: false };
+                } else {
+                    return { done: true };
+                }
+            }
+        };
+    }
+};
+
+// Using the iterator
+for (const value of myIterable) {
+    console.log(value); // 1, 2, 3, 4, 5
+}
+```
+
+**Generator Functions**
+
+```javascript
+// Basic generator
+function* numberGenerator() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+const gen = numberGenerator();
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+
+// Generator with parameters
+function* fibonacci() {
+    let a = 0, b = 1;
+    while (true) {
+        yield a;
+        [a, b] = [b, a + b];
+    }
+}
+
+const fib = fibonacci();
+console.log(fib.next().value); // 0
+console.log(fib.next().value); // 1
+console.log(fib.next().value); // 1
+console.log(fib.next().value); // 2
+
+// Async generators
+async function* asyncGenerator() {
+    for (let i = 0; i < 3; i++) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        yield i;
+    }
+}
+
+(async () => {
+    for await (const value of asyncGenerator()) {
+        console.log(value); // 0, 1, 2 (with 1 second delays)
+    }
+})();
+```
+
+### Symbols
+
+**Symbol Usage**
+
+```javascript
+// Creating symbols
+const sym1 = Symbol();
+const sym2 = Symbol('description');
+const sym3 = Symbol('description');
+
+console.log(sym2 === sym3); // false (symbols are always unique)
+
+// Symbol as object property
+const mySymbol = Symbol('myProperty');
+const obj = {
+    [mySymbol]: 'secret value',
+    regularProperty: 'normal value'
+};
+
+console.log(obj[mySymbol]); // 'secret value'
+console.log(Object.keys(obj)); // ['regularProperty'] (symbol not included)
+
+// Well-known symbols
+const myIterable = {
+    [Symbol.iterator]: function* () {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+};
+
+// Global symbol registry
+const globalSym1 = Symbol.for('app.id');
+const globalSym2 = Symbol.for('app.id');
+console.log(globalSym1 === globalSym2); // true
+```
+
+### Proxy and Reflect
+
+**Proxy Object**
+
+```javascript
+// Basic proxy
+const target = {
+    name: 'John',
+    age: 30
+};
+
+const proxy = new Proxy(target, {
+    get(target, property) {
+        console.log(`Getting ${property}`);
+        return target[property];
+    },
+    
+    set(target, property, value) {
+        console.log(`Setting ${property} to ${value}`);
+        target[property] = value;
+        return true;
+    },
+    
+    has(target, property) {
+        console.log(`Checking if ${property} exists`);
+        return property in target;
+    }
+});
+
+console.log(proxy.name); // "Getting name" then "John"
+proxy.age = 31; // "Setting age to 31"
+console.log('name' in proxy); // "Checking if name exists" then true
+
+// Validation proxy
+function createValidatedUser(target) {
+    return new Proxy(target, {
+        set(target, property, value) {
+            if (property === 'age' && (value < 0 || value > 150)) {
+                throw new Error('Age must be between 0 and 150');
+            }
+            target[property] = value;
+            return true;
+        }
+    });
+}
+
+const user = createValidatedUser({});
+user.name = 'John'; // OK
+// user.age = -5; // Error: Age must be between 0 and 150
+```
+
+**Reflect API**
+
+```javascript
+const obj = { name: 'John', age: 30 };
+
+// Reflect methods mirror Proxy handlers
+Reflect.get(obj, 'name'); // 'John'
+Reflect.set(obj, 'age', 31); // true
+Reflect.has(obj, 'name'); // true
+Reflect.deleteProperty(obj, 'age'); // true
+
+// Reflect.apply
+function greet(greeting, punctuation) {
+    return `${greeting}, ${this.name}${punctuation}`;
+}
+
+const person = { name: 'John' };
+const result = Reflect.apply(greet, person, ['Hello', '!']);
+console.log(result); // "Hello, John!"
+```
+
+## **FUNCTIONAL PROGRAMMING**
+
+**Pure Functions and Immutability**
+
+```javascript
+// Pure function (same input = same output, no side effects)
+function add(a, b) {
+    return a + b; // No side effects, predictable output
+}
+
+// Impure function (has side effects)
+let counter = 0;
+function impureIncrement() {
+    counter++; // Side effect: modifies external state
+    return counter;
+}
+
+// Immutability helpers
+const originalArray = [1, 2, 3];
+
+// Instead of: originalArray.push(4) (mutates)
+const newArray = [...originalArray, 4]; // Creates new array
+
+// Instead of: originalArray[0] = 10 (mutates)
+const updatedArray = originalArray.map((item, index) => 
+    index === 0 ? 10 : item
+);
+
+// Object immutability
+const originalObj = { name: 'John', age: 30 };
+const updatedObj = { ...originalObj, age: 31 }; // New object
+```
+
+**Higher-Order Functions**
+
+```javascript
+// Function that takes another function as argument
+function withLogging(fn) {
+    return function(...args) {
+        console.log(`Calling function with args:`, args);
+        const result = fn(...args);
+        console.log(`Function returned:`, result);
+        return result;
+    };
+}
+
+const add = (a, b) => a + b;
+const loggedAdd = withLogging(add);
+loggedAdd(2, 3); // Logs the call and result
+
+// Function that returns another function
+function multiplier(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+```
+
+**Function Composition**
+
+```javascript
+// Basic composition
+const compose = (f, g) => (x) => f(g(x));
+
+const addOne = x => x + 1;
+const double = x => x * 2;
+
+const addOneThenDouble = compose(double, addOne);
+console.log(addOneThenDouble(3)); // 8 (3 + 1 = 4, 4 * 2 = 8)
+
+// Multiple function composition
+const pipe = (...fns) => (value) => fns.reduce((acc, fn) => fn(acc), value);
+
+const processNumber = pipe(
+    x => x + 1,
+    x => x * 2,
+    x => x - 3
+);
+
+console.log(processNumber(5)); // 9 ((5 + 1) * 2 - 3 = 9)
+```
+
+**Currying and Partial Application**
+
+```javascript
+// Currying - transform function to take one argument at a time
+function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn.apply(this, args);
+        } else {
+            return function(...args2) {
+                return curried.apply(this, args.concat(args2));
+            };
+        }
+    };
+}
+
+const add = (a, b, c) => a + b + c;
+const curriedAdd = curry(add);
+
+console.log(curriedAdd(1)(2)(3)); // 6
+console.log(curriedAdd(1, 2)(3)); // 6
+console.log(curriedAdd(1)(2, 3)); // 6
+
+// Partial application
+const partial = (fn, ...args1) => (...args2) => fn(...args1, ...args2);
+
+const multiply = (a, b, c) => a * b * c;
+const multiplyByTwo = partial(multiply, 2);
+console.log(multiplyByTwo(3, 4)); // 24 (2 * 3 * 4)
+```
+
+**Recursion and Memoization**
+
+```javascript
+// Basic recursion
+function factorial(n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+// Memoization
+function memoize(fn) {
+    const cache = new Map();
+    return function(...args) {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+        const result = fn.apply(this, args);
+        cache.set(key, result);
+        return result;
+    };
+}
+
+const memoizedFactorial = memoize(factorial);
+console.log(memoizedFactorial(5)); // Calculated
+console.log(memoizedFactorial(5)); // Retrieved from cache
+
+// Fibonacci with memoization
+const fibonacci = memoize(function(n) {
+    if (n < 2) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+});
+```
+
+## **REGULAR EXPRESSIONS**
+
+**RegExp Creation and Flags**
+
+```javascript
+// Literal notation
+const regex1 = /pattern/flags;
+const regex2 = /hello/gi; // Global, case-insensitive
+
+// Constructor
+const regex3 = new RegExp('pattern', 'flags');
+const regex4 = new RegExp('hello', 'gi');
+
+// Flags
+// g - global (find all matches)
+// i - case insensitive
+// m - multiline (^ and $ match line breaks)
+// s - dotAll (. matches newlines)
+// u - unicode
+// y - sticky (match from lastIndex)
+```
+
+**Character Classes and Quantifiers**
+
+```javascript
+// Character classes
+/[abc]/        // Match a, b, or c
+/[a-z]/        // Match any lowercase letter
+/[A-Z]/        // Match any uppercase letter
+/[0-9]/        // Match any digit
+/[^abc]/       // Match anything except a, b, or c
+
+// Predefined character classes
+/\d/           // Digit [0-9]
+/\D/           // Non-digit [^0-9]
+/\w/           // Word character [a-zA-Z0-9_]
+/\W/           // Non-word character
+/\s/           // Whitespace
+/\S/           // Non-whitespace
+/./            // Any character except newline
+
+// Quantifiers
+/a*/           // 0 or more a's
+/a+/           // 1 or more a's
+/a?/           // 0 or 1 a
+/a{3}/         // Exactly 3 a's
+/a{2,5}/       // 2 to 5 a's
+/a{2,}/        // 2 or more a's
+
+// Anchors
+/^hello/       // Start of string
+/world$/       // End of string
+/\bhello\b/    // Word boundary
+```
+
+**Groups and Capturing**
+
+```javascript
+// Capturing groups
+const regex = /(\d{4})-(\d{2})-(\d{2})/;
+const match = '2023-12-25'.match(regex);
+console.log(match[0]); // '2023-12-25' (full match)
+console.log(match[1]); // '2023' (first group)
+console.log(match[2]); // '12' (second group)
+console.log(match[3]); // '25' (third group)
+
+// Non-capturing groups
+const regex2 = /(?:\d{4})-(\d{2})-(\d{2})/;
+
+// Named capturing groups
+const regex3 = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const match2 = '2023-12-25'.match(regex3);
+console.log(match2.groups.year); // '2023'
+console.log(match2.groups.month); // '12'
+console.log(match2.groups.day); // '25'
+
+// Lookahead and lookbehind
+/hello(?=world)/    // Positive lookahead
+/hello(?!world)/    // Negative lookahead
+/(?<=hello)world/   // Positive lookbehind
+/(?<!hello)world/   // Negative lookbehind
+```
+
+**RegExp Methods**
+
+```javascript
+const text = 'The quick brown fox jumps over the lazy dog';
+const regex = /the/gi;
+
+// test() - returns boolean
+console.log(regex.test(text)); // true
+
+// exec() - returns match details or null
+const match = regex.exec(text);
+console.log(match); // ['The', index: 0, input: '...', groups: undefined]
+
+// String methods with regex
+text.match(regex);        // Find matches
+text.search(regex);       // Find index of first match
+text.replace(regex, 'a'); // Replace matches
+text.split(/\s+/);        // Split by whitespace
+
+// Global matching
+const globalMatches = text.matchAll(/\w+/g);
+for (const match of globalMatches) {
+    console.log(match[0]); // Each word
+}
+```
+
+## **DOM MANIPULATION**
+
+### Selection and Traversal
+
+**Element Selection**
+
+```javascript
+// By ID
+const element = document.getElementById('myId');
+
+// By class name
+const elements = document.getElementsByClassName('myClass');
+const elementsArray = Array.from(elements); // Convert to array
+
+// By tag name
+const divs = document.getElementsByTagName('div');
+
+// Query selectors (CSS selectors)
+const element2 = document.querySelector('.myClass'); // First match
+const elements2 = document.querySelectorAll('.myClass'); // All matches
+
+// Complex selectors
+const complexElement = document.querySelector('div.container > p:first-child');
+const multipleElements = document.querySelectorAll('input[type="text"], input[type="email"]');
+```
+
+**DOM Traversal**
+
+```javascript
+const element = document.querySelector('#myElement');
+
+// Parent navigation
+element.parentNode;        // Direct parent
+element.parentElement;     // Parent element (excludes text nodes)
+element.closest('.container'); // Nearest ancestor matching selector
+
+// Child navigation
+element.children;          // Direct child elements
+element.childNodes;        // All child nodes (including text)
+element.firstElementChild; // First child element
+element.lastElementChild;  // Last child element
+
+// Sibling navigation
+element.nextElementSibling;     // Next sibling element
+element.previousElementSibling; // Previous sibling element
+element.nextSibling;           // Next sibling node
+element.previousSibling;       // Previous sibling node
+```
+
+### Manipulation
+
+**Content Manipulation**
+
+```javascript
+const element = document.querySelector('#myElement');
+
+// Text content
+element.textContent = 'New text content';
+element.innerText = 'New inner text'; // Respects styling (hidden elements)
+
+// HTML content
+element.innerHTML = '<strong>Bold text</strong>';
+
+// Attribute manipulation
+element.setAttribute('data-id', '123');
+element.getAttribute('data-id'); // '123'
+element.removeAttribute('data-id');
+element.hasAttribute('data-id'); // false
+
+// Properties
+element.id = 'newId';
+element.className = 'new-class';
+element.value = 'new value'; // For form elements
+
+// Dataset (data-* attributes)
+element.dataset.userId = '456'; // Sets data-user-id="456"
+console.log(element.dataset.userId); // '456'
+```
+
+**Element Creation and Modification**
+
+```javascript
+// Create elements
+const newDiv = document.createElement('div');
+const newText = document.createTextNode('Hello World');
+
+// Configure element
+newDiv.textContent = 'New div content';
+newDiv.className = 'my-class';
+newDiv.id = 'my-id';
+
+// Insert elements
+const container = document.querySelector('#container');
+container.appendChild(newDiv);           // Add as last child
+container.insertBefore(newDiv, container.firstChild); // Insert before first child
+container.insertAdjacentElement('beforebegin', newDiv); // Before container
+container.insertAdjacentHTML('afterend', '<p>New paragraph</p>');
+
+// Remove elements
+element.remove();                    // Remove element
+container.removeChild(element);      // Remove child element
+
+// Clone elements
+const clone = element.cloneNode(true); // true = deep clone (includes children)
+```
+
+**Style Manipulation**
+
+```javascript
+const element = document.querySelector('#myElement');
+
+// Inline styles
+element.style.color = 'red';
+element.style.backgroundColor = 'blue';
+element.style.fontSize = '16px';
+
+// CSS properties with dashes
+element.style.setProperty('background-color', 'green');
+element.style.getPropertyValue('background-color');
+element.style.removeProperty('background-color');
+
+// Class manipulation
+element.classList.add('new-class');
+element.classList.remove('old-class');
+element.classList.toggle('active'); // Add if not present, remove if present
+element.classList.contains('my-class'); // true/false
+element.classList.replace('old-class', 'new-class');
+
+// Multiple classes
+element.classList.add('class1', 'class2', 'class3');
+```
+
+### Events
+
+**Event Listeners**
+
+```javascript
+const button = document.querySelector('#myButton');
+
+// Add event listener
+button.addEventListener('click', function(event) {
+    console.log('Button clicked!');
+    console.log('Event type:', event.type);
+    console.log('Target element:', event.target);
+});
+
+// Arrow function event listener
+button.addEventListener('click', (event) => {
+    console.log('Arrow function handler');
+});
+
+// Named function (can be removed later)
+function handleClick(event) {
+    console.log('Named function handler');
+}
+button.addEventListener('click', handleClick);
+
+// Remove event listener
+button.removeEventListener('click', handleClick);
+
+// Event listener options
+button.addEventListener('click', handleClick, {
+    once: true,      // Execute only once
+    passive: true,   // Never calls preventDefault()
+    capture: true    // Execute during capture phase
+});
+```
+
+**Event Object and Methods**
+
+```javascript
+function handleEvent(event) {
+    // Event properties
+    console.log('Type:', event.type);           // Event type
+    console.log('Target:', event.target);       // Element that triggered event
+    console.log('Current target:', event.currentTarget); // Element with listener
+    console.log('Timestamp:', event.timeStamp); // When event occurred
+    
+    // Mouse events
+    if (event.type === 'click') {
+        console.log('Mouse position:', event.clientX, event.clientY);
+        console.log('Button pressed:', event.button); // 0=left, 1=middle, 2=right
+    }
+    
+    // Keyboard events
+    if (event.type === 'keydown') {
+        console.log('Key pressed:', event.key);
+        console.log('Key code:', event.keyCode);
+        console.log('Ctrl pressed:', event.ctrlKey);
+        console.log('Shift pressed:', event.shiftKey);
+    }
+    
+    // Prevent default behavior
+    event.preventDefault(); // e.g., prevent form submission
+    
+    // Stop event propagation
+    event.stopPropagation(); // Stop bubbling to parent elements
+    event.stopImmediatePropagation(); // Stop other listeners on same element
+}
+```
+
+**Event Propagation and Delegation**
+
+```javascript
+// Event bubbling example
+document.querySelector('#parent').addEventListener('click', () => {
+    console.log('Parent clicked');
+});
+
+document.querySelector('#child').addEventListener('click', () => {
+    console.log('Child clicked');
+}); // Clicking child will log both "Child clicked" and "Parent clicked"
+
+// Event capturing
+document.querySelector('#parent').addEventListener('click', () => {
+    console.log('Parent clicked (capture)');
+}, true); // Third parameter = capture phase
+
+// Event delegation (handle events for dynamically added elements)
+document.querySelector('#container').addEventListener('click', (event) => {
+    if (event.target.matches('.dynamic-button')) {
+        console.log('Dynamic button clicked');
+    }
+});
+
+// Custom events
+const customEvent = new CustomEvent('myCustomEvent', {
+    detail: { message: 'Hello from custom event!' },
+    bubbles: true,
+    cancelable: true
+});
+
+element.dispatchEvent(customEvent);
+
+element.addEventListener('myCustomEvent', (event) => {
+    console.log(event.detail.message); // 'Hello from custom event!'
+});
+```
+
+## **BROWSER APIs**
+
+### Storage
+
+**localStorage and sessionStorage**
+
+```javascript
+// localStorage (persists until manually cleared)
+localStorage.setItem('username', 'john_doe');
+localStorage.setItem('preferences', JSON.stringify({ theme: 'dark' }));
+
+const username = localStorage.getItem('username'); // 'john_doe'
+const preferences = JSON.parse(localStorage.getItem('preferences'));
+
+localStorage.removeItem('username');
+localStorage.clear(); // Remove all items
+
+// sessionStorage (persists for session only)
+sessionStorage.setItem('tempData', 'temporary');
+const tempData = sessionStorage.getItem('tempData');
+
+// Storage event (fires when storage changes in other tabs)
+window.addEventListener('storage', (event) => {
+    console.log('Storage changed:', event.key, event.newValue);
+});
+```
+
+**Cookies**
+
+```javascript
+// Set cookie
+document.cookie = 'username=john_doe; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/';
+
+// Get all cookies
+console.log(document.cookie); // 'username=john_doe; theme=dark'
+
+// Cookie utility functions
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+```
+
+### Network
+
+**Fetch API**
+
+```javascript
+// Basic GET request
+fetch('/api/users')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('Fetch error:', error));
+
+// POST request with JSON
+fetch('/api/users', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer token123'
+    },
+    body: JSON.stringify({
+        name: 'John Doe',
+        email: 'john@example.com'
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data));
+
+// File upload
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+formData.append('description', 'My file');
+
+fetch('/api/upload', {
+    method: 'POST',
+    body: formData // Don't set Content-Type header for FormData
+})
+.then(response => response.json());
+
+// Async/await version
+async function fetchUsers() {
+    try {
+        const response = await fetch('/api/users');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const users = await response.json();
+        return users;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+```
+
+**WebSockets**
+
+```javascript
+// Create WebSocket connection
+const socket = new WebSocket('ws://localhost:8080');
+
+// Connection opened
+socket.addEventListener('open', (event) => {
+    console.log('Connected to WebSocket server');
+    socket.send('Hello Server!');
+});
+
+// Listen for messages
+socket.addEventListener('message', (event) => {
+    console.log('Message from server:', event.data);
+    
+    // Handle different message types
+    try {
+        const data = JSON.parse(event.data);
+        handleMessage(data);
+    } catch (e) {
+        console.log('Received plain text:', event.data);
+    }
+});
+
+// Handle errors
+socket.addEventListener('error', (error) => {
+    console.error('WebSocket error:', error);
+});
+
+// Connection closed
+socket.addEventListener('close', (event) => {
+    console.log('WebSocket connection closed:', event.code, event.reason);
+});
+
+// Send different types of data
+socket.send('Plain text message');
+socket.send(JSON.stringify({ type: 'chat', message: 'Hello!' }));
+
+// Close connection
+socket.close();
+```
+
+### Other APIs
+
+**Geolocation API**
+
+```javascript
+// Check if geolocation is supported
+if ('geolocation' in navigator) {
+    // Get current position
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const { latitude, longitude, accuracy } = position.coords;
+            console.log(`Lat: ${latitude}, Lng: ${longitude}, Accuracy: ${accuracy}m`);
+        },
+        (error) => {
+            console.error('Geolocation error:', error.message);
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 60000
+        }
+    );
+    
+    // Watch position changes
+    const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+            console.log('Position updated:', position.coords);
+        },
+        (error) => {
+            console.error('Watch position error:', error);
+        }
+    );
+    
+    // Stop watching
+    navigator.geolocation.clearWatch(watchId);
+}
+```
+
+**File API**
+
+```javascript
+// File input handling
+const fileInput = document.querySelector('#fileInput');
+
+fileInput.addEventListener('change', (event) => {
+    const files = event.target.files;
+    
+    for (const file of files) {
+        console.log('File name:', file.name);
+        console.log('File size:', file.size);
+        console.log('File type:', file.type);
+        console.log('Last modified:', new Date(file.lastModified));
+        
+        // Read file content
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            console.log('File content:', e.target.result);
+        };
+        
+        // Different read methods
+        reader.readAsText(file);        // Read as text
+        reader.readAsDataURL(file);     // Read as data URL (base64)
+        reader.readAsArrayBuffer(file); // Read as array buffer
+    }
+});
+
+// Drag and drop
+const dropZone = document.querySelector('#dropZone');
+
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    
+    const files = e.dataTransfer.files;
+    handleFiles(files);
+});
+```
+
+**Web Workers**
+
+```javascript
+// Main thread
+if (typeof Worker !== 'undefined') {
+    // Create worker
+    const worker = new Worker('worker.js');
+    
+    // Send data to worker
+    worker.postMessage({ command: 'start', data: [1, 2, 3, 4, 5] });
+    
+    // Receive data from worker
+    worker.onmessage = (event) => {
+        console.log('Result from worker:', event.data);
+    };
+    
+    // Handle worker errors
+    worker.onerror = (error) => {
+        console.error('Worker error:', error);
+    };
+    
+    // Terminate worker
+    worker.terminate();
+}
+
+// worker.js file
+self.onmessage = function(event) {
+    const { command, data } = event.data;
+    
+    if (command === 'start') {
+        // Perform heavy computation
+        const result = data.map(num => num * num).reduce((sum, num) => sum + num, 0);
+        
+        // Send result back to main thread
+        self.postMessage(result);
+    }
+};
+```
+
+**Intersection Observer**
+
+```javascript
+// Create intersection observer
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            console.log('Element is visible:', entry.target);
+            // Lazy load image
+            if (entry.target.tagName === 'IMG') {
+                entry.target.src = entry.target.dataset.src;
+                observer.unobserve(entry.target);
+            }
+        }
+    });
+}, {
+    root: null, // Use viewport as root
+    rootMargin: '0px',
+    threshold: 0.1 // Trigger when 10% visible
+});
+
+// Observe elements
+const images = document.querySelectorAll('img[data-src]');
+images.forEach(img => observer.observe(img));
+
+// Unobserve element
+observer.unobserve(element);
+
+// Disconnect observer
+observer.disconnect();
+```
+
+## **PERFORMANCE & OPTIMIZATION**
+
+**Memory Management**
+
+```javascript
+// Avoid memory leaks
+// 1. Remove event listeners
+const element = document.querySelector('#myElement');
+const handler = () => console.log('clicked');
+element.addEventListener('click', handler);
+// Later...
+element.removeEventListener('click', handler);
+
+// 2. Clear timers
+const timerId = setTimeout(() => {}, 1000);
+clearTimeout(timerId);
+
+const intervalId = setInterval(() => {}, 1000);
+clearInterval(intervalId);
+
+// 3. Avoid circular references
+function createCircularReference() {
+    const obj1 = {};
+    const obj2 = {};
+    obj1.ref = obj2;
+    obj2.ref = obj1; // Circular reference
+    return obj1;
+}
+
+// 4. Use WeakMap/WeakSet for temporary associations
+const weakMap = new WeakMap();
+const element = document.querySelector('#myElement');
+weakMap.set(element, { data: 'some data' });
+// When element is removed from DOM, the WeakMap entry is automatically garbage collected
+```
+
+**Debouncing and Throttling**
+
+```javascript
+// Debouncing - delay execution until after calls have stopped
+function debounce(func, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Usage: Search input
+const searchInput = document.querySelector('#search');
+const debouncedSearch = debounce((query) => {
+    console.log('Searching for:', query);
+    // Perform search API call
+}, 300);
+
+searchInput.addEventListener('input', (e) => {
+    debouncedSearch(e.target.value);
+});
+
+// Throttling - limit execution to once per time period
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// Usage: Scroll event
+const throttledScroll = throttle(() => {
+    console.log('Scroll position:', window.scrollY);
+}, 100);
+
+window.addEventListener('scroll', throttledScroll);
+```
+
+**Performance Measurement**
+
+```javascript
+// Performance timing
+console.time('operation');
+// ... some operation
+console.timeEnd('operation'); // Logs: operation: 123.456ms
+
+// Performance API
+const start = performance.now();
+// ... some operation
+const end = performance.now();
+console.log(`Operation took ${end - start} milliseconds`);
+
+// Memory usage (Chrome DevTools)
+if (performance.memory) {
+    console.log('Used JS heap size:', performance.memory.usedJSHeapSize);
+    console.log('Total JS heap size:', performance.memory.totalJSHeapSize);
+    console.log('JS heap size limit:', performance.memory.jsHeapSizeLimit);
+}
+
+// Mark and measure
+performance.mark('start-operation');
+// ... some operation
+performance.mark('end-operation');
+performance.measure('operation-duration', 'start-operation', 'end-operation');
+
+const measures = performance.getEntriesByType('measure');
+console.log(measures[0].duration);
+```
+
+**Lazy Loading and Code Splitting**
+
+```javascript
+// Dynamic imports for code splitting
+async function loadModule() {
+    try {
+        const module = await import('./heavy-module.js');
+        module.doSomething();
+    } catch (error) {
+        console.error('Failed to load module:', error);
+    }
+}
+
+// Conditional loading
+if (someCondition) {
+    import('./conditional-module.js').then(module => {
+        module.initialize();
+    });
+}
+
+// Lazy loading images
+function lazyLoadImages() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// Preloading critical resources
+function preloadResource(href, as) {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = href;
+    link.as = as;
+    document.head.appendChild(link);
+}
+
+preloadResource('/critical-script.js', 'script');
+preloadResource('/hero-image.jpg', 'image');
+```
+
+## **MODERN JAVASCRIPT (ES6+)**
+
+### ES6 (ES2015) Features
+
+**Template Literals Advanced**
+
+```javascript
+// Tagged template literals
+function highlight(strings, ...values) {
+    return strings.reduce((result, string, i) => {
+        const value = values[i] ? `<mark>${values[i]}</mark>` : '';
+        return result + string + value;
+    }, '');
+}
+
+const name = 'John';
+const age = 30;
+const html = highlight`Hello ${name}, you are ${age} years old!`;
+// Result: "Hello <mark>John</mark>, you are <mark>30</mark> years old!"
+
+// Raw strings
+function logRaw(strings, ...values) {
+    console.log('Raw strings:', strings.raw);
+    console.log('Cooked strings:', strings);
+}
+
+logRaw`Line 1\nLine 2`; // Raw: ["Line 1\\nLine 2"], Cooked: ["Line 1\nLine 2"]
+```
+
+### ES2016+ Features
+
+**Optional Chaining and Nullish Coalescing**
+
+```javascript
+// Optional chaining (?.)
+const user = {
+    name: 'John',
+    address: {
+        street: '123 Main St'
+    }
+};
+
+// Safe property access
+console.log(user?.address?.street); // '123 Main St'
+console.log(user?.address?.city);   // undefined (no error)
+console.log(user?.phone?.number);   // undefined (no error)
+
+// Optional method calling
+user?.getName?.(); // Only calls if getName exists
+
+// Optional array access
+const users = [{ name: 'John' }, { name: 'Jane' }];
+console.log(users?.[0]?.name); // 'John'
+console.log(users?.[10]?.name); // undefined
+
+// Nullish coalescing (??)
+const config = {
+    timeout: 0,
+    retries: null,
+    debug: false
+};
+
+// ?? only checks for null/undefined, not falsy values
+const timeout = config.timeout ?? 5000;     // 0 (not 5000)
+const retries = config.retries ?? 3;        // 3 (null becomes 3)
+const debug = config.debug ?? true;         // false (not true)
+
+// Compare with || operator
+const timeoutOr = config.timeout || 5000;   // 5000 (0 is falsy)
+const debugOr = config.debug || true;       // true (false is falsy)
+```
+
+**Logical Assignment Operators**
+
+```javascript
+// Logical assignment operators (ES2021)
+let a = 1;
+let b = 0;
+let c = null;
+
+// Logical AND assignment (&&=)
+a &&= 2; // a = a && 2; → a = 2
+b &&= 2; // b = b && 2; → b = 0
+
+// Logical OR assignment (||=)
+a ||= 3; // a = a || 3; → a = 2 (already truthy)
+b ||= 3; // b = b || 3; → b = 3
+
+// Nullish coalescing assignment (??=)
+c ??= 4; // c = c ?? 4; → c = 4
+a ??= 5; // a = a ?? 5; → a = 2 (not null/undefined)
+```
+
+**Private Class Fields**
+
+```javascript
+class Counter {
+    #count = 0;        // Private field
+    #maxCount = 100;   // Private field
+    
+    // Private method
+    #validateCount(value) {
+        return value >= 0 && value <= this.#maxCount;
+    }
+    
+    increment() {
+        if (this.#validateCount(this.#count + 1)) {
+            this.#count++;
+        }
+    }
+    
+    get count() {
+        return this.#count;
+    }
+    
+    // Static private field
+    static #instances = 0;
+    
+    constructor() {
+        Counter.#instances++;
+    }
+    
+    static getInstanceCount() {
+        return Counter.#instances;
+    }
+}
+
+const counter = new Counter();
+counter.increment();
+console.log(counter.count); // 1
+// console.log(counter.#count); // SyntaxError: Private field '#count' must be declared in an enclosing class
+```
+
+**Dynamic Imports**
+
+```javascript
+// Dynamic imports return promises
+async function loadUtilities() {
+    try {
+        const utils = await import('./utilities.js');
+        return utils;
+    } catch (error) {
+        console.error('Failed to load utilities:', error);
+    }
+}
+
+// Conditional imports
+const shouldLoadHeavyFeature = true;
+if (shouldLoadHeavyFeature) {
+    import('./heavy-feature.js').then(module => {
+        module.initialize();
+    });
+}
+
+// Import with destructuring
+const { specificFunction } = await import('./module.js');
+
+// Import default export
+const defaultExport = await import('./module.js');
+const actualDefault = defaultExport.default;
+```
+
+## **SECURITY**
+
+**XSS Prevention**
+
+```javascript
+// Dangerous: Direct HTML insertion
+function dangerousInsert(userInput) {
+    document.getElementById('content').innerHTML = userInput;
+    // If userInput contains <script>alert('XSS')</script>, it will execute
+}
+
+// Safe: Use textContent or sanitize HTML
+function safeInsert(userInput) {
+    document.getElementById('content').textContent = userInput;
+    // Script tags are treated as text, not executed
+}
+
+// HTML sanitization function
+function sanitizeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// Or use a library like DOMPurify
+// const clean = DOMPurify.sanitize(dirty);
+
+// Safe HTML templating
+function createUserCard(user) {
+    const name = sanitizeHTML(user.name);
+    const email = sanitizeHTML(user.email);
+    return `
+        <div class="user-card">
+            <h3>${name}</h3>
+            <p>${email}</p>
+        </div>
+    `;
+}
+```
+
+**Input Validation and Sanitization**
+
+```javascript
+// Input validation functions
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validatePassword(password) {
+    // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+}
+
+function sanitizeInput(input) {
+    return input
+        .trim()
+        .replace(/[<>]/g, '') // Remove < and >
+        .substring(0, 1000);   // Limit length
+}
+
+// Form validation example
+function validateForm(formData) {
+    const errors = [];
+    
+    if (!formData.name || formData.name.length < 2) {
+        errors.push('Name must be at least 2 characters');
+    }
+    
+    if (!validateEmail(formData.email)) {
+        errors.push('Invalid email format');
+    }
+    
+    if (!validatePassword(formData.password)) {
+        errors.push('Password must meet requirements');
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors
+    };
+}
+```
+
+**CSRF Protection**
+
+```javascript
+// CSRF token handling
+function getCSRFToken() {
+    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+}
+
+// Include CSRF token in requests
+async function secureRequest(url, data) {
+    const csrfToken = getCSRFToken();
+    
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify(data)
+    });
+    
+    return response.json();
+}
+
+// SameSite cookie configuration (server-side concept, shown for reference)
+// Set-Cookie: sessionId=abc123; SameSite=Strict; Secure; HttpOnly
+```
+
+**Content Security Policy**
+
+```javascript
+// CSP can be set via meta tag or HTTP header
+// <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+
+// Nonce-based CSP for inline scripts
+function createNonceScript(code, nonce) {
+    const script = document.createElement('script');
+    script.nonce = nonce;
+    script.textContent = code;
+    document.head.appendChild(script);
+}
+
+// Report CSP violations
+document.addEventListener('securitypolicyviolation', (event) => {
+    console.warn('CSP violation:', {
+        violatedDirective: event.violatedDirective,
+        blockedURI: event.blockedURI,
+        originalPolicy: event.originalPolicy
+    });
+    
+    // Report to monitoring service
+    fetch('/csp-report', {
+        method: 'POST',
+        body: JSON.stringify({
+            violatedDirective: event.violatedDirective,
+            blockedURI: event.blockedURI
+        })
+    });
+});
+```
+
+## **DESIGN PATTERNS**
+
+**Module Pattern**
+
+```javascript
+// Revealing Module Pattern
+const Calculator = (function() {
+    // Private variables and functions
+    let result = 0;
+    
+    function add(x) {
+        result += x;
+        return this;
+    }
+    
+    function subtract(x) {
+        result -= x;
+        return this;
+    }
+    
+    function multiply(x) {
+        result *= x;
+        return this;
+    }
+    
+    function getResult() {
+        return result;
+    }
+    
+    function reset() {
+        result = 0;
+        return this;
+    }
+    
+    // Public API
+    return {
+        add,
+        subtract,
+        multiply,
+        getResult,
+        reset
+    };
+})();
+
+// Usage
+Calculator.add(5).multiply(2).subtract(3).getResult(); // 7
+```
+
+**Singleton Pattern**
+
+```javascript
+// Singleton using class
+class DatabaseConnection {
+    constructor() {
+        if (DatabaseConnection.instance) {
+            return DatabaseConnection.instance;
+        }
+        
+        this.connection = null;
+        DatabaseConnection.instance = this;
+    }
+    
+    connect() {
+        if (!this.connection) {
+            this.connection = 'Connected to database';
+            console.log('Database connected');
+        }
+        return this.connection;
+    }
+    
+    disconnect() {
+        this.connection = null;
+        console.log('Database disconnected');
+    }
+}
+
+// Usage
+const db1 = new DatabaseConnection();
+const db2 = new DatabaseConnection();
+console.log(db1 === db2); // true (same instance)
+
+// Singleton using function
+const ConfigManager = (function() {
+    let instance;
+    
+    function createInstance() {
+        return {
+            setting1: 'value1',
+            setting2: 'value2',
+            getSetting(key) {
+                return this[key];
+            }
+        };
+    }
+    
+    return {
+        getInstance() {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+})();
+```
+
+**Observer Pattern**
+
+```javascript
+// Observer Pattern implementation
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+    
+    on(event, callback) {
+        if (!this.events[event]) {
+            this.events[event] = [];
+        }
+        this.events[event].push(callback);
+    }
+    
+    off(event, callback) {
+        if (this.events[event]) {
+            this.events[event] = this.events[event].filter(cb => cb !== callback);
+        }
+    }
+    
+    emit(event, data) {
+        if (this.events[event]) {
+            this.events[event].forEach(callback => callback(data));
+        }
+    }
+    
+    once(event, callback) {
+        const onceCallback = (data) => {
+            callback(data);
+            this.off(event, onceCallback);
+        };
+        this.on(event, onceCallback);
+    }
+}
+
+// Usage
+const emitter = new EventEmitter();
+
+emitter.on('user-login', (user) => {
+    console.log(`User ${user.name} logged in`);
+});
+
+emitter.on('user-login', (user) => {
+    console.log(`Welcome back, ${user.name}!`);
+});
+
+emitter.emit('user-login', { name: 'John', id: 1 });
+```
+
+**Factory Pattern**
+
+```javascript
+// Factory Pattern
+class User {
+    constructor(name, role) {
+        this.name = name;
+        this.role = role;
+    }
+    
+    getPermissions() {
+        return [];
+    }
+}
+
+class Admin extends User {
+    getPermissions() {
+        return ['read', 'write', 'delete', 'admin'];
+    }
+}
+
+class Editor extends User {
+    getPermissions() {
+        return ['read', 'write'];
+    }
+}
+
+class Viewer extends User {
+    getPermissions() {
+        return ['read'];
+    }
+}
+
+// Factory
+class UserFactory {
+    static createUser(name, role) {
+        switch (role) {
+            case 'admin':
+                return new Admin(name, role);
+            case 'editor':
+                return new Editor(name, role);
+            case 'viewer':
+                return new Viewer(name, role);
+            default:
+                throw new Error(`Unknown role: ${role}`);
+        }
+    }
+}
+
+// Usage
+const admin = UserFactory.createUser('John', 'admin');
+const editor = UserFactory.createUser('Jane', 'editor');
+console.log(admin.getPermissions()); // ['read', 'write', 'delete', 'admin']
+```
+
+**Strategy Pattern**
+
+```javascript
+// Strategy Pattern
+class PaymentProcessor {
+    constructor(strategy) {
+        this.strategy = strategy;
+    }
+    
+    setStrategy(strategy) {
+        this.strategy = strategy;
+    }
+    
+    processPayment(amount) {
+        return this.strategy.process(amount);
+    }
+}
+
+// Strategies
+class CreditCardStrategy {
+    process(amount) {
+        console.log(`Processing $${amount} via Credit Card`);
+        // Credit card processing logic
+        return { success: true, transactionId: 'cc_' + Date.now() };
+    }
+}
+
+class PayPalStrategy {
+    process(amount) {
+        console.log(`Processing $${amount} via PayPal`);
+        // PayPal processing logic
+        return { success: true, transactionId: 'pp_' + Date.now() };
+    }
+}
+
+class CryptoStrategy {
+    process(amount) {
+        console.log(`Processing $${amount} via Cryptocurrency`);
+        // Crypto processing logic
+        return { success: true, transactionId: 'crypto_' + Date.now() };
+    }
+}
+
+// Usage
+const processor = new PaymentProcessor(new CreditCardStrategy());
+processor.processPayment(100);
+
+processor.setStrategy(new PayPalStrategy());
+processor.processPayment(50);
+```
+
+## **NODE.JS SPECIFIC**
+
+**Global Objects and Process**
+
+```javascript
+// Global objects (available without require)
+console.log(__dirname);  // Current directory path
+console.log(__filename); // Current file path
+console.log(process.cwd()); // Current working directory
+
+// Process object
+console.log(process.version);    // Node.js version
+console.log(process.platform);  // Operating system
+console.log(process.arch);       // CPU architecture
+console.log(process.pid);        // Process ID
+console.log(process.uptime());   // Process uptime in seconds
+
+// Environment variables
+console.log(process.env.NODE_ENV);
+console.log(process.env.PATH);
+
+// Command line arguments
+console.log(process.argv); // Array of command line arguments
+// node script.js arg1 arg2
+// process.argv = ['node', '/path/to/script.js', 'arg1', 'arg2']
+
+// Process events
+process.on('exit', (code) => {
+    console.log(`Process exiting with code: ${code}`);
+});
+
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+```
+
+**File System Operations**
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+// Synchronous file operations
+try {
+    const data = fs.readFileSync('file.txt', 'utf8');
+    console.log(data);
+} catch (error) {
+    console.error('Error reading file:', error);
+}
+
+// Asynchronous file operations
+fs.readFile('file.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading file:', err);
+        return;
+    }
+    console.log(data);
+});
+
+// Promise-based file operations
+const fsPromises = require('fs').promises;
+
+async function readFileAsync() {
+    try {
+        const data = await fsPromises.readFile('file.txt', 'utf8');
+        console.log(data);
+    } catch (error) {
+        console.error('Error reading file:', error);
+    }
+}
+
+// File system operations
+fs.writeFile('output.txt', 'Hello World', (err) => {
+    if (err) throw err;
+    console.log('File saved!');
+});
+
+fs.mkdir('new-directory', { recursive: true }, (err) => {
+    if (err) throw err;
+    console.log('Directory created!');
+});
+
+fs.readdir('.', (err, files) => {
+    if (err) throw err;
+    console.log('Files:', files);
+});
+
+// File stats
+fs.stat('file.txt', (err, stats) => {
+    if (err) throw err;
+    console.log('Is file:', stats.isFile());
+    console.log('Is directory:', stats.isDirectory());
+    console.log('Size:', stats.size);
+    console.log('Modified:', stats.mtime);
+});
+```
+
+**HTTP Module**
+
+```javascript
+const http = require('http');
+const url = require('url');
+
+// Create HTTP server
+const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const path = parsedUrl.pathname;
+    const method = req.method;
+    
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    // Handle different routes
+    if (path === '/' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<h1>Hello World!</h1>');
+    } else if (path === '/api/users' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify([{ id: 1, name: 'John' }]));
+    } else if (path === '/api/users' && method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            const userData = JSON.parse(body);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ id: Date.now(), ...userData }));
+        });
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+    }
+});
+
+server.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
+
+// HTTP client
+const options = {
+    hostname: 'api.example.com',
+    port: 443,
+    path: '/users',
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+
+const req = http.request(options, (res) => {
+    let data = '';
+    res.on('data', (chunk) => {
+        data += chunk;
+    });
+    res.on('end', () => {
+        console.log(JSON.parse(data));
+    });
+});
+
+req.on('error', (error) => {
+    console.error('Request error:', error);
+});
+
+req.end();
+```
+
+**Streams**
+
+```javascript
+const fs = require('fs');
+const { Readable, Writable, Transform } = require('stream');
+
+// Readable stream
+class NumberStream extends Readable {
+    constructor(max) {
+        super();
+        this.current = 0;
+        this.max = max;
+    }
+    
+    _read() {
+        if (this.current < this.max) {
+            this.push(`${this.current++}\n`);
+        } else {
+            this.push(null); // End stream
+        }
+    }
+}
+
+// Writable stream
+class LogStream extends Writable {
+    _write(chunk, encoding, callback) {
+        console.log(`LOG: ${chunk.toString().trim()}`);
+        callback();
+    }
+}
+
+// Transform stream
+class UpperCaseTransform extends Transform {
+    _transform(chunk, encoding, callback) {
+        this.push(chunk.toString().toUpperCase());
+        callback();
+    }
+}
+
+// Usage
+const numberStream = new NumberStream(5);
+const upperCaseTransform = new UpperCaseTransform();
+const logStream = new LogStream();
+
+// Pipe streams together
+numberStream
+    .pipe(upperCaseTransform)
+    .pipe(logStream);
+
+// File streams
+const readStream = fs.createReadStream('input.txt');
+const writeStream = fs.createWriteStream('output.txt');
+
+readStream.pipe(writeStream);
+
+// Handle stream events
+readStream.on('data', (chunk) => {
+    console.log(`Received ${chunk.length} bytes`);
+});
+
+readStream.on('end', () => {
+    console.log('Stream ended');
+});
+
+readStream.on('error', (error) => {
+    console.error('Stream error:', error);
+});
+```
+
+**Events Module**
+
+```javascript
+const EventEmitter = require('events');
+
+// Create custom event emitter
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+
+// Add listeners
+myEmitter.on('event', (data) => {
+    console.log('Event received:', data);
+});
+
+myEmitter.once('one-time-event', () => {
+    console.log('This will only run once');
+});
+
+// Emit events
+myEmitter.emit('event', { message: 'Hello World' });
+myEmitter.emit('one-time-event');
+myEmitter.emit('one-time-event'); // Won't trigger listener
+
+// Error handling
+myEmitter.on('error', (error) => {
+    console.error('Error occurred:', error);
+});
+
+// Remove listeners
+const listener = (data) => console.log('Listener:', data);
+myEmitter.on('test', listener);
+myEmitter.removeListener('test', listener);
+
+// Get listener info
+console.log('Event names:', myEmitter.eventNames());
+console.log('Listener count:', myEmitter.listenerCount('event'));
+```
