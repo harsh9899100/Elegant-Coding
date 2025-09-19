@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .h2-link{
+            font-weight:700;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .toc a.active {
+            color: blue !important;
+             background-color: #5ec7ff2a;
+}
+
+
+        .toc a:hover { background-color: #0077ff16}
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h2 id="authentication-fundamentals-questions-451-475-">Authentication Fundamentals (Questions 451-475)</h2>
+
+<p><strong>451. What is the difference between authentication and authorization?</strong></p>
+
+<p><strong>Authentication</strong> is the process of verifying who a user is (identity verification), while <strong>Authorization</strong> is the process of verifying what a user has access to (permission verification).</p>
+
+<p><strong>Example:</strong></p>
+
+<p>- Authentication: "Are you John Doe?" (Login with username/password)</p>
+<p>- Authorization: "Can John Doe access the admin panel?" (Role-based access)</p>
+
+
+<p><strong>452. What is Session-based authentication and how does it work?</strong></p>
+
+<p>Session-based authentication stores user state on the server side. When a user logs in, the server creates a session and stores it in memory/database, then sends a session ID to the client via cookies.</p>
+
+<p><strong>Flow:</strong></p>
+
+<p>1. User submits credentials</p>
+<p>2. Server validates credentials</p>
+<p>3. Server creates session with unique ID</p>
+<p>4. Session ID sent to client as cookie</p>
+<p>5. Client sends session ID with subsequent requests</p>
+<p>6. Server validates session ID and retrieves user data</p>
+
+
+<p><strong>453. What is Token-based authentication (JWT) and how does it work?</strong></p>
+
+<p>JWT (JSON Web Token) is a stateless authentication method where user information is encoded in a token that's sent with each request.</p>
+
+<p><strong>Flow:</strong></p>
+
+<p>1. User submits credentials</p>
+<p>2. Server validates and creates JWT</p>
+<p>3. JWT sent to client</p>
+<p>4. Client stores JWT (localStorage/sessionStorage)</p>
+<p>5. Client sends JWT in Authorization header</p>
+<p>6. Server verifies JWT signature and extracts user data</p>
+
+
+<p><strong>454. What are the advantages and disadvantages of JWT vs sessions?</strong></p>
+
+<p><strong>JWT Advantages:</strong></p>
+
+<p>- Stateless (no server storage needed)</p>
+<p>- Scalable across multiple servers</p>
+<p>- Contains user data (no database lookup)</p>
+<p>- Cross-domain friendly</p>
+
+
+<p><strong>JWT Disadvantages:</strong></p>
+
+<p>- Cannot be revoked easily</p>
+<p>- Larger payload size</p>
+<p>- Security risks if not handled properly</p>
+
+
+<p><strong>Session Advantages:</strong></p>
+
+<p>- Can be revoked instantly</p>
+<p>- Smaller cookie size</p>
+<p>- More secure (server-side storage)</p>
+
+
+<p><strong>Session Disadvantages:</strong></p>
+
+<p>- Requires server storage</p>
+<p>- Scaling challenges</p>
+<p>- Not suitable for microservices</p>
+
+
+<p><strong>455. What are the three parts of a JWT?</strong></p>
+
+<p>1. <strong>Header</strong>: Contains algorithm and token type</p>
+<p>2. <strong>Payload</strong>: Contains claims (user data)</p>
+<p>3. <strong>Signature</strong>: Verifies token integrity</p>
+
+
+<p><strong>Example JWT structure:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">plaintext</span>
+        <button class="copy-btn" data-code="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c%0A">Copy</button>
+    </div>
+    <pre><code class="language-plaintext">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+</code></pre>
+</div>
+
+<p><strong>456. What kind of data should you put in JWT payload?</strong></p>
+
+<p><strong>Safe to include:</strong></p>
+
+<p>- User ID</p>
+<p>- Username</p>
+<p>- Roles/permissions</p>
+<p>- Expiration time</p>
+<p>- Issued at time</p>
+<p>- Non-sensitive user preferences</p>
+
+
+<p><strong>Example payload:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="%7B%0A%20%20%22sub%22%3A%20%221234567890%22%2C%0A%20%20%22name%22%3A%20%22John%20Doe%22%2C%0A%20%20%22role%22%3A%20%22user%22%2C%0A%20%20%22iat%22%3A%201516239022%2C%0A%20%20%22exp%22%3A%201516242622%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "role": "user",
+  "iat": 1516239022,
+  "exp": 1516242622
+}
+</code></pre>
+</div>
+
+<p><strong>457. What should you never put in a JWT?</strong></p>
+
+<p><strong>Never include:</strong></p>
+
+<p>- Passwords</p>
+<p>- Credit card numbers</p>
+<p>- Social security numbers</p>
+<p>- API keys</p>
+<p>- Personal identification numbers</p>
+<p>- Any sensitive personal data</p>
+
+
+<p><strong>Reason:</strong> JWT payload is only base64 encoded, not encrypted, so it's easily readable.</p>
+
+<p><strong>458. How do you generate and verify JWT in Node.js?</strong></p>
+
+<p><strong>Generation:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20jwt%20%3D%20require('jsonwebtoken')%3B%0Aconst%20token%20%3D%20jwt.sign(%0A%20%20%7B%20userId%3A%20123%2C%20role%3A%20'user'%20%7D%2C%0A%20%20'secret_key'%2C%0A%20%20%7B%20expiresIn%3A%20'1h'%20%7D%0A)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const jwt = require('jsonwebtoken');
+const token = jwt.sign(
+  { userId: 123, role: 'user' },
+  'secret_key',
+  { expiresIn: '1h' }
+);
+</code></pre>
+</div>
+
+<p><strong>Verification:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20decoded%20%3D%20jwt.verify(token%2C%20'secret_key')%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const decoded = jwt.verify(token, 'secret_key');
+</code></pre>
+</div>
+
+<p><strong>459. Where do you store JWT tokens securely?</strong></p>
+
+<p><strong>Options ranked by security:</strong></p>
+
+<p>1. <strong>HttpOnly cookies</strong> (most secure) - prevents XSS</p>
+<p>2. <strong>Memory/state</strong> (good for SPAs)</p>
+<p>3. <strong>sessionStorage</strong> (better than localStorage)</p>
+<p>4. <strong>localStorage</strong> (least secure, vulnerable to XSS)</p>
+
+
+<p><strong>460. How do you handle token expiration?</strong></p>
+
+<p><strong>Strategies:</strong></p>
+
+<p>1. <strong>Automatic refresh</strong> before expiration</p>
+<p>2. <strong>Refresh token mechanism</strong></p>
+<p>3. <strong>Silent authentication</strong></p>
+<p>4. <strong>Redirect to login</strong> on expiration</p>
+
+
+<p><strong>Example handling:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20Check%20if%20token%20is%20expired%0Aif%20(Date.now()%20%3E%3D%20decoded.exp%20*%201000)%20%7B%0A%20%20%2F%2F%20Token%20expired%2C%20refresh%20or%20redirect%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// Check if token is expired
+if (Date.now() &gt;= decoded.exp * 1000) {
+  // Token expired, refresh or redirect
+}
+</code></pre>
+</div>
+
+<p><strong>461. What are refresh tokens and how do you implement them?</strong></p>
+
+<p>Refresh tokens are long-lived tokens used to obtain new access tokens without re-authentication.</p>
+
+<p><strong>Implementation:</strong></p>
+
+<p>1. Issue both access token (short-lived) and refresh token (long-lived)</p>
+<p>2. Store refresh token securely (database)</p>
+<p>3. When access token expires, use refresh token to get new access token</p>
+<p>4. Rotate refresh tokens for security</p>
+
+
+<p><strong>462. How do you implement token refresh mechanism?</strong></p>
+
+<p><strong>Flow:</strong></p>
+
+<p>1. Client detects expired access token</p>
+<p>2. Client sends refresh token to refresh endpoint</p>
+<p>3. Server validates refresh token</p>
+<p>4. Server issues new access token (and optionally new refresh token)</p>
+<p>5. Client updates stored tokens</p>
+
+
+<p><strong>463. How do you invalidate JWT tokens?</strong></p>
+
+<p><strong>Methods:</strong></p>
+
+<p>1. <strong>Blacklist approach</strong> - maintain list of revoked tokens</p>
+<p>2. <strong>Short expiration</strong> - tokens expire quickly</p>
+<p>3. <strong>Token versioning</strong> - increment user's token version</p>
+<p>4. <strong>Refresh token rotation</strong> - invalidate old refresh tokens</p>
+
+
+<p><strong>464. What is OAuth 2.0 and explain the flow?</strong></p>
+
+<p>OAuth 2.0 is an authorization framework that allows third-party applications to access user resources without exposing credentials.</p>
+
+<p><strong>Authorization Code Flow:</strong></p>
+
+<p>1. Client redirects user to authorization server</p>
+<p>2. User authenticates and grants permission</p>
+<p>3. Authorization server redirects back with authorization code</p>
+<p>4. Client exchanges code for access token</p>
+<p>5. Client uses access token to access resources</p>
+
+
+<p><strong>465. What is OpenID Connect (OIDC)?</strong></p>
+
+<p>OIDC is an identity layer built on top of OAuth 2.0 that provides authentication capabilities.</p>
+
+<p><strong>Key differences from OAuth 2.0:</strong></p>
+
+<p>- Adds ID token (JWT) containing user identity</p>
+<p>- Standardizes user info endpoint</p>
+<p>- Provides authentication, not just authorization</p>
+
+
+<p><strong>466. What is Single Sign-On (SSO)?</strong></p>
+
+<p>SSO allows users to authenticate once and access multiple applications without re-entering credentials.</p>
+
+<p><strong>Benefits:</strong></p>
+
+<p>- Improved user experience</p>
+<p>- Reduced password fatigue</p>
+<p>- Centralized access control</p>
+<p>- Better security monitoring</p>
+
+
+<p><strong>467. How do you implement social login (Google, Facebook)?</strong></p>
+
+<p><strong>Steps:</strong></p>
+
+<p>1. Register app with social provider</p>
+<p>2. Redirect user to provider's OAuth endpoint</p>
+<p>3. Handle callback with authorization code</p>
+<p>4. Exchange code for access token</p>
+<p>5. Use token to fetch user profile</p>
+<p>6. Create/update user in your system</p>
+
+
+<p><strong>468. What is multi-factor authentication (MFA)?</strong></p>
+
+<p>MFA requires users to provide multiple forms of verification:</p>
+
+<p><strong>Factors:</strong></p>
+
+<p>1. <strong>Something you know</strong> (password)</p>
+<p>2. <strong>Something you have</strong> (phone, token)</p>
+<p>3. <strong>Something you are</strong> (biometric)</p>
+
+
+<p><strong>469. How do you implement 2FA in Node.js?</strong></p>
+
+<p><strong>Common methods:</strong></p>
+
+<p>1. <strong>SMS OTP</strong> - send code via SMS</p>
+<p>2. <strong>Email OTP</strong> - send code via email</p>
+<p>3. <strong>TOTP</strong> - time-based one-time passwords (Google Authenticator)</p>
+<p>4. <strong>Hardware tokens</strong></p>
+
+
+<p><strong>TOTP Implementation:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20speakeasy%20%3D%20require('speakeasy')%3B%0Aconst%20secret%20%3D%20speakeasy.generateSecret()%3B%0Aconst%20token%20%3D%20speakeasy.totp(%7B%0A%20%20secret%3A%20secret.base32%2C%0A%20%20encoding%3A%20'base32'%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const speakeasy = require('speakeasy');
+const secret = speakeasy.generateSecret();
+const token = speakeasy.totp({
+  secret: secret.base32,
+  encoding: 'base32'
+});
+</code></pre>
+</div>
+
+<p><strong>470. What is password hashing and why is it important?</strong></p>
+
+<p>Password hashing converts plain text passwords into irreversible hash values using cryptographic algorithms.</p>
+
+<p><strong>Importance:</strong></p>
+
+<p>- Protects passwords if database is compromised</p>
+<p>- Prevents internal access to user passwords</p>
+<p>- Compliance with security standards</p>
+
+
+<p><strong>471. What is salting and why is it necessary?</strong></p>
+
+<p>Salt is random data added to passwords before hashing to prevent rainbow table attacks.</p>
+
+<p><strong>Benefits:</strong></p>
+
+<p>- Prevents rainbow table attacks</p>
+<p>- Makes identical passwords have different hashes</p>
+<p>- Increases hash uniqueness</p>
+
+
+<p><strong>472. What is bcrypt and how does it work?</strong></p>
+
+<p>bcrypt is a password hashing function based on the Blowfish cipher, designed to be slow and resistant to brute force attacks.</p>
+
+<p><strong>Features:</strong></p>
+
+<p>- Adaptive cost parameter</p>
+<p>- Built-in salt generation</p>
+<p>- Time-tested security</p>
+
+
+<p><strong>Usage:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20bcrypt%20%3D%20require('bcrypt')%3B%0Aconst%20hash%20%3D%20await%20bcrypt.hash(password%2C%2010)%3B%0Aconst%20isValid%20%3D%20await%20bcrypt.compare(password%2C%20hash)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const bcrypt = require('bcrypt');
+const hash = await bcrypt.hash(password, 10);
+const isValid = await bcrypt.compare(password, hash);
+</code></pre>
+</div>
+
+<p><strong>473. How do you implement secure password reset?</strong></p>
+
+<p><strong>Secure flow:</strong></p>
+
+<p>1. User requests password reset</p>
+<p>2. Generate secure random token</p>
+<p>3. Store token with expiration in database</p>
+<p>4. Send token via email (not password)</p>
+<p>5. User clicks link with token</p>
+<p>6. Validate token and expiration</p>
+<p>7. Allow password change</p>
+<p>8. Invalidate token after use</p>
+
+
+<p><strong>474. How do you implement account lockout mechanisms?</strong></p>
+
+<p><strong>Implementation:</strong></p>
+
+<p>1. Track failed login attempts per account</p>
+<p>2. Lock account after threshold (e.g., 5 attempts)</p>
+<p>3. Implement progressive delays</p>
+<p>4. Provide unlock mechanisms (time-based or admin)</p>
+<p>5. Log security events</p>
+
+
+<p><strong>475. How do you handle password policies?</strong></p>
+
+<p><strong>Common policies:</strong></p>
+
+<p>- Minimum length (8+ characters)</p>
+<p>- Character complexity (uppercase, lowercase, numbers, symbols)</p>
+<p>- No common passwords</p>
+<p>- No personal information</p>
+<p>- Regular password changes</p>
+<p>- Password history (prevent reuse)</p>
+
+
+<h2 id="security-best-practices-questions-476-500-">Security Best Practices (Questions 476-500)</h2>
+
+<p><strong>476. What are the OWASP Top 10 security risks?</strong></p>
+
+<p><strong>OWASP Top 10 (2021):</strong></p>
+
+<p>1. <strong>Broken Access Control</strong></p>
+<p>2. <strong>Cryptographic Failures</strong></p>
+<p>3. <strong>Injection</strong></p>
+<p>4. <strong>Insecure Design</strong></p>
+<p>5. <strong>Security Misconfiguration</strong></p>
+<p>6. <strong>Vulnerable Components</strong></p>
+<p>7. <strong>Identification and Authentication Failures</strong></p>
+<p>8. <strong>Software and Data Integrity Failures</strong></p>
+<p>9. <strong>Security Logging and Monitoring Failures</strong></p>
+<p>10. <strong>Server-Side Request Forgery (SSRF)</strong></p>
+
+
+<p><strong>477. How do you prevent SQL injection attacks?</strong></p>
+
+<p><strong>Prevention methods:</strong></p>
+
+<p>1. <strong>Parameterized queries/prepared statements</strong></p>
+<p>2. <strong>Input validation and sanitization</strong></p>
+<p>3. <strong>Stored procedures</strong></p>
+<p>4. <strong>Least privilege database access</strong></p>
+<p>5. <strong>WAF (Web Application Firewall)</strong></p>
+
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20Vulnerable%0Aconst%20query%20%3D%20%60SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%24%7BuserId%7D%60%3B%0A%0A%2F%2F%20Safe%0Aconst%20query%20%3D%20'SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%3B%0Adb.query(query%2C%20%5BuserId%5D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// Vulnerable
+const query = `SELECT * FROM users WHERE id = ${userId}`;
+
+// Safe
+const query = 'SELECT * FROM users WHERE id = ?';
+db.query(query, [userId]);
+</code></pre>
+</div>
+
+<p><strong>478. How do you prevent Cross-Site Scripting (XSS)?</strong></p>
+
+<p><strong>Prevention:</strong></p>
+
+<p>1. <strong>Input validation</strong> - validate all user inputs</p>
+<p>2. <strong>Output encoding</strong> - encode data before displaying</p>
+<p>3. <strong>Content Security Policy (CSP)</strong></p>
+<p>4. <strong>HttpOnly cookies</strong></p>
+<p>5. <strong>Sanitize HTML content</strong></p>
+
+
+<p><strong>Types of XSS:</strong></p>
+
+<p>- <strong>Stored XSS</strong> - malicious script stored in database</p>
+<p>- <strong>Reflected XSS</strong> - script reflected from user input</p>
+<p>- <strong>DOM-based XSS</strong> - client-side script manipulation</p>
+
+
+<p><strong>479. How do you prevent Cross-Site Request Forgery (CSRF)?</strong></p>
+
+<p><strong>Prevention methods:</strong></p>
+
+<p>1. <strong>CSRF tokens</strong> - unique tokens per session/request</p>
+<p>2. <strong>SameSite cookies</strong></p>
+<p>3. <strong>Referer header validation</strong></p>
+<p>4. <strong>Double submit cookies</strong></p>
+<p>5. <strong>Custom headers</strong></p>
+
+
+<p><strong>480. What is Content Security Policy (CSP)?</strong></p>
+
+<p>CSP is a security header that helps prevent XSS attacks by controlling which resources can be loaded.</p>
+
+<p><strong>Example CSP header:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">plaintext</span>
+        <button class="copy-btn" data-code="Content-Security-Policy%3A%20default-src%20'self'%3B%20script-src%20'self'%20'unsafe-inline'%3B%20style-src%20'self'%20'unsafe-inline'%0A">Copy</button>
+    </div>
+    <pre><code class="language-plaintext">Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'
+</code></pre>
+</div>
+
+<p><strong>481. How do you implement secure HTTP headers?</strong></p>
+
+<p><strong>Essential security headers:</strong></p>
+
+<p>- <strong>X-Content-Type-Options: nosniff</strong></p>
+<p>- <strong>X-Frame-Options: DENY</strong></p>
+<p>- <strong>X-XSS-Protection: 1; mode=block</strong></p>
+<p>- <strong>Strict-Transport-Security</strong></p>
+<p>- <strong>Content-Security-Policy</strong></p>
+<p>- <strong>Referrer-Policy</strong></p>
+
+
+<p><strong>482. What is Helmet.js and how do you use it?</strong></p>
+
+<p>Helmet.js is a Node.js middleware that sets various HTTP headers to secure Express apps.</p>
+
+<p><strong>Usage:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20helmet%20%3D%20require('helmet')%3B%0Aapp.use(helmet())%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const helmet = require('helmet');
+app.use(helmet());
+</code></pre>
+</div>
+
+<p><strong>Features:</strong></p>
+
+<p>- Sets security headers automatically</p>
+<p>- Configurable options</p>
+<p>- Regular updates for new threats</p>
+
+
+<p><strong>483. How do you handle sensitive data in applications?</strong></p>
+
+<p><strong>Best practices:</strong></p>
+
+<p>1. <strong>Encrypt at rest</strong> - database encryption</p>
+<p>2. <strong>Encrypt in transit</strong> - HTTPS/TLS</p>
+<p>3. <strong>Environment variables</strong> - for secrets</p>
+<p>4. <strong>Key management systems</strong></p>
+<p>5. <strong>Data classification</strong></p>
+<p>6. <strong>Access controls</strong></p>
+<p>7. <strong>Audit logging</strong></p>
+
+
+<p><strong>484. How do you secure API endpoints?</strong></p>
+
+<p><strong>Security measures:</strong></p>
+
+<p>1. <strong>Authentication</strong> - verify user identity</p>
+<p>2. <strong>Authorization</strong> - check permissions</p>
+<p>3. <strong>Rate limiting</strong> - prevent abuse</p>
+<p>4. <strong>Input validation</strong> - sanitize inputs</p>
+<p>5. <strong>HTTPS only</strong> - encrypt communication</p>
+<p>6. <strong>API versioning</strong> - maintain compatibility</p>
+<p>7. <strong>Monitoring</strong> - track usage and threats</p>
+
+
+<p><strong>485. How do you implement rate limiting for security?</strong></p>
+
+<p><strong>Implementation:</strong></p>
+
+<p>1. <strong>Fixed window</strong> - requests per time window</p>
+<p>2. <strong>Sliding window</strong> - more accurate limiting</p>
+<p>3. <strong>Token bucket</strong> - burst handling</p>
+<p>4. <strong>Distributed rate limiting</strong> - across servers</p>
+
+
+<p><strong>Example with express-rate-limit:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20rateLimit%20%3D%20require('express-rate-limit')%3B%0Aconst%20limiter%20%3D%20rateLimit(%7B%0A%20%20windowMs%3A%2015%20*%2060%20*%201000%2C%20%2F%2F%2015%20minutes%0A%20%20max%3A%20100%20%2F%2F%20limit%20each%20IP%20to%20100%20requests%20per%20windowMs%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+</code></pre>
+</div>
+
+<p><strong>486. How do you prevent brute force attacks?</strong></p>
+
+<p><strong>Prevention strategies:</strong></p>
+
+<p>1. <strong>Account lockout</strong> - temporary locks</p>
+<p>2. <strong>Progressive delays</strong> - increasing wait times</p>
+<p>3. <strong>CAPTCHA</strong> - human verification</p>
+<p>4. <strong>Rate limiting</strong> - limit attempts</p>
+<p>5. <strong>IP blocking</strong> - block suspicious IPs</p>
+<p>6. <strong>Strong password policies</strong></p>
+<p>7. <strong>Multi-factor authentication</strong></p>
+
+
+<p><strong>487. How do you handle session security?</strong></p>
+
+<p><strong>Security measures:</strong></p>
+
+<p>1. <strong>Secure session storage</strong> - server-side</p>
+<p>2. <strong>Session timeout</strong> - automatic expiration</p>
+<p>3. <strong>Session regeneration</strong> - after login</p>
+<p>4. <strong>Secure cookies</strong> - HttpOnly, Secure flags</p>
+<p>5. <strong>Session invalidation</strong> - proper logout</p>
+<p>6. <strong>CSRF protection</strong></p>
+
+
+<p><strong>488. How do you implement secure cookie handling?</strong></p>
+
+<p><strong>Secure cookie attributes:</strong></p>
+
+<p>- <strong>HttpOnly</strong> - prevents JavaScript access</p>
+<p>- <strong>Secure</strong> - HTTPS only</p>
+<p>- <strong>SameSite</strong> - CSRF protection</p>
+<p>- <strong>Path</strong> - limit cookie scope</p>
+<p>- <strong>Domain</strong> - control cookie domain</p>
+<p>- <strong>Expires/Max-Age</strong> - control lifetime</p>
+
+
+<p><strong>489. How do you handle file upload security?</strong></p>
+
+<p><strong>Security measures:</strong></p>
+
+<p>1. <strong>File type validation</strong> - check extensions and MIME types</p>
+<p>2. <strong>File size limits</strong> - prevent DoS</p>
+<p>3. <strong>Virus scanning</strong> - malware detection</p>
+<p>4. <strong>Secure storage</strong> - outside web root</p>
+<p>5. <strong>Content validation</strong> - verify file contents</p>
+<p>6. <strong>Rename files</strong> - prevent conflicts</p>
+<p>7. <strong>Access controls</strong> - limit who can upload</p>
+
+
+<p><strong>490. How do you prevent directory traversal attacks?</strong></p>
+
+<p><strong>Prevention:</strong></p>
+
+<p>1. <strong>Input validation</strong> - sanitize file paths</p>
+<p>2. <strong>Whitelist approach</strong> - allowed paths only</p>
+<p>3. <strong>Canonical paths</strong> - resolve relative paths</p>
+<p>4. <strong>Chroot jails</strong> - restrict file system access</p>
+<p>5. <strong>Path normalization</strong></p>
+
+
+<p><strong>Example vulnerable code:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20Vulnerable%0Aconst%20filePath%20%3D%20req.params.filename%3B%0Afs.readFile(%60.%2Fuploads%2F%24%7BfilePath%7D%60)%3B%0A%0A%2F%2F%20Safe%0Aconst%20path%20%3D%20require('path')%3B%0Aconst%20safePath%20%3D%20path.join('.%2Fuploads'%2C%20path.basename(filePath))%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// Vulnerable
+const filePath = req.params.filename;
+fs.readFile(`./uploads/${filePath}`);
+
+// Safe
+const path = require('path');
+const safePath = path.join('./uploads', path.basename(filePath));
+</code></pre>
+</div>
+
+<p><strong>491. How do you implement input validation and sanitization?</strong></p>
+
+<p><strong>Validation types:</strong></p>
+
+<p>1. <strong>Syntax validation</strong> - format checking</p>
+<p>2. <strong>Semantic validation</strong> - business logic</p>
+<p>3. <strong>Length validation</strong> - size limits</p>
+<p>4. <strong>Range validation</strong> - numeric bounds</p>
+<p>5. <strong>Whitelist validation</strong> - allowed values</p>
+
+
+<p><strong>Sanitization:</strong></p>
+
+<p>- Remove/escape dangerous characters</p>
+<p>- Normalize data format</p>
+<p>- Encode special characters</p>
+
+
+<p><strong>492. How do you handle error messages securely?</strong></p>
+
+<p><strong>Best practices:</strong></p>
+
+<p>1. <strong>Generic error messages</strong> - don't reveal system details</p>
+<p>2. <strong>Log detailed errors</strong> - for debugging</p>
+<p>3. <strong>Error codes</strong> - instead of descriptive messages</p>
+<p>4. <strong>Stack trace hiding</strong> - in production</p>
+<p>5. <strong>Consistent responses</strong> - don't leak information</p>
+
+
+<p><strong>493. How do you implement audit logging?</strong></p>
+
+<p><strong>What to log:</strong></p>
+
+<p>- Authentication events</p>
+<p>- Authorization failures</p>
+<p>- Data access/modifications</p>
+<p>- System configuration changes</p>
+<p>- Security events</p>
+
+
+<p><strong>Log format:</strong></p>
+
+<p>- Timestamp</p>
+<p>- User ID</p>
+<p>- Action performed</p>
+<p>- Resource accessed</p>
+<p>- IP address</p>
+<p>- User agent</p>
+
+
+<p><strong>494. How do you handle secrets management?</strong></p>
+
+<p><strong>Best practices:</strong></p>
+
+<p>1. <strong>Environment variables</strong> - not in code</p>
+<p>2. <strong>Key management services</strong> - AWS KMS, Azure Key Vault</p>
+<p>3. <strong>Secret rotation</strong> - regular updates</p>
+<p>4. <strong>Access controls</strong> - limit who can access</p>
+<p>5. <strong>Encryption</strong> - encrypt secrets at rest</p>
+<p>6. <strong>Audit trails</strong> - track secret access</p>
+
+
+<p><strong>495. How do you implement secure communication (HTTPS)?</strong></p>
+
+<p><strong>Implementation:</strong></p>
+
+<p>1. <strong>TLS certificates</strong> - from trusted CA</p>
+<p>2. <strong>Strong cipher suites</strong> - modern encryption</p>
+<p>3. <strong>HSTS headers</strong> - force HTTPS</p>
+<p>4. <strong>Certificate pinning</strong> - prevent MITM</p>
+<p>5. <strong>Perfect Forward Secrecy</strong></p>
+<p>6. <strong>Regular certificate renewal</strong></p>
+
+
+<p><strong>496. How do you handle database security?</strong></p>
+
+<p><strong>Security measures:</strong></p>
+
+<p>1. <strong>Least privilege access</strong> - minimal permissions</p>
+<p>2. <strong>Database encryption</strong> - at rest and in transit</p>
+<p>3. <strong>Regular backups</strong> - secure storage</p>
+<p>4. <strong>Access logging</strong> - audit database access</p>
+<p>5. <strong>Network security</strong> - firewall rules</p>
+<p>6. <strong>Regular updates</strong> - patch vulnerabilities</p>
+<p>7. <strong>Connection pooling</strong> - secure connections</p>
+
+
+<p><strong>497. How do you implement role-based access control?</strong></p>
+
+<p><strong>RBAC components:</strong></p>
+
+<p>1. <strong>Users</strong> - individuals</p>
+<p>2. <strong>Roles</strong> - job functions</p>
+<p>3. <strong>Permissions</strong> - specific actions</p>
+<p>4. <strong>Resources</strong> - protected objects</p>
+
+
+<p><strong>Implementation:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20permissions%20%3D%20%7B%0A%20%20admin%3A%20%5B'read'%2C%20'write'%2C%20'delete'%5D%2C%0A%20%20user%3A%20%5B'read'%5D%2C%0A%20%20guest%3A%20%5B%5D%0A%7D%3B%0A%0Afunction%20hasPermission(userRole%2C%20action)%20%7B%0A%20%20return%20permissions%5BuserRole%5D%3F.includes(action)%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const permissions = {
+  admin: ['read', 'write', 'delete'],
+  user: ['read'],
+  guest: []
+};
+
+function hasPermission(userRole, action) {
+  return permissions[userRole]?.includes(action);
+}
+</code></pre>
+</div>
+
+<p><strong>498. How do you handle security in microservices?</strong></p>
+
+<p><strong>Security considerations:</strong></p>
+
+<p>1. <strong>Service-to-service authentication</strong> - mutual TLS</p>
+<p>2. <strong>API gateways</strong> - centralized security</p>
+<p>3. <strong>Zero trust architecture</strong> - verify everything</p>
+<p>4. <strong>Distributed tracing</strong> - security monitoring</p>
+<p>5. <strong>Secret management</strong> - centralized secrets</p>
+<p>6. <strong>Network segmentation</strong> - isolate services</p>
+
+
+<p><strong>499. How do you implement security monitoring?</strong></p>
+
+<p><strong>Monitoring areas:</strong></p>
+
+<p>1. <strong>Authentication failures</strong> - brute force detection</p>
+<p>2. <strong>Unusual access patterns</strong> - anomaly detection</p>
+<p>3. <strong>Data exfiltration</strong> - large data transfers</p>
+<p>4. <strong>System vulnerabilities</strong> - security scanning</p>
+<p>5. <strong>Compliance violations</strong> - policy enforcement</p>
+
+
+<p><strong>Tools:</strong></p>
+
+<p>- SIEM systems</p>
+<p>- Log aggregation</p>
+<p>- Real-time alerting</p>
+<p>- Threat intelligence</p>
+
+
+<p><strong>500. How do you handle security incident response?</strong></p>
+
+<p><strong>Incident response phases:</strong></p>
+
+<p>1. <strong>Preparation</strong> - plans and procedures</p>
+<p>2. <strong>Identification</strong> - detect and analyze</p>
+<p>3. <strong>Containment</strong> - limit damage</p>
+<p>4. <strong>Eradication</strong> - remove threat</p>
+<p>5. <strong>Recovery</strong> - restore operations</p>
+<p>6. <strong>Lessons learned</strong> - improve processes</p>
+
+
+<p><strong>Key activities:</strong></p>
+
+<p>- Incident classification</p>
+<p>- Communication plans</p>
+<p>- Evidence preservation</p>
+<p>- Forensic analysis</p>
+<p>- Post-incident review</p>
+
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#authentication-fundamentals-questions-451-475-" class="h2-link">Authentication Fundamentals (Questions 451-475)</a></li><li><a href="#security-best-practices-questions-476-500-" class="h2-link">Security Best Practices (Questions 476-500)</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+
+        
+
+    </script>
+</body>
+</html>

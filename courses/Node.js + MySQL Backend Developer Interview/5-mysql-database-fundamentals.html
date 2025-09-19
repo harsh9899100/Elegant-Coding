@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .h2-link{
+            font-weight:700;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .toc a.active {
+            color: blue !important;
+             background-color: #5ec7ff2a;
+}
+
+
+        .toc a:hover { background-color: #0077ff16}
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h2 id="core-concepts-25-questions-">Core Concepts (25 Questions)</h2>
+
+<p><strong>241. What is MySQL and why is it popular?</strong></p>
+
+<p>MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL). It's popular because:</p>
+
+<p>- <strong>Open Source</strong>: Free to use with strong community support</p>
+<p>- <strong>Performance</strong>: Fast and reliable for web applications</p>
+<p>- <strong>Scalability</strong>: Handles large datasets efficiently</p>
+<p>- <strong>Cross-platform</strong>: Runs on various operating systems</p>
+<p>- <strong>ACID Compliance</strong>: Ensures data integrity</p>
+<p>- <strong>Wide Adoption</strong>: Used by major companies like Facebook, Twitter, YouTube</p>
+
+
+<p><strong>242. What is a Relational Database Management System (RDBMS)?</strong></p>
+
+<p>An RDBMS is a database management system based on the relational model where:</p>
+
+<p>- Data is stored in tables (relations)</p>
+<p>- Tables consist of rows (tuples) and columns (attributes)</p>
+<p>- Relationships between tables are established through keys</p>
+<p>- Follows ACID properties (Atomicity, Consistency, Isolation, Durability)</p>
+<p>- Uses SQL for data manipulation and querying</p>
+
+
+<p><strong>243. What is a database schema?</strong></p>
+
+<p>A database schema is the logical structure that defines:</p>
+
+<p>- <strong>Tables</strong>: What tables exist and their structure</p>
+<p>- <strong>Columns</strong>: Data types, constraints, and properties</p>
+<p>- <strong>Relationships</strong>: How tables relate to each other</p>
+<p>- <strong>Indexes</strong>: Performance optimization structures</p>
+<p>- <strong>Views</strong>: Virtual tables based on queries</p>
+<p>- <strong>Stored Procedures</strong>: Reusable code blocks</p>
+
+
+<p>Example: An e-commerce schema might include tables for users, products, orders, and order_items.</p>
+
+<p><strong>244. What are tables, rows, and columns?</strong></p>
+
+<p>- <strong>Table</strong>: A collection of related data organized in rows and columns (like a spreadsheet)</p>
+<p>- <strong>Row (Record/Tuple)</strong>: A single instance of data representing one entity</p>
+<p>- <strong>Column (Field/Attribute)</strong>: A specific data element that all rows share</p>
+
+
+<p>Example:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">plaintext</span>
+        <button class="copy-btn" data-code="Users%20Table%3A%0A%7C%20id%20%7C%20name%20%20%20%20%7C%20email%20%20%20%20%20%20%20%20%20%20%20%7C%20age%20%7C%0A%7C----%7C---------%7C-----------------%7C-----%7C%0A%7C%201%20%20%7C%20John%20%20%20%20%7C%20john%40email.com%20%20%7C%2025%20%20%7C%0A%7C%202%20%20%7C%20Sarah%20%20%20%7C%20sarah%40email.com%20%7C%2030%20%20%7C%0A">Copy</button>
+    </div>
+    <pre><code class="language-plaintext">Users Table:
+| id | name    | email           | age |
+|----|---------|-----------------|-----|
+| 1  | John    | john@email.com  | 25  |
+| 2  | Sarah   | sarah@email.com | 30  |
+</code></pre>
+</div>
+
+<p><strong>245. What are the main SQL data types in MySQL?</strong></p>
+
+<p><strong>Numeric Types:</strong></p>
+
+<p>- `INT`: Integer numbers (-2,147,483,648 to 2,147,483,647)</p>
+<p>- `BIGINT`: Large integers</p>
+<p>- `DECIMAL(M,D)`: Fixed-point numbers</p>
+<p>- `FLOAT`: Single-precision floating-point</p>
+<p>- `DOUBLE`: Double-precision floating-point</p>
+
+
+<p><strong>String Types:</strong></p>
+
+<p>- `VARCHAR(n)`: Variable-length strings (up to n characters)</p>
+<p>- `CHAR(n)`: Fixed-length strings</p>
+<p>- `TEXT`: Large text data</p>
+<p>- `LONGTEXT`: Very large text data</p>
+
+
+<p><strong>Date/Time Types:</strong></p>
+
+<p>- `DATE`: Date values (YYYY-MM-DD)</p>
+<p>- `TIME`: Time values (HH:MM:SS)</p>
+<p>- `DATETIME`: Date and time</p>
+<p>- `TIMESTAMP`: Timestamp with timezone</p>
+
+
+<p><strong>246. What is a Primary Key and what are its properties?</strong></p>
+
+<p>A Primary Key is a column (or combination of columns) that uniquely identifies each row in a table.</p>
+
+<p><strong>Properties:</strong></p>
+
+<p>- <strong>Uniqueness</strong>: No two rows can have the same primary key value</p>
+<p>- <strong>Non-null</strong>: Cannot contain NULL values</p>
+<p>- <strong>Immutable</strong>: Should not change once assigned</p>
+<p>- <strong>Minimal</strong>: Should use the fewest columns necessary</p>
+
+
+<p>Example: In a users table, `user_id` serves as the primary key.</p>
+
+<p><strong>247. What is a Foreign Key and its purpose?</strong></p>
+
+<p>A Foreign Key is a column that creates a link between two tables by referencing the primary key of another table.</p>
+
+<p><strong>Purpose:</strong></p>
+
+<p>- <strong>Referential Integrity</strong>: Ensures data consistency across tables</p>
+<p>- <strong>Relationships</strong>: Establishes connections between related data</p>
+<p>- <strong>Constraints</strong>: Prevents invalid data entry</p>
+
+
+<p>Example: In an orders table, `customer_id` is a foreign key referencing the `id` in the customers table.</p>
+
+<p><strong>248. What is a Composite Key?</strong></p>
+
+<p>A Composite Key is a primary key consisting of multiple columns that together uniquely identify a row.</p>
+
+<p><strong>Example:</strong> In an order_items table:</p>
+
+<p>- `order_id` + `product_id` forms a composite key</p>
+<p>- Neither column alone is unique, but together they are</p>
+<p>- Useful for many-to-many relationship tables</p>
+
+
+<p><strong>249. What is a Unique constraint?</strong></p>
+
+<p>A Unique constraint ensures that all values in a column (or combination of columns) are different from each other.</p>
+
+<p><strong>Differences from Primary Key:</strong></p>
+
+<p>- Can have multiple unique constraints per table</p>
+<p>- Can contain NULL values (but only one NULL per column)</p>
+<p>- Not automatically indexed (though often are)</p>
+
+
+<p>Example: Email addresses in a users table should be unique.</p>
+
+<p><strong>250. What is a Default constraint?</strong></p>
+
+<p>A Default constraint provides a default value for a column when no value is specified during insertion.</p>
+
+<p><strong>Examples:</strong></p>
+
+<p>- `created_at DATETIME DEFAULT CURRENT_TIMESTAMP`</p>
+<p>- `status VARCHAR(20) DEFAULT 'active'`</p>
+<p>- `is_verified BOOLEAN DEFAULT FALSE`</p>
+
+
+<p><strong>251. What is a NULL value and how is it different from empty string?</strong></p>
+
+<p><strong>NULL</strong>: Represents the absence of any value or unknown value</p>
+<p><strong>Empty String ('')</strong>: A string with zero length but still a value</p>
+
+<p><strong>Key Differences:</strong></p>
+
+<p>- NULL takes no storage space; empty string takes minimal space</p>
+<p>- NULL comparisons use `IS NULL`/`IS NOT NULL`; empty string uses `= ''`</p>
+<p>- NULL in calculations results in NULL; empty string participates normally</p>
+
+
+<p><strong>252. What are the CRUD operations and their SQL commands?</strong></p>
+
+<p><strong>CRUD</strong> stands for Create, Read, Update, Delete:</p>
+
+<p>- <strong>Create</strong>: `INSERT INTO table_name (columns) VALUES (values)`</p>
+<p>- <strong>Read</strong>: `SELECT columns FROM table_name WHERE condition`</p>
+<p>- <strong>Update</strong>: `UPDATE table_name SET column = value WHERE condition`</p>
+<p>- <strong>Delete</strong>: `DELETE FROM table_name WHERE condition`</p>
+
+
+<p><strong>253. What is the WHERE clause and what operators can be used?</strong></p>
+
+<p>The WHERE clause filters records based on specified conditions.</p>
+
+<p><strong>Operators:</strong></p>
+
+<p>- <strong>Comparison</strong>: `=`, `!=`, `<>`, `<`, `>`, `<=`, `>=`</p>
+<p>- <strong>Logical</strong>: `AND`, `OR`, `NOT`</p>
+<p>- <strong>Pattern</strong>: `LIKE`, `NOT LIKE`</p>
+<p>- <strong>Range</strong>: `BETWEEN`, `NOT BETWEEN`</p>
+<p>- <strong>List</strong>: `IN`, `NOT IN`</p>
+<p>- <strong>Null</strong>: `IS NULL`, `IS NOT NULL`</p>
+
+
+<p><strong>254. What is the ORDER BY clause?</strong></p>
+
+<p>ORDER BY sorts the result set by one or more columns.</p>
+
+<p><strong>Syntax:</strong> `ORDER BY column1 ASC/DESC, column2 ASC/DESC`</p>
+
+<p>- <strong>ASC</strong>: Ascending order (default)</p>
+<p>- <strong>DESC</strong>: Descending order</p>
+<p>- Can sort by multiple columns with different directions</p>
+
+
+<p><strong>255. What is the DISTINCT keyword?</strong></p>
+
+<p>DISTINCT removes duplicate rows from the result set, returning only unique values.</p>
+
+<p><strong>Example:</strong> `SELECT DISTINCT city FROM users` returns each city only once, even if multiple users live there.</p>
+
+<p><strong>256. What is the LIMIT clause?</strong></p>
+
+<p>LIMIT restricts the number of rows returned by a query.</p>
+
+<p><strong>Syntax:</strong></p>
+
+<p>- `LIMIT count`: Returns first 'count' rows</p>
+<p>- `LIMIT offset, count`: Skips 'offset' rows, returns next 'count' rows</p>
+
+
+<p><strong>Example:</strong> `SELECT * FROM users LIMIT 10` returns first 10 users.</p>
+
+<p><strong>257. What is the LIKE operator and wildcards?</strong></p>
+
+<p>LIKE is used for pattern matching in string comparisons.</p>
+
+<p><strong>Wildcards:</strong></p>
+
+<p>- `%`: Matches zero or more characters</p>
+<p>- `_`: Matches exactly one character</p>
+
+
+<p><strong>Examples:</strong></p>
+
+<p>- `name LIKE 'John%'`: Names starting with "John"</p>
+<p>- `email LIKE '%@gmail.com'`: Gmail addresses</p>
+<p>- `phone LIKE '555-____'`: Phone numbers starting with 555</p>
+
+
+<p><strong>258. What are Aggregate Functions?</strong></p>
+
+<p>Aggregate functions perform calculations on multiple rows and return a single result.</p>
+
+<p><strong>Common Functions:</strong></p>
+
+<p>- `COUNT()`: Counts rows</p>
+<p>- `SUM()`: Adds numeric values</p>
+<p>- `AVG()`: Calculates average</p>
+<p>- `MIN()`: Finds minimum value</p>
+<p>- `MAX()`: Finds maximum value</p>
+
+
+<p><strong>259. What is the GROUP BY clause?</strong></p>
+
+<p>GROUP BY groups rows with the same values in specified columns and allows aggregate functions to be applied to each group.</p>
+
+<p><strong>Example:</strong> `SELECT city, COUNT(*) FROM users GROUP BY city` counts users per city.</p>
+
+<p><strong>260. What is the HAVING clause and how is it different from WHERE?</strong></p>
+
+<p>HAVING filters groups created by GROUP BY, while WHERE filters individual rows.</p>
+
+<p><strong>Key Differences:</strong></p>
+
+<p>- <strong>WHERE</strong>: Filters rows before grouping</p>
+<p>- <strong>HAVING</strong>: Filters groups after grouping</p>
+<p>- <strong>HAVING</strong>: Can use aggregate functions in conditions</p>
+<p>- <strong>WHERE</strong>: Cannot use aggregate functions</p>
+
+
+<p><strong>261. What are Scalar Functions?</strong></p>
+
+<p>Scalar functions operate on individual values and return a single value for each row.</p>
+
+<p><strong>Examples:</strong></p>
+
+<p>- <strong>String</strong>: `UPPER()`, `LOWER()`, `LENGTH()`, `SUBSTRING()`</p>
+<p>- <strong>Numeric</strong>: `ROUND()`, `ABS()`, `CEIL()`, `FLOOR()`</p>
+<p>- <strong>Date</strong>: `NOW()`, `YEAR()`, `MONTH()`, `DATE_FORMAT()`</p>
+
+
+<p><strong>262. What is the difference between CHAR and VARCHAR?</strong></p>
+
+<p><strong>CHAR(n):</strong></p>
+
+<p>- Fixed-length string</p>
+<p>- Always uses n bytes of storage</p>
+<p>- Faster for fixed-size data</p>
+<p>- Padded with spaces if shorter</p>
+
+
+<p><strong>VARCHAR(n):</strong></p>
+
+<p>- Variable-length string</p>
+<p>- Uses only needed storage + 1-2 bytes for length</p>
+<p>- More storage efficient</p>
+<p>- No padding</p>
+
+
+<p><strong>263. What is the difference between DATETIME and TIMESTAMP?</strong></p>
+
+<p><strong>DATETIME:</strong></p>
+
+<p>- Range: 1000-01-01 to 9999-12-31</p>
+<p>- 8 bytes storage</p>
+<p>- No timezone awareness</p>
+<p>- Not affected by server timezone changes</p>
+
+
+<p><strong>TIMESTAMP:</strong></p>
+
+<p>- Range: 1970-01-01 to 2038-01-19</p>
+<p>- 4 bytes storage</p>
+<p>- Timezone aware</p>
+<p>- Automatically converts based on server timezone</p>
+
+
+<p><strong>264. What are MySQL storage engines?</strong></p>
+
+<p>Storage engines determine how MySQL stores, retrieves, and manages data.</p>
+
+<p><strong>Popular Engines:</strong></p>
+
+<p>- <strong>InnoDB</strong>: Default, supports transactions, foreign keys</p>
+<p>- <strong>MyISAM</strong>: Fast reads, no transactions</p>
+<p>- <strong>Memory</strong>: Stores data in RAM</p>
+<p>- <strong>Archive</strong>: For compressed, archived data</p>
+
+
+<p><strong>265. What is the difference between InnoDB and MyISAM?</strong></p>
+
+<p><strong>InnoDB:</strong></p>
+
+<p>- ACID compliant with transactions</p>
+<p>- Row-level locking</p>
+<p>- Foreign key support</p>
+<p>- Crash recovery</p>
+<p>- Better for write-heavy applications</p>
+
+
+<p><strong>MyISAM:</strong></p>
+
+<p>- No transaction support</p>
+<p>- Table-level locking</p>
+<p>- No foreign keys</p>
+<p>- Faster for read-heavy applications</p>
+<p>- Smaller storage footprint</p>
+
+
+<h2 id="sql-queries-operations-25-questions-">SQL Queries & Operations (25 Questions)</h2>
+
+<p><strong>266. Write SQL query to create a users table with id, name, email, password.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="CREATE%20TABLE%20users%20(%0A%20%20%20%20id%20INT%20PRIMARY%20KEY%20AUTO_INCREMENT%2C%0A%20%20%20%20name%20VARCHAR(100)%20NOT%20NULL%2C%0A%20%20%20%20email%20VARCHAR(255)%20UNIQUE%20NOT%20NULL%2C%0A%20%20%20%20password%20VARCHAR(255)%20NOT%20NULL%2C%0A%20%20%20%20created_at%20TIMESTAMP%20DEFAULT%20CURRENT_TIMESTAMP%0A)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</code></pre>
+</div>
+
+<p><strong>267. Write query to insert multiple rows into users table.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="INSERT%20INTO%20users%20(name%2C%20email%2C%20password)%20VALUES%0A('John%20Doe'%2C%20'john%40email.com'%2C%20'hashed_password1')%2C%0A('Jane%20Smith'%2C%20'jane%40email.com'%2C%20'hashed_password2')%2C%0A('Bob%20Johnson'%2C%20'bob%40email.com'%2C%20'hashed_password3')%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">INSERT INTO users (name, email, password) VALUES
+('John Doe', 'john@email.com', 'hashed_password1'),
+('Jane Smith', 'jane@email.com', 'hashed_password2'),
+('Bob Johnson', 'bob@email.com', 'hashed_password3');
+</code></pre>
+</div>
+
+<p><strong>268. Write query to update email of a user by id.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="UPDATE%20users%20%0ASET%20email%20%3D%20'newemail%40example.com'%20%0AWHERE%20id%20%3D%201%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">UPDATE users 
+SET email = 'newemail@example.com' 
+WHERE id = 1;
+</code></pre>
+</div>
+
+<p><strong>269. Write query to delete a user by id.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="DELETE%20FROM%20users%20WHERE%20id%20%3D%201%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">DELETE FROM users WHERE id = 1;
+</code></pre>
+</div>
+
+<p><strong>270. Write query to fetch all users whose name starts with "A".</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20users%20WHERE%20name%20LIKE%20'A%25'%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM users WHERE name LIKE 'A%';
+</code></pre>
+</div>
+
+<p><strong>271. Write query to count total users.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20COUNT(*)%20as%20total_users%20FROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT COUNT(*) as total_users FROM users;
+</code></pre>
+</div>
+
+<p><strong>272. Write query to fetch the top 5 latest users.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20users%20%0AORDER%20BY%20created_at%20DESC%20%0ALIMIT%205%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM users 
+ORDER BY created_at DESC 
+LIMIT 5;
+</code></pre>
+</div>
+
+<p><strong>273. Write query to select users with NULL phone numbers.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20users%20WHERE%20phone%20IS%20NULL%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM users WHERE phone IS NULL;
+</code></pre>
+</div>
+
+<p><strong>274. Write query to select distinct cities from users.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20DISTINCT%20city%20FROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT DISTINCT city FROM users;
+</code></pre>
+</div>
+
+<p><strong>275. Write query to group users by city and count them.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20city%2C%20COUNT(*)%20as%20user_count%20%0AFROM%20users%20%0AGROUP%20BY%20city%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT city, COUNT(*) as user_count 
+FROM users 
+GROUP BY city;
+</code></pre>
+</div>
+
+<p><strong>276. Write query to find max salary from employees.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20MAX(salary)%20as%20max_salary%20FROM%20employees%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT MAX(salary) as max_salary FROM employees;
+</code></pre>
+</div>
+
+<p><strong>277. Write query to find average age of employees.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20AVG(age)%20as%20average_age%20FROM%20employees%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT AVG(age) as average_age FROM employees;
+</code></pre>
+</div>
+
+<p><strong>278. Write query to find employees with salary greater than 50k.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20employees%20WHERE%20salary%20%3E%2050000%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM employees WHERE salary &gt; 50000;
+</code></pre>
+</div>
+
+<p><strong>279. Write query to fetch employees ordered by joining date.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20employees%20ORDER%20BY%20joining_date%20ASC%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM employees ORDER BY joining_date ASC;
+</code></pre>
+</div>
+
+<p><strong>280. Write query to find second highest salary.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20MAX(salary)%20as%20second_highest%20%0AFROM%20employees%20%0AWHERE%20salary%20%3C%20(SELECT%20MAX(salary)%20FROM%20employees)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT MAX(salary) as second_highest 
+FROM employees 
+WHERE salary &lt; (SELECT MAX(salary) FROM employees);
+</code></pre>
+</div>
+
+<p><strong>281. Write query to find nth highest salary.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20salary%20%0AFROM%20employees%20%0AORDER%20BY%20salary%20DESC%20%0ALIMIT%20n-1%2C%201%3B%0A%0A--%20Alternative%20using%20subquery%0ASELECT%20MIN(salary)%20%0AFROM%20(%0A%20%20%20%20SELECT%20salary%20%0A%20%20%20%20FROM%20employees%20%0A%20%20%20%20ORDER%20BY%20salary%20DESC%20%0A%20%20%20%20LIMIT%20n%0A)%20as%20top_n_salaries%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT salary 
+FROM employees 
+ORDER BY salary DESC 
+LIMIT n-1, 1;
+
+-- Alternative using subquery
+SELECT MIN(salary) 
+FROM (
+    SELECT salary 
+    FROM employees 
+    ORDER BY salary DESC 
+    LIMIT n
+) as top_n_salaries;
+</code></pre>
+</div>
+
+<p><strong>282. Write query using CASE WHEN statement.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20name%2C%20salary%2C%0A%20%20%20%20CASE%20%0A%20%20%20%20%20%20%20%20WHEN%20salary%20%3E%2080000%20THEN%20'High'%0A%20%20%20%20%20%20%20%20WHEN%20salary%20%3E%2050000%20THEN%20'Medium'%0A%20%20%20%20%20%20%20%20ELSE%20'Low'%0A%20%20%20%20END%20as%20salary_grade%0AFROM%20employees%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT name, salary,
+    CASE 
+        WHEN salary &gt; 80000 THEN 'High'
+        WHEN salary &gt; 50000 THEN 'Medium'
+        ELSE 'Low'
+    END as salary_grade
+FROM employees;
+</code></pre>
+</div>
+
+<p><strong>283. Write query to concatenate first_name and last_name.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20CONCAT(first_name%2C%20'%20'%2C%20last_name)%20as%20full_name%20%0AFROM%20employees%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT CONCAT(first_name, ' ', last_name) as full_name 
+FROM employees;
+</code></pre>
+</div>
+
+<p><strong>284. Write query to fetch length of a string column.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20name%2C%20LENGTH(name)%20as%20name_length%20FROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT name, LENGTH(name) as name_length FROM users;
+</code></pre>
+</div>
+
+<p><strong>285. Write query to select current date and time.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20NOW()%20as%20current_datetime%2C%20%0A%20%20%20%20%20%20%20CURDATE()%20as%20current_date%2C%20%0A%20%20%20%20%20%20%20CURTIME()%20as%20current_time%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT NOW() as current_datetime, 
+       CURDATE() as current_date, 
+       CURTIME() as current_time;
+</code></pre>
+</div>
+
+<p><strong>286. Write query to format date as YYYY-MM-DD.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20DATE_FORMAT(created_at%2C%20'%25Y-%25m-%25d')%20as%20formatted_date%20%0AFROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as formatted_date 
+FROM users;
+</code></pre>
+</div>
+
+<p><strong>287. Write query to add 7 days to a date.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20DATE_ADD(created_at%2C%20INTERVAL%207%20DAY)%20as%20future_date%20%0AFROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT DATE_ADD(created_at, INTERVAL 7 DAY) as future_date 
+FROM users;
+</code></pre>
+</div>
+
+<p><strong>288. Write query to extract year from a date column.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20YEAR(created_at)%20as%20creation_year%20FROM%20users%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT YEAR(created_at) as creation_year FROM users;
+</code></pre>
+</div>
+
+<p><strong>289. Write query to select employees who joined in 2020.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20*%20FROM%20employees%20%0AWHERE%20YEAR(joining_date)%20%3D%202020%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT * FROM employees 
+WHERE YEAR(joining_date) = 2020;
+</code></pre>
+</div>
+
+<p><strong>290. Write query to implement pagination using LIMIT and OFFSET.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="--%20Page%201%20(first%2010%20records)%0ASELECT%20*%20FROM%20users%20LIMIT%2010%20OFFSET%200%3B%0A%0A--%20Page%202%20(next%2010%20records)%0ASELECT%20*%20FROM%20users%20LIMIT%2010%20OFFSET%2010%3B%0A%0A--%20Page%203%20(next%2010%20records)%0ASELECT%20*%20FROM%20users%20LIMIT%2010%20OFFSET%2020%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">-- Page 1 (first 10 records)
+SELECT * FROM users LIMIT 10 OFFSET 0;
+
+-- Page 2 (next 10 records)
+SELECT * FROM users LIMIT 10 OFFSET 10;
+
+-- Page 3 (next 10 records)
+SELECT * FROM users LIMIT 10 OFFSET 20;
+</code></pre>
+</div>
+
+<h2 id="joins-relationships-30-questions-">Joins & Relationships (30 Questions)</h2>
+
+<p><strong>291. What is a SQL Join and why is it necessary?</strong></p>
+
+<p>A SQL Join combines rows from two or more tables based on a related column between them. It's necessary because:</p>
+
+<p>- <strong>Normalization</strong>: Data is split across multiple tables to avoid redundancy</p>
+<p>- <strong>Relationships</strong>: Real-world data has relationships that need to be queried together</p>
+<p>- <strong>Efficiency</strong>: Avoids data duplication and maintains data integrity</p>
+<p>- <strong>Flexibility</strong>: Allows complex queries across multiple entities</p>
+
+
+<p><strong>292. Explain INNER JOIN with example.</strong></p>
+
+<p>INNER JOIN returns only rows that have matching values in both tables.</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20o.order_date%2C%20o.total%0AFROM%20users%20u%0AINNER%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, o.order_date, o.total
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id;
+</code></pre>
+</div>
+
+<p>This returns only users who have placed orders, along with their order details.</p>
+
+<p><strong>293. Explain LEFT (OUTER) JOIN with example.</strong></p>
+
+<p>LEFT JOIN returns all rows from the left table and matching rows from the right table. If no match, NULL values for right table columns.</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20o.order_date%2C%20o.total%0AFROM%20users%20u%0ALEFT%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, o.order_date, o.total
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id;
+</code></pre>
+</div>
+
+<p>This returns all users, including those who haven't placed any orders (with NULL order details).</p>
+
+<p><strong>294. Explain RIGHT (OUTER) JOIN with example.</strong></p>
+
+<p>RIGHT JOIN returns all rows from the right table and matching rows from the left table.</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20o.order_date%2C%20o.total%0AFROM%20users%20u%0ARIGHT%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, o.order_date, o.total
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;
+</code></pre>
+</div>
+
+<p>This returns all orders, including those without valid user references.</p>
+
+<p><strong>295. Explain FULL (OUTER) JOIN (how to simulate in MySQL).</strong></p>
+
+<p>FULL OUTER JOIN returns all rows when there's a match in either table. MySQL doesn't support FULL OUTER JOIN directly, but can be simulated:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20o.order_date%2C%20o.total%0AFROM%20users%20u%0ALEFT%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%0AUNION%0ASELECT%20u.name%2C%20o.order_date%2C%20o.total%0AFROM%20users%20u%0ARIGHT%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, o.order_date, o.total
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+UNION
+SELECT u.name, o.order_date, o.total
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;
+</code></pre>
+</div>
+
+<p><strong>296. What is a CROSS JOIN?</strong></p>
+
+<p>CROSS JOIN returns the Cartesian product of both tables - every row from the first table combined with every row from the second table.</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20p.product_name%0AFROM%20users%20u%0ACROSS%20JOIN%20products%20p%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, p.product_name
+FROM users u
+CROSS JOIN products p;
+</code></pre>
+</div>
+
+<p>If users has 10 rows and products has 5 rows, result will have 50 rows.</p>
+
+<p><strong>297. What is a Self Join?</strong></p>
+
+<p>A Self Join joins a table with itself, useful for hierarchical data or comparing rows within the same table.</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20e1.name%20as%20employee%2C%20e2.name%20as%20manager%0AFROM%20employees%20e1%0ALEFT%20JOIN%20employees%20e2%20ON%20e1.manager_id%20%3D%20e2.id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT e1.name as employee, e2.name as manager
+FROM employees e1
+LEFT JOIN employees e2 ON e1.manager_id = e2.id;
+</code></pre>
+</div>
+
+<p><strong>298. What is the difference between ON and USING clauses in joins?</strong></p>
+
+<p><strong>ON Clause:</strong></p>
+
+<p>- More flexible, allows any condition</p>
+<p>- Can compare different column names</p>
+<p>- Can include additional conditions</p>
+
+
+<p><strong>USING Clause:</strong></p>
+
+<p>- Simpler syntax for columns with same names</p>
+<p>- Automatically eliminates duplicate columns</p>
+<p>- Only works when join columns have identical names</p>
+
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="--%20ON%20clause%0ASELECT%20*%20FROM%20users%20u%20JOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%3B%0A%0A--%20USING%20clause%20(if%20both%20columns%20are%20named%20'id')%0ASELECT%20*%20FROM%20users%20JOIN%20orders%20USING(id)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">-- ON clause
+SELECT * FROM users u JOIN orders o ON u.id = o.user_id;
+
+-- USING clause (if both columns are named 'id')
+SELECT * FROM users JOIN orders USING(id);
+</code></pre>
+</div>
+
+<p><strong>299. Write query to join orders and customers tables.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20c.customer_name%2C%20c.email%2C%20o.order_id%2C%20o.order_date%2C%20o.total%0AFROM%20customers%20c%0AINNER%20JOIN%20orders%20o%20ON%20c.customer_id%20%3D%20o.customer_id%0AORDER%20BY%20o.order_date%20DESC%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT c.customer_name, c.email, o.order_id, o.order_date, o.total
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+ORDER BY o.order_date DESC;
+</code></pre>
+</div>
+
+<p><strong>300. Write query to fetch orders with product details.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20o.order_id%2C%20o.order_date%2C%20p.product_name%2C%20oi.quantity%2C%20oi.price%0AFROM%20orders%20o%0AJOIN%20order_items%20oi%20ON%20o.order_id%20%3D%20oi.order_id%0AJOIN%20products%20p%20ON%20oi.product_id%20%3D%20p.product_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT o.order_id, o.order_date, p.product_name, oi.quantity, oi.price
+FROM orders o
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id;
+</code></pre>
+</div>
+
+<p><strong>301. Write query to perform self-join on employees to get manager names.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20e.employee_name%2C%20m.employee_name%20as%20manager_name%0AFROM%20employees%20e%0ALEFT%20JOIN%20employees%20m%20ON%20e.manager_id%20%3D%20m.employee_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT e.employee_name, m.employee_name as manager_name
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.employee_id;
+</code></pre>
+</div>
+
+<p><strong>302. Write query to find employees without managers.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20employee_name%20%0AFROM%20employees%20%0AWHERE%20manager_id%20IS%20NULL%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT employee_name 
+FROM employees 
+WHERE manager_id IS NULL;
+</code></pre>
+</div>
+
+<p><strong>303. Write query to find employees who earn more than their managers.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20e.employee_name%2C%20e.salary%2C%20m.employee_name%20as%20manager_name%2C%20m.salary%20as%20manager_salary%0AFROM%20employees%20e%0AJOIN%20employees%20m%20ON%20e.manager_id%20%3D%20m.employee_id%0AWHERE%20e.salary%20%3E%20m.salary%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT e.employee_name, e.salary, m.employee_name as manager_name, m.salary as manager_salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id
+WHERE e.salary &gt; m.salary;
+</code></pre>
+</div>
+
+<p><strong>304. Write query to find customers with no orders.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20c.customer_name%2C%20c.email%0AFROM%20customers%20c%0ALEFT%20JOIN%20orders%20o%20ON%20c.customer_id%20%3D%20o.customer_id%0AWHERE%20o.customer_id%20IS%20NULL%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT c.customer_name, c.email
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.customer_id IS NULL;
+</code></pre>
+</div>
+
+<p><strong>305. Write query to find products never ordered.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20p.product_name%2C%20p.product_id%0AFROM%20products%20p%0ALEFT%20JOIN%20order_items%20oi%20ON%20p.product_id%20%3D%20oi.product_id%0AWHERE%20oi.product_id%20IS%20NULL%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT p.product_name, p.product_id
+FROM products p
+LEFT JOIN order_items oi ON p.product_id = oi.product_id
+WHERE oi.product_id IS NULL;
+</code></pre>
+</div>
+
+<p><strong>306. Write query to join three tables (users, orders, products).</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20u.name%2C%20o.order_date%2C%20p.product_name%2C%20oi.quantity%0AFROM%20users%20u%0AJOIN%20orders%20o%20ON%20u.id%20%3D%20o.user_id%0AJOIN%20order_items%20oi%20ON%20o.order_id%20%3D%20oi.order_id%0AJOIN%20products%20p%20ON%20oi.product_id%20%3D%20p.product_id%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT u.name, o.order_date, p.product_name, oi.quantity
+FROM users u
+JOIN orders o ON u.id = o.user_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id;
+</code></pre>
+</div>
+
+<p><strong>307. Write query to find top customers by order count.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20c.customer_name%2C%20COUNT(o.order_id)%20as%20order_count%0AFROM%20customers%20c%0AJOIN%20orders%20o%20ON%20c.customer_id%20%3D%20o.customer_id%0AGROUP%20BY%20c.customer_id%2C%20c.customer_name%0AORDER%20BY%20order_count%20DESC%0ALIMIT%2010%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT c.customer_name, COUNT(o.order_id) as order_count
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY order_count DESC
+LIMIT 10;
+</code></pre>
+</div>
+
+<p><strong>308. Write query to find products ordered by specific customer.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20DISTINCT%20p.product_name%2C%20p.price%0AFROM%20products%20p%0AJOIN%20order_items%20oi%20ON%20p.product_id%20%3D%20oi.product_id%0AJOIN%20orders%20o%20ON%20oi.order_id%20%3D%20o.order_id%0AJOIN%20customers%20c%20ON%20o.customer_id%20%3D%20c.customer_id%0AWHERE%20c.customer_id%20%3D%20123%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT DISTINCT p.product_name, p.price
+FROM products p
+JOIN order_items oi ON p.product_id = oi.product_id
+JOIN orders o ON oi.order_id = o.order_id
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE c.customer_id = 123;
+</code></pre>
+</div>
+
+<p><strong>309. Write query to calculate total sales per customer.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20c.customer_name%2C%20SUM(oi.quantity%20*%20oi.price)%20as%20total_sales%0AFROM%20customers%20c%0AJOIN%20orders%20o%20ON%20c.customer_id%20%3D%20o.customer_id%0AJOIN%20order_items%20oi%20ON%20o.order_id%20%3D%20oi.order_id%0AGROUP%20BY%20c.customer_id%2C%20c.customer_name%0AORDER%20BY%20total_sales%20DESC%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT c.customer_name, SUM(oi.quantity * oi.price) as total_sales
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_sales DESC;
+</code></pre>
+</div>
+
+<p><strong>310. Write query to find customers who ordered in last 30 days.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20DISTINCT%20c.customer_name%2C%20c.email%0AFROM%20customers%20c%0AJOIN%20orders%20o%20ON%20c.customer_id%20%3D%20o.customer_id%0AWHERE%20o.order_date%20%3E%3D%20DATE_SUB(NOW()%2C%20INTERVAL%2030%20DAY)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT DISTINCT c.customer_name, c.email
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY);
+</code></pre>
+</div>
+
+<p><strong>311. How do you implement many-to-many relationships?</strong></p>
+
+<p>Many-to-many relationships require a junction (bridge) table containing foreign keys from both related tables.</p>
+
+<p><strong>Example:</strong> Students and Courses</p>
+
+<p>- Students table: student_id (PK), name, email</p>
+<p>- Courses table: course_id (PK), course_name, credits</p>
+<p>- Student_Courses table: student_id (FK), course_id (FK), enrollment_date</p>
+
+
+<p><strong>312. How do you handle hierarchical data in MySQL?</strong></p>
+
+<p><strong>Adjacency List Model:</strong></p>
+
+<p>- Each record has a parent_id pointing to its parent</p>
+<p>- Simple but requires recursive queries for deep hierarchies</p>
+
+
+<p><strong>Nested Set Model:</strong></p>
+
+<p>- Each node has left and right values</p>
+<p>- More complex to maintain but efficient for queries</p>
+
+
+<p><strong>Path Enumeration:</strong></p>
+
+<p>- Store the full path as a string</p>
+<p>- Easy to query ancestors and descendants</p>
+
+
+<p><strong>313. What are junction tables and when do you use them?</strong></p>
+
+<p>Junction tables (also called bridge or linking tables) resolve many-to-many relationships by creating two one-to-many relationships.</p>
+
+<p><strong>When to use:</strong></p>
+
+<p>- Students ↔ Courses (enrollment)</p>
+<p>- Users ↔ Roles (permissions)</p>
+<p>- Products ↔ Categories (classification)</p>
+<p>- Orders ↔ Products (order items)</p>
+
+
+<p><strong>314. How do you optimize JOIN operations?</strong></p>
+
+<p><strong>Optimization Strategies:</strong></p>
+
+<p>- <strong>Indexes</strong>: Create indexes on join columns</p>
+<p>- <strong>Query Order</strong>: Put most selective table first</p>
+<p>- <strong>LIMIT Early</strong>: Use LIMIT when possible</p>
+<p>- <strong>Avoid Functions</strong>: Don't use functions on join columns</p>
+<p>- <strong>Proper Data Types</strong>: Ensure join columns have same data types</p>
+<p>- <strong>Statistics</strong>: Keep table statistics updated</p>
+
+
+<p><strong>315. What is the difference between EXISTS and IN clauses?</strong></p>
+
+<p><strong>EXISTS:</strong></p>
+
+<p>- Returns TRUE/FALSE based on subquery results</p>
+<p>- Stops at first match (more efficient)</p>
+<p>- Handles NULL values better</p>
+<p>- Better for large datasets</p>
+
+
+<p><strong>IN:</strong></p>
+
+<p>- Compares values against a list</p>
+<p>- Evaluates all values in the list</p>
+<p>- Can have issues with NULL values</p>
+<p>- Better for small, static lists</p>
+
+
+<p><strong>316. Write query using EXISTS clause.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20c.customer_name%0AFROM%20customers%20c%0AWHERE%20EXISTS%20(%0A%20%20%20%20SELECT%201%20%0A%20%20%20%20FROM%20orders%20o%20%0A%20%20%20%20WHERE%20o.customer_id%20%3D%20c.customer_id%20%0A%20%20%20%20AND%20o.order_date%20%3E%3D%20'2023-01-01'%0A)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT c.customer_name
+FROM customers c
+WHERE EXISTS (
+    SELECT 1 
+    FROM orders o 
+    WHERE o.customer_id = c.customer_id 
+    AND o.order_date &gt;= '2023-01-01'
+);
+</code></pre>
+</div>
+
+<p><strong>317. Write query using correlated subquery.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20e.employee_name%2C%20e.salary%0AFROM%20employees%20e%0AWHERE%20e.salary%20%3E%20(%0A%20%20%20%20SELECT%20AVG(salary)%0A%20%20%20%20FROM%20employees%20e2%0A%20%20%20%20WHERE%20e2.department_id%20%3D%20e.department_id%0A)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT e.employee_name, e.salary
+FROM employees e
+WHERE e.salary &gt; (
+    SELECT AVG(salary)
+    FROM employees e2
+    WHERE e2.department_id = e.department_id
+);
+</code></pre>
+</div>
+
+<p><strong>318. Write query using NOT IN clause.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20product_name%0AFROM%20products%0AWHERE%20category_id%20NOT%20IN%20(%0A%20%20%20%20SELECT%20category_id%20%0A%20%20%20%20FROM%20categories%20%0A%20%20%20%20WHERE%20status%20%3D%20'inactive'%0A)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT product_name
+FROM products
+WHERE category_id NOT IN (
+    SELECT category_id 
+    FROM categories 
+    WHERE status = 'inactive'
+);
+</code></pre>
+</div>
+
+<p><strong>319. Write query using UNION.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20customer_name%2C%20email%20FROM%20customers%20WHERE%20city%20%3D%20'New%20York'%0AUNION%0ASELECT%20customer_name%2C%20email%20FROM%20customers%20WHERE%20city%20%3D%20'Los%20Angeles'%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT customer_name, email FROM customers WHERE city = 'New York'
+UNION
+SELECT customer_name, email FROM customers WHERE city = 'Los Angeles';
+</code></pre>
+</div>
+
+<p><strong>320. Write query using UNION ALL.</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">sql</span>
+        <button class="copy-btn" data-code="SELECT%20product_name%2C%20'In%20Stock'%20as%20status%20FROM%20products%20WHERE%20quantity%20%3E%200%0AUNION%20ALL%0ASELECT%20product_name%2C%20'Out%20of%20Stock'%20as%20status%20FROM%20products%20WHERE%20quantity%20%3D%200%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-sql">SELECT product_name, 'In Stock' as status FROM products WHERE quantity &gt; 0
+UNION ALL
+SELECT product_name, 'Out of Stock' as status FROM products WHERE quantity = 0;
+</code></pre>
+</div>
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#core-concepts-25-questions-" class="h2-link">Core Concepts (25 Questions)</a></li><li><a href="#sql-queries-operations-25-questions-" class="h2-link">SQL Queries & Operations (25 Questions)</a></li><li><a href="#joins-relationships-30-questions-" class="h2-link">Joins & Relationships (30 Questions)</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+
+        
+
+    </script>
+</body>
+</html>

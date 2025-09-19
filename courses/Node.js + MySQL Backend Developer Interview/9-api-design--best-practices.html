@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .h2-link{
+            font-weight:700;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .toc a.active {
+            color: blue !important;
+             background-color: #5ec7ff2a;
+}
+
+
+        .toc a:hover { background-color: #0077ff16}
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h2 id="rest-api-design-20-questions-">REST API Design (20 Questions)</h2>
+
+<p><strong>501. What is REST and what are its architectural constraints?</strong></p>
+
+<p>REST (Representational State Transfer) is an architectural style for designing networked applications. It has six key constraints:</p>
+
+<p>1. <strong>Client-Server</strong>: Separation of concerns between client and server</p>
+<p>2. <strong>Stateless</strong>: Each request contains all information needed to process it</p>
+<p>3. <strong>Cacheable</strong>: Responses must define themselves as cacheable or non-cacheable</p>
+<p>4. <strong>Uniform Interface</strong>: Consistent way to interact with resources</p>
+<p>5. <strong>Layered System</strong>: Architecture can be composed of hierarchical layers</p>
+<p>6. <strong>Code on Demand</strong> (optional): Server can send executable code to client</p>
+
+
+<p><strong>Example</strong>: A REST API for a blog would have endpoints like `/api/posts` (collection) and `/api/posts/123` (specific resource).</p>
+
+<p><strong>502. What are Resources and URIs in REST?</strong></p>
+
+<p><strong>Resources</strong> are the key abstraction in REST - anything that can be named and addressed (users, posts, orders, etc.). <strong>URIs</strong> (Uniform Resource Identifiers) are the addresses used to identify these resources.</p>
+
+<p><strong>Examples</strong>:</p>
+
+<p>- Resource: User → URI: `/api/users/123`</p>
+<p>- Resource: User's posts → URI: `/api/users/123/posts`</p>
+<p>- Resource: Specific post → URI: `/api/posts/456`</p>
+
+
+<p><strong>503. What are the HTTP methods and their properties?</strong></p>
+
+<p>- <strong>GET</strong>: Retrieve data (Safe, Idempotent, Cacheable)</p>
+<p>- <strong>POST</strong>: Create new resources (Not safe, Not idempotent)</p>
+<p>- <strong>PUT</strong>: Update/replace entire resource (Not safe, Idempotent)</p>
+<p>- <strong>PATCH</strong>: Partial update (Not safe, Not idempotent)</p>
+<p>- <strong>DELETE</strong>: Remove resource (Not safe, Idempotent)</p>
+<p>- <strong>HEAD</strong>: Get headers only (Safe, Idempotent, Cacheable)</p>
+<p>- <strong>OPTIONS</strong>: Get allowed methods (Safe, Idempotent)</p>
+
+
+<p><strong>504. What are the key principles of RESTful API design?</strong></p>
+
+<p>1. <strong>Resource-based URLs</strong>: Use nouns, not verbs (`/users` not `/getUsers`)</p>
+<p>2. <strong>HTTP methods for actions</strong>: Use appropriate HTTP verbs</p>
+<p>3. <strong>Stateless communication</strong>: No server-side session state</p>
+<p>4. <strong>Consistent naming</strong>: Use plural nouns for collections</p>
+<p>5. <strong>Proper status codes</strong>: Return meaningful HTTP status codes</p>
+<p>6. <strong>JSON format</strong>: Use JSON for data exchange</p>
+<p>7. <strong>Versioning</strong>: Plan for API evolution</p>
+
+
+<p><strong>505. What is HATEOAS?</strong></p>
+
+<p>HATEOAS (Hypermedia as the Engine of Application State) means the API response includes links to related actions/resources, making the API self-discoverable.</p>
+
+<p><strong>Example</strong>:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="%7B%0A%20%20%22id%22%3A%20123%2C%0A%20%20%22name%22%3A%20%22John%20Doe%22%2C%0A%20%20%22links%22%3A%20%7B%0A%20%20%20%20%22self%22%3A%20%22%2Fapi%2Fusers%2F123%22%2C%0A%20%20%20%20%22posts%22%3A%20%22%2Fapi%2Fusers%2F123%2Fposts%22%2C%0A%20%20%20%20%22edit%22%3A%20%22%2Fapi%2Fusers%2F123%22%2C%0A%20%20%20%20%22delete%22%3A%20%22%2Fapi%2Fusers%2F123%22%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">{
+  "id": 123,
+  "name": "John Doe",
+  "links": {
+    "self": "/api/users/123",
+    "posts": "/api/users/123/posts",
+    "edit": "/api/users/123",
+    "delete": "/api/users/123"
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>506. How do you version your APIs?</strong></p>
+
+<p>Common versioning strategies:</p>
+
+<p>1. <strong>URL versioning</strong>: `/api/v1/users`, `/api/v2/users`</p>
+<p>2. <strong>Header versioning</strong>: `Accept: application/vnd.api+json;version=1`</p>
+<p>3. <strong>Query parameter</strong>: `/api/users?version=1`</p>
+<p>4. <strong>Content negotiation</strong>: `Accept: application/vnd.myapi.v1+json`</p>
+
+
+<p><strong>Best practice</strong>: URL versioning is most common and clear.</p>
+
+<p><strong>507. What are the common HTTP status codes?</strong></p>
+
+<p>- <strong>2xx Success</strong>: 200 (OK), 201 (Created), 204 (No Content)</p>
+<p>- <strong>3xx Redirection</strong>: 301 (Moved Permanently), 304 (Not Modified)</p>
+<p>- <strong>4xx Client Error</strong>: 400 (Bad Request), 401 (Unauthorized), 403 (Forbidden), 404 (Not Found), 409 (Conflict)</p>
+<p>- <strong>5xx Server Error</strong>: 500 (Internal Server Error), 502 (Bad Gateway), 503 (Service Unavailable)</p>
+
+
+<p><strong>508. How do you choose the right status code?</strong></p>
+
+<p>Guidelines:</p>
+
+<p>- <strong>200</strong>: Successful GET, PUT, PATCH</p>
+<p>- <strong>201</strong>: Successful POST (resource created)</p>
+<p>- <strong>204</strong>: Successful DELETE or PUT with no response body</p>
+<p>- <strong>400</strong>: Invalid request data/format</p>
+<p>- <strong>401</strong>: Authentication required</p>
+<p>- <strong>403</strong>: Authenticated but not authorized</p>
+<p>- <strong>404</strong>: Resource not found</p>
+<p>- <strong>409</strong>: Conflict (duplicate resource)</p>
+<p>- <strong>422</strong>: Validation errors</p>
+<p>- <strong>500</strong>: Server-side errors</p>
+
+
+<p><strong>509. How do you implement API pagination?</strong></p>
+
+<p>Common approaches:</p>
+
+<p>1. <strong>Offset-based</strong>: `?page=2&limit=10` or `?offset=20&limit=10`</p>
+<p>2. <strong>Cursor-based</strong>: `?cursor=abc123&limit=10`</p>
+<p>3. <strong>Page-based</strong>: `?page=2&per_page=10`</p>
+
+
+<p><strong>Response format</strong>:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="%7B%0A%20%20%22data%22%3A%20%5B...%5D%2C%0A%20%20%22pagination%22%3A%20%7B%0A%20%20%20%20%22current_page%22%3A%202%2C%0A%20%20%20%20%22total_pages%22%3A%2010%2C%0A%20%20%20%20%22total_items%22%3A%20100%2C%0A%20%20%20%20%22per_page%22%3A%2010%2C%0A%20%20%20%20%22next_page%22%3A%20%22%2Fapi%2Fusers%3Fpage%3D3%26limit%3D10%22%2C%0A%20%20%20%20%22prev_page%22%3A%20%22%2Fapi%2Fusers%3Fpage%3D1%26limit%3D10%22%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">{
+  "data": [...],
+  "pagination": {
+    "current_page": 2,
+    "total_pages": 10,
+    "total_items": 100,
+    "per_page": 10,
+    "next_page": "/api/users?page=3&limit=10",
+    "prev_page": "/api/users?page=1&limit=10"
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>510. How do you implement filtering, sorting, and searching?</strong></p>
+
+<p><strong>Filtering</strong>: `?status=active&role=admin`</p>
+<p><strong>Sorting</strong>: `?sort=created_at&order=desc` or `?sort=-created_at`</p>
+<p><strong>Searching</strong>: `?search=john` or `?q=john`</p>
+<p><strong>Combined</strong>: `?status=active&sort=name&order=asc&search=john&page=1&limit=10`</p>
+
+<p><strong>511. How do you handle bulk operations in REST APIs?</strong></p>
+
+<p>Approaches:</p>
+
+<p>1. <strong>Batch endpoint</strong>: `POST /api/users/batch` with array of operations</p>
+<p>2. <strong>Collection operations</strong>: `PATCH /api/users` with filter criteria</p>
+<p>3. <strong>Async processing</strong>: Return job ID for long-running operations</p>
+
+
+<p><strong>Example</strong>:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="POST%20%2Fapi%2Fusers%2Fbatch%0A%7B%0A%20%20%22operations%22%3A%20%5B%0A%20%20%20%20%7B%22action%22%3A%20%22create%22%2C%20%22data%22%3A%20%7B...%7D%7D%2C%0A%20%20%20%20%7B%22action%22%3A%20%22update%22%2C%20%22id%22%3A%20123%2C%20%22data%22%3A%20%7B...%7D%7D%2C%0A%20%20%20%20%7B%22action%22%3A%20%22delete%22%2C%20%22id%22%3A%20456%7D%0A%20%20%5D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">POST /api/users/batch
+{
+  "operations": [
+    {"action": "create", "data": {...}},
+    {"action": "update", "id": 123, "data": {...}},
+    {"action": "delete", "id": 456}
+  ]
+}
+</code></pre>
+</div>
+
+<p><strong>512. How do you implement partial updates (PATCH)?</strong></p>
+
+<p>PATCH should only update provided fields:</p>
+
+<p><strong>Request</strong>: `PATCH /api/users/123`</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="%7B%0A%20%20%22email%22%3A%20%22newemail%40example.com%22%2C%0A%20%20%22status%22%3A%20%22active%22%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">{
+  "email": "newemail@example.com",
+  "status": "active"
+}
+</code></pre>
+</div>
+
+<p>Only `email` and `status` fields are updated, other fields remain unchanged.</p>
+
+<p><strong>513. How do you handle nested resources?</strong></p>
+
+<p>Design patterns:</p>
+
+<p>1. <strong>Nested URLs</strong>: `/api/users/123/posts` (posts belonging to user 123)</p>
+<p>2. <strong>Flat structure with filters</strong>: `/api/posts?user_id=123`</p>
+<p>3. <strong>Embedded resources</strong>: Include related data in response</p>
+
+
+<p><strong>Guidelines</strong>:</p>
+
+<p>- Limit nesting to 2-3 levels maximum</p>
+<p>- Use flat structure for complex relationships</p>
+<p>- Consider performance implications</p>
+
+
+<p><strong>514. How do you implement API caching?</strong></p>
+
+<p>Caching strategies:</p>
+
+<p>1. <strong>HTTP caching headers</strong>: `Cache-Control`, `ETag`, `Last-Modified`</p>
+<p>2. <strong>Server-side caching</strong>: Redis, Memcached</p>
+<p>3. <strong>CDN caching</strong>: For static/semi-static data</p>
+<p>4. <strong>Application-level caching</strong>: In-memory caches</p>
+
+
+<p><strong>Example headers</strong>:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">plaintext</span>
+        <button class="copy-btn" data-code="Cache-Control%3A%20public%2C%20max-age%3D3600%0AETag%3A%20%22abc123%22%0ALast-Modified%3A%20Wed%2C%2021%20Oct%202023%2007%3A28%3A00%20GMT%0A">Copy</button>
+    </div>
+    <pre><code class="language-plaintext">Cache-Control: public, max-age=3600
+ETag: "abc123"
+Last-Modified: Wed, 21 Oct 2023 07:28:00 GMT
+</code></pre>
+</div>
+
+<p><strong>515. How do you handle API deprecation?</strong></p>
+
+<p>Best practices:</p>
+
+<p>1. <strong>Announce early</strong>: Give users advance notice</p>
+<p>2. <strong>Use deprecation headers</strong>: `Deprecation: true`, `Sunset: 2024-12-31`</p>
+<p>3. <strong>Maintain backward compatibility</strong>: During transition period</p>
+<p>4. <strong>Provide migration guide</strong>: Clear documentation</p>
+<p>5. <strong>Gradual shutdown</strong>: Phase out deprecated endpoints</p>
+
+
+<p><strong>516. How do you implement API documentation?</strong></p>
+
+<p>Tools and approaches:</p>
+
+<p>1. <strong>OpenAPI/Swagger</strong>: Industry standard specification</p>
+<p>2. <strong>Postman</strong>: Collections and documentation</p>
+<p>3. <strong>API Blueprint</strong>: Markdown-based documentation</p>
+<p>4. <strong>GitBook/Notion</strong>: Custom documentation sites</p>
+<p>5. <strong>Auto-generated docs</strong>: From code annotations</p>
+
+
+<p><strong>517. What is OpenAPI/Swagger?</strong></p>
+
+<p>OpenAPI (formerly Swagger) is a specification for describing REST APIs. It provides:</p>
+
+<p>- <strong>Standardized format</strong>: YAML/JSON specification</p>
+<p>- <strong>Interactive documentation</strong>: Swagger UI</p>
+<p>- <strong>Code generation</strong>: Client SDKs and server stubs</p>
+<p>- <strong>Validation</strong>: Request/response validation</p>
+<p>- <strong>Testing</strong>: Built-in API testing capabilities</p>
+
+
+<p><strong>518. How do you implement API testing?</strong></p>
+
+<p>Testing levels:</p>
+
+<p>1. <strong>Unit tests</strong>: Individual endpoint logic</p>
+<p>2. <strong>Integration tests</strong>: API endpoints with database</p>
+<p>3. <strong>Contract tests</strong>: API specification compliance</p>
+<p>4. <strong>Load tests</strong>: Performance under stress</p>
+<p>5. <strong>Security tests</strong>: Vulnerability scanning</p>
+
+
+<p><strong>Tools</strong>: Jest, Mocha, Postman, Newman, Artillery, OWASP ZAP</p>
+
+<p><strong>519. How do you handle API errors consistently?</strong></p>
+
+<p>Standardized error format:</p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">json</span>
+        <button class="copy-btn" data-code="%7B%0A%20%20%22error%22%3A%20%7B%0A%20%20%20%20%22code%22%3A%20%22VALIDATION_ERROR%22%2C%0A%20%20%20%20%22message%22%3A%20%22Invalid%20input%20data%22%2C%0A%20%20%20%20%22details%22%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%22field%22%3A%20%22email%22%2C%0A%20%20%20%20%20%20%20%20%22message%22%3A%20%22Invalid%20email%20format%22%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%2C%0A%20%20%20%20%22timestamp%22%3A%20%222023-10-21T10%3A30%3A00Z%22%2C%0A%20%20%20%20%22request_id%22%3A%20%22req_123456%22%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-json">{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": [
+      {
+        "field": "email",
+        "message": "Invalid email format"
+      }
+    ],
+    "timestamp": "2023-10-21T10:30:00Z",
+    "request_id": "req_123456"
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>520. What are the best practices for API response design?</strong></p>
+
+<p>Best practices:</p>
+
+<p>1. <strong>Consistent structure</strong>: Same format across all endpoints</p>
+<p>2. <strong>Meaningful data</strong>: Include relevant information</p>
+<p>3. <strong>Proper nesting</strong>: Logical data organization</p>
+<p>4. <strong>Metadata inclusion</strong>: Timestamps, IDs, status</p>
+<p>5. <strong>Null handling</strong>: Consistent null value treatment</p>
+<p>6. <strong>Array wrapping</strong>: Wrap collections in data object</p>
+<p>7. <strong>Status indication</strong>: Clear success/error status</p>
+
+
+<h2 id="advanced-api-concepts-20-questions-">Advanced API Concepts (20 Questions)</h2>
+
+<p><strong>521. What is GraphQL and how does it compare to REST?</strong></p>
+
+<p><strong>GraphQL</strong> is a query language and runtime for APIs that allows clients to request exactly the data they need.</p>
+
+<p><strong>Comparison</strong>:</p>
+
+<p>- <strong>Data fetching</strong>: GraphQL - single request for multiple resources; REST - multiple requests</p>
+<p>- <strong>Over/under-fetching</strong>: GraphQL - precise data; REST - fixed response structure</p>
+<p>- <strong>Versioning</strong>: GraphQL - schema evolution; REST - URL versioning</p>
+<p>- <strong>Caching</strong>: REST - better HTTP caching; GraphQL - more complex caching</p>
+<p>- <strong>Learning curve</strong>: REST - simpler; GraphQL - steeper learning curve</p>
+
+
+<p><strong>522. When would you choose GraphQL over REST?</strong></p>
+
+<p>Choose GraphQL when:</p>
+
+<p>- <strong>Mobile applications</strong>: Bandwidth optimization needed</p>
+<p>- <strong>Complex data relationships</strong>: Many interconnected resources</p>
+<p>- <strong>Rapid frontend development</strong>: Frontend teams need flexibility</p>
+<p>- <strong>Multiple clients</strong>: Different data requirements per client</p>
+<p>- <strong>Real-time features</strong>: Subscriptions needed</p>
+
+
+<p>Choose REST when:</p>
+
+<p>- <strong>Simple CRUD operations</strong>: Straightforward data operations</p>
+<p>- <strong>Caching important</strong>: Heavy reliance on HTTP caching</p>
+<p>- <strong>File uploads</strong>: Binary data handling</p>
+<p>- <strong>Team expertise</strong>: Team familiar with REST patterns</p>
+
+
+<p><strong>523. How do you implement real-time APIs?</strong></p>
+
+<p>Technologies:</p>
+
+<p>1. <strong>WebSockets</strong>: Full-duplex communication</p>
+<p>2. <strong>Server-Sent Events (SSE)</strong>: Server-to-client streaming</p>
+<p>3. <strong>Long polling</strong>: Extended HTTP requests</p>
+<p>4. <strong>WebRTC</strong>: Peer-to-peer communication</p>
+
+
+<p><strong>Use cases</strong>: Chat applications, live updates, notifications, collaborative editing</p>
+
+<p><strong>524. What are WebSockets and when do you use them?</strong></p>
+
+<p>WebSockets provide persistent, full-duplex communication between client and server.</p>
+
+<p><strong>Characteristics</strong>:</p>
+
+<p>- <strong>Persistent connection</strong>: No request/response cycle</p>
+<p>- <strong>Low latency</strong>: Real-time communication</p>
+<p>- <strong>Bidirectional</strong>: Both client and server can initiate communication</p>
+<p>- <strong>Protocol upgrade</strong>: Starts as HTTP, upgrades to WebSocket</p>
+
+
+<p><strong>Use cases</strong>: Gaming, chat, live trading, collaborative tools, real-time dashboards</p>
+
+<p><strong>525. What are Server-Sent Events (SSE)?</strong></p>
+
+<p>SSE enables server to push data to client over a single HTTP connection.</p>
+
+<p><strong>Characteristics</strong>:</p>
+
+<p>- <strong>Unidirectional</strong>: Server to client only</p>
+<p>- <strong>HTTP-based</strong>: Uses standard HTTP</p>
+<p>- <strong>Automatic reconnection</strong>: Built-in reconnection logic</p>
+<p>- <strong>Event streaming</strong>: Structured event format</p>
+
+
+<p><strong>Use cases</strong>: Live feeds, notifications, progress updates, monitoring dashboards</p>
+
+<p><strong>526. How do you implement webhooks?</strong></p>
+
+<p>Webhooks are HTTP callbacks triggered by events.</p>
+
+<p><strong>Implementation steps</strong>:</p>
+
+<p>1. <strong>Event detection</strong>: Monitor for specific events</p>
+<p>2. <strong>Payload creation</strong>: Format event data</p>
+<p>3. <strong>HTTP request</strong>: POST to registered URL</p>
+<p>4. <strong>Retry logic</strong>: Handle failed deliveries</p>
+<p>5. <strong>Security</strong>: Sign requests, verify endpoints</p>
+
+
+<p><strong>Example flow</strong>: User registers → Event occurs → Webhook fired → External system notified</p>
+
+<p><strong>527. How do you handle webhook security?</strong></p>
+
+<p>Security measures:</p>
+
+<p>1. <strong>Request signing</strong>: HMAC signatures for verification</p>
+<p>2. <strong>HTTPS only</strong>: Encrypted transmission</p>
+<p>3. <strong>IP whitelisting</strong>: Restrict source IPs</p>
+<p>4. <strong>Timestamp validation</strong>: Prevent replay attacks</p>
+<p>5. <strong>Endpoint verification</strong>: Validate webhook URLs</p>
+<p>6. <strong>Rate limiting</strong>: Prevent abuse</p>
+
+
+<p><strong>528. How do you implement API rate limiting?</strong></p>
+
+<p>Rate limiting strategies:</p>
+
+<p>1. <strong>Token bucket</strong>: Tokens replenished over time</p>
+<p>2. <strong>Fixed window</strong>: Requests per time window</p>
+<p>3. <strong>Sliding window</strong>: Rolling time window</p>
+<p>4. <strong>Leaky bucket</strong>: Smooth request processing</p>
+
+
+<p><strong>Implementation levels</strong>:</p>
+
+<p>- <strong>Per user</strong>: Individual user limits</p>
+<p>- <strong>Per IP</strong>: IP-based limiting</p>
+<p>- <strong>Per API key</strong>: Application-based limits</p>
+<p>- <strong>Global</strong>: System-wide limits</p>
+
+
+<p><strong>529. How do you implement API throttling?</strong></p>
+
+<p>Throttling controls request processing rate:</p>
+
+<p><strong>Techniques</strong>:</p>
+
+<p>1. <strong>Queue-based</strong>: Queue excess requests</p>
+<p>2. <strong>Delay-based</strong>: Add processing delays</p>
+<p>3. <strong>Priority-based</strong>: Different limits per user tier</p>
+<p>4. <strong>Adaptive</strong>: Dynamic limits based on system load</p>
+
+
+<p><strong>Headers</strong>: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`</p>
+
+<p><strong>530. How do you handle API monitoring and analytics?</strong></p>
+
+<p>Monitoring aspects:</p>
+
+<p>1. <strong>Performance metrics</strong>: Response times, throughput</p>
+<p>2. <strong>Error tracking</strong>: Error rates, types</p>
+<p>3. <strong>Usage analytics</strong>: Endpoint popularity, user patterns</p>
+<p>4. <strong>Infrastructure monitoring</strong>: Server health, database performance</p>
+<p>5. <strong>Business metrics</strong>: API adoption, revenue impact</p>
+
+
+<p><strong>Tools</strong>: New Relic, DataDog, Grafana, ELK Stack, Google Analytics</p>
+
+<p><strong>531. How do you implement API logging?</strong></p>
+
+<p>Logging best practices:</p>
+
+<p>1. <strong>Structured logging</strong>: JSON format for parsing</p>
+<p>2. <strong>Request/response logging</strong>: Full HTTP context</p>
+<p>3. <strong>Correlation IDs</strong>: Track requests across services</p>
+<p>4. <strong>Log levels</strong>: DEBUG, INFO, WARN, ERROR</p>
+<p>5. <strong>Sensitive data</strong>: Mask/exclude sensitive information</p>
+<p>6. <strong>Performance impact</strong>: Async logging, sampling</p>
+
+
+<p><strong>532. How do you handle API performance optimization?</strong></p>
+
+<p>Optimization strategies:</p>
+
+<p>1. <strong>Caching</strong>: Multiple caching layers</p>
+<p>2. <strong>Database optimization</strong>: Query optimization, indexing</p>
+<p>3. <strong>Compression</strong>: Gzip response compression</p>
+<p>4. <strong>CDN usage</strong>: Geographic distribution</p>
+<p>5. <strong>Connection pooling</strong>: Reuse database connections</p>
+<p>6. <strong>Async processing</strong>: Non-blocking operations</p>
+<p>7. <strong>Pagination</strong>: Limit response sizes</p>
+
+
+<p><strong>533. How do you implement API load balancing?</strong></p>
+
+<p>Load balancing approaches:</p>
+
+<p>1. <strong>Round robin</strong>: Distribute requests evenly</p>
+<p>2. <strong>Least connections</strong>: Route to least busy server</p>
+<p>3. <strong>Weighted routing</strong>: Different server capacities</p>
+<p>4. <strong>Geographic routing</strong>: Route by location</p>
+<p>5. <strong>Health checks</strong>: Remove unhealthy servers</p>
+
+
+<p><strong>Tools</strong>: NGINX, HAProxy, AWS ALB, Kubernetes Ingress</p>
+
+<p><strong>534. How do you handle API circuit breakers?</strong></p>
+
+<p>Circuit breaker pattern prevents cascading failures:</p>
+
+<p><strong>States</strong>:</p>
+
+<p>1. <strong>Closed</strong>: Normal operation</p>
+<p>2. <strong>Open</strong>: Failing fast, blocking requests</p>
+<p>3. <strong>Half-open</strong>: Testing if service recovered</p>
+
+
+<p><strong>Benefits</strong>: Prevents system overload, faster failure detection, graceful degradation</p>
+
+<p><strong>535. How do you implement API retries?</strong></p>
+
+<p>Retry strategies:</p>
+
+<p>1. <strong>Exponential backoff</strong>: Increasing delays between retries</p>
+<p>2. <strong>Fixed delay</strong>: Constant delay between retries</p>
+<p>3. <strong>Jittered backoff</strong>: Random component to prevent thundering herd</p>
+<p>4. <strong>Circuit breaker integration</strong>: Stop retries when circuit opens</p>
+
+
+<p><strong>Considerations</strong>: Idempotent operations only, maximum retry limits, timeout handling</p>
+
+<p><strong>536. How do you handle API timeouts?</strong></p>
+
+<p>Timeout types:</p>
+
+<p>1. <strong>Connection timeout</strong>: Time to establish connection</p>
+<p>2. <strong>Request timeout</strong>: Time to send request</p>
+<p>3. <strong>Response timeout</strong>: Time to receive response</p>
+<p>4. <strong>Idle timeout</strong>: Time between data packets</p>
+
+
+<p><strong>Best practices</strong>: Set appropriate timeouts, implement graceful degradation, provide timeout feedback</p>
+
+<p><strong>537. How do you implement API mocking?</strong></p>
+
+<p>Mocking approaches:</p>
+
+<p>1. <strong>Static mocks</strong>: Predefined responses</p>
+<p>2. <strong>Dynamic mocks</strong>: Generated based on schema</p>
+<p>3. <strong>Proxy mocks</strong>: Intercept and modify real responses</p>
+<p>4. <strong>Contract-based</strong>: Based on API specifications</p>
+
+
+<p><strong>Tools</strong>: WireMock, Postman Mock Server, JSON Server, Prism</p>
+
+<p><strong>538. How do you handle API backward compatibility?</strong></p>
+
+<p>Compatibility strategies:</p>
+
+<p>1. <strong>Additive changes</strong>: New optional fields</p>
+<p>2. <strong>Versioning</strong>: Maintain multiple API versions</p>
+<p>3. <strong>Feature flags</strong>: Gradual feature rollout</p>
+<p>4. <strong>Deprecation process</strong>: Planned obsolescence</p>
+<p>5. <strong>Contract testing</strong>: Ensure compatibility</p>
+
+
+<p><strong>Breaking changes</strong>: Removing fields, changing data types, modifying behavior</p>
+
+<p><strong>539. How do you implement API governance?</strong></p>
+
+<p>Governance aspects:</p>
+
+<p>1. <strong>Standards enforcement</strong>: Consistent API design</p>
+<p>2. <strong>Review processes</strong>: API design reviews</p>
+<p>3. <strong>Documentation requirements</strong>: Mandatory documentation</p>
+<p>4. <strong>Security policies</strong>: Security standards compliance</p>
+<p>5. <strong>Lifecycle management</strong>: API creation to retirement</p>
+<p>6. <strong>Monitoring compliance</strong>: Automated policy checking</p>
+
+
+<p><strong>540. How do you handle API security scanning?</strong></p>
+
+<p>Security scanning types:</p>
+
+<p>1. <strong>Static analysis</strong>: Code vulnerability scanning</p>
+<p>2. <strong>Dynamic analysis</strong>: Runtime security testing</p>
+<p>3. <strong>Dependency scanning</strong>: Third-party vulnerability checks</p>
+<p>4. <strong>Penetration testing</strong>: Simulated attacks</p>
+<p>5. <strong>Compliance scanning</strong>: Regulatory requirement checks</p>
+
+
+<p><strong>Tools</strong>: OWASP ZAP, Burp Suite, Snyk, Veracode, Checkmarx</p>
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#rest-api-design-20-questions-" class="h2-link">REST API Design (20 Questions)</a></li><li><a href="#advanced-api-concepts-20-questions-" class="h2-link">Advanced API Concepts (20 Questions)</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .toc a:hover { background-color: var(--bg-secondary); color: var(--accent-color); }
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h1 id="comprehensive-portfolio-projects-analysis">Comprehensive Portfolio Projects Analysis</h1>
+
+<h2 id="overview">Overview</h2>
+<p>This document provides a detailed technical analysis of 9 different web development projects, covering their architecture, functionality, implementation details, and potential applications.</p>
+
+<p>---</p>
+
+<h2 id="1-crew-seo">1. CREW-SEO</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>crewSEO</strong> is a comprehensive SEO analysis platform designed for professional website optimization. It's a full-stack web application that provides detailed SEO metrics, generates professional reports, and offers real-time monitoring capabilities.</p>
+
+<p><strong>Type</strong>: Full-stack web application with authentication system</p>
+<p><strong>Core Purpose</strong>: Professional SEO analysis and reporting for businesses and agencies</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14 (App Router), React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>Authentication</strong>: Custom JWT-based authentication system</p>
+<p>- <strong>State Management</strong>: React hooks (useState, useEffect, custom hooks)</p>
+<p>- <strong>Icons</strong>: Lucide React</p>
+<p>- <strong>Styling</strong>: Responsive design with dark/light mode support</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js App Router for modern SSR/SSG capabilities and optimal SEO</p>
+<p>- TypeScript for type safety and better developer experience</p>
+<p>- shadcn/ui for consistent, accessible UI components</p>
+<p>- Custom authentication for full control over user management</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>User Authentication System</strong></p>
+<p>- Registration and login functionality</p>
+<p>- JWT-based session management</p>
+<p>- Protected dashboard routes</p>
+<p>- User profile management</p>
+
+<p>2. <strong>SEO Analysis Engine</strong></p>
+<p>- Real-time website analysis</p>
+<p>- 50+ SEO metrics evaluation</p>
+<p>- Technical SEO assessment</p>
+<p>- On-page optimization analysis</p>
+
+<p>3. <strong>Professional Dashboard</strong></p>
+<p>- Multi-tab interface (Analyzer, Analytics, Reports, Settings)</p>
+<p>- Recent analyses tracking</p>
+<p>- Analytics overview with charts</p>
+<p>- User account management</p>
+
+<p>4. <strong>Report Generation</strong></p>
+<p>- PDF report export capability</p>
+<p>- Detailed SEO recommendations</p>
+<p>- Professional formatting for client presentations</p>
+
+<p>5. <strong>Subscription Management</strong></p>
+<p>- Three-tier pricing (Free Trial, Professional, Enterprise)</p>
+<p>- Feature-based access control</p>
+<p>- Usage tracking and limits</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Authentication Flow:</p>
+<p>1. <strong>Registration Process</strong>: Users create accounts with email/password</p>
+<p>2. <strong>Login System</strong>: JWT tokens stored securely, automatic session validation</p>
+<p>3. <strong>Route Protection</strong>: useAuth hook checks authentication status</p>
+<p>4. <strong>Dashboard Access</strong>: Redirects unauthenticated users to login</p>
+
+<p>#### SEO Analysis Workflow:</p>
+<p>1. <strong>URL Input</strong>: User submits website URL for analysis</p>
+<p>2. <strong>Data Fetching</strong>: Server-side crawling and parsing of website content</p>
+<p>3. <strong>Metrics Calculation</strong>: Analysis of meta tags, headers, content structure, performance</p>
+<p>4. <strong>Results Display</strong>: Real-time presentation of findings with actionable insights</p>
+
+<p>#### Component Architecture:</p>
+<p>- <strong>SEOAnalyzer</strong>: Main analysis component with form and results</p>
+<p>- <strong>RecentAnalyses</strong>: Historical analysis tracking</p>
+<p>- <strong>AnalyticsOverview</strong>: Dashboard metrics and charts</p>
+<p>- <strong>Authentication Components</strong>: Login/register forms with validation</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>crew-seo/</p>
+<p>├── app/</p>
+<p>│   ├── api/auth/          # Authentication API routes</p>
+<p>│   ├── auth/              # Login/register pages</p>
+<p>│   ├── dashboard/         # Protected dashboard area</p>
+<p>│   └── page.tsx           # Landing page</p>
+<p>├── components/</p>
+<p>│   ├── seo/               # SEO analysis components</p>
+<p>│   ├── dashboard/         # Dashboard-specific components</p>
+<p>│   └── ui/                # Reusable UI components</p>
+<p>├── hooks/</p>
+<p>│   └── use-auth.ts        # Authentication hook</p>
+<p>└── lib/                   # Utilities and API functions</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Modular architecture with clear separation of concerns</p>
+<p>- API routes handle server-side logic</p>
+<p>- Components are feature-organized</p>
+<p>- Custom hooks manage complex state</p>
+<p>- Utility functions centralized in lib/</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: SEO Analysis Accuracy</p>
+<p><strong>Problem</strong>: Ensuring comprehensive and accurate SEO metric calculation</p>
+<p><strong>Solution</strong>: Implemented multi-layered analysis system checking technical, on-page, and content factors with weighted scoring</p>
+
+<p>#### Challenge 2: User Experience During Analysis</p>
+<p><strong>Problem</strong>: Long analysis times could frustrate users</p>
+<p><strong>Solution</strong>: Added progress indicators, loading states, and real-time feedback during analysis</p>
+
+<p>#### Challenge 3: Scalable Authentication</p>
+<p><strong>Problem</strong>: Managing user sessions and protecting routes efficiently</p>
+<p><strong>Solution</strong>: Custom useAuth hook with automatic token refresh and route protection</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>SEO Professionals</strong>: Comprehensive analysis tools for client work</p>
+<p>- <strong>Digital Marketing Agencies</strong>: White-label reports and team collaboration</p>
+<p>- <strong>Website Owners</strong>: Self-service SEO optimization</p>
+<p>- <strong>Developers</strong>: Technical SEO validation during development</p>
+
+<p>#### Business Applications:</p>
+<p>- Client reporting and presentations</p>
+<p>- Competitive analysis and benchmarking</p>
+<p>- Website audit services</p>
+<p>- SEO consulting and recommendations</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Analytics</strong>: Historical tracking, trend analysis, competitor comparison</p>
+<p>2. <strong>API Integration</strong>: Connect with Google Search Console, Analytics</p>
+<p>3. <strong>Automation</strong>: Scheduled analyses, alert systems for SEO issues</p>
+<p>4. <strong>Team Features</strong>: Multi-user workspaces, role-based permissions</p>
+<p>5. <strong>AI Enhancement</strong>: Machine learning for personalized recommendations</p>
+
+<p>---</p>
+
+<h2 id="2-image-downloader">2. IMAGE DOWNLOADER</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>Image Downloader</strong> is a sophisticated bulk media downloading tool that extracts and organizes images and videos from URLs or HTML code. It provides intelligent folder structuring and supports multiple media formats.</p>
+
+<p><strong>Type</strong>: Web application tool for media extraction and organization</p>
+<p><strong>Core Purpose</strong>: Bulk download and organize media files from websites with intelligent folder structuring</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14, React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>File Processing</strong>: JSZip for archive creation</p>
+<p>- <strong>Media Handling</strong>: Canvas API for thumbnails, Blob API for downloads</p>
+<p>- <strong>HTTP Proxy</strong>: Custom API routes for CORS handling</p>
+<p>- <strong>Icons</strong>: Lucide React</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js for server-side proxy capabilities to bypass CORS</p>
+<p>- JSZip for client-side ZIP file generation</p>
+<p>- Canvas API for generating preview thumbnails</p>
+<p>- TypeScript for complex data structure management</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Dual Input Methods</strong></p>
+<p>- Direct URL list input (one per line)</p>
+<p>- HTML code parsing for automatic media extraction</p>
+<p>- Support for both images and videos</p>
+
+<p>2. <strong>Intelligent Media Extraction</strong></p>
+<p>- Parses img tags, video tags, source elements</p>
+<p>- Extracts from CSS background-image properties</p>
+<p>- Finds media in meta tags (og:image, twitter:image)</p>
+<p>- Processes srcset attributes for responsive images</p>
+<p>- Handles HTML entities and URL encoding</p>
+
+<p>3. <strong>Flexible Folder Organization</strong></p>
+<p>- <strong>Flat Structure</strong>: Organizes by media type (images/, videos/)</p>
+<p>- <strong>Hierarchical Structure</strong>: Maintains original URL path structure</p>
+<p>- Preview of folder structure before download</p>
+
+<p>4. <strong>Batch Processing</strong></p>
+<p>- Multiple image upload and processing</p>
+<p>- Individual progress tracking per media item</p>
+<p>- Error handling and retry mechanisms</p>
+<p>- Real-time download status updates</p>
+
+<p>5. <strong>Export Options</strong></p>
+<p>- Download images only</p>
+<p>- Download videos only</p>
+<p>- Download all media types</p>
+<p>- ZIP file packaging with organized structure</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Media Extraction Algorithm:</p>
+<p>1. <strong>HTML Parsing</strong>: Creates temporary DOM element for safe HTML parsing</p>
+<p>2. <strong>Multi-source Extraction</strong>:</p>
+<p>- Standard HTML tags (img, video, source)</p>
+<p>- CSS properties (background-image)</p>
+<p>- Meta tags (Open Graph, Twitter Cards)</p>
+<p>- Inline styles and external stylesheets</p>
+<p>3. <strong>URL Validation</strong>: Filters valid URLs and supported formats</p>
+<p>4. <strong>Deduplication</strong>: Removes duplicate URLs from different sources</p>
+
+<p>#### Download Process:</p>
+<p>1. <strong>CORS Proxy</strong>: Routes requests through `/api/image-proxy` to bypass restrictions</p>
+<p>2. <strong>Progress Tracking</strong>: Updates UI with real-time download status</p>
+<p>3. <strong>Error Handling</strong>: Graceful failure handling with detailed error messages</p>
+<p>4. <strong>ZIP Generation</strong>: Client-side archive creation with folder structure</p>
+
+<p>#### Supported Formats:</p>
+<p>- <strong>Images</strong>: JPG, JPEG, PNG, GIF, WebP, SVG, ICO, BMP, TIFF, AVIF</p>
+<p>- <strong>Videos</strong>: MP4, WebM, OGG, AVI, MOV, WMV, FLV, MKV, M4V, 3GP</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>image-downloader/</p>
+<p>├── app/</p>
+<p>│   ├── api/image-proxy/   # CORS proxy for media downloads</p>
+<p>│   └── page.tsx           # Main application interface</p>
+<p>├── components/ui/         # Reusable UI components</p>
+<p>└── lib/                   # Utility functions and types</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Single-page application with API proxy</p>
+<p>- Centralized media processing logic</p>
+<p>- Modular UI components for different input methods</p>
+<p>- API route for server-side proxy functionality</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: CORS Restrictions</p>
+<p><strong>Problem</strong>: Direct media downloads blocked by CORS policies</p>
+<p><strong>Solution</strong>: Implemented server-side proxy API route to fetch media and relay to client</p>
+
+<p>#### Challenge 2: Complex HTML Parsing</p>
+<p><strong>Problem</strong>: Extracting media URLs from various HTML structures and CSS</p>
+<p><strong>Solution</strong>: Multi-layered parsing approach using DOM manipulation and regex fallbacks</p>
+
+<p>#### Challenge 3: Large File Handling</p>
+<p><strong>Problem</strong>: Memory issues with large media files and ZIP generation</p>
+<p><strong>Solution</strong>: Streaming approach with progress tracking and error recovery</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>Web Developers</strong>: Extracting assets from existing websites</p>
+<p>- <strong>Content Creators</strong>: Bulk downloading media for projects</p>
+<p>- <strong>Researchers</strong>: Collecting visual data from web sources</p>
+<p>- <strong>Archivists</strong>: Preserving website media content</p>
+
+<p>#### Business Applications:</p>
+<p>- Website migration and asset transfer</p>
+<p>- Competitive analysis and research</p>
+<p>- Content auditing and inventory</p>
+<p>- Backup and archival purposes</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Filtering</strong>: Size filters, format conversion, quality settings</p>
+<p>2. <strong>Cloud Integration</strong>: Direct upload to cloud storage services</p>
+<p>3. <strong>Batch Processing</strong>: Queue management for large-scale operations</p>
+<p>4. <strong>Metadata Extraction</strong>: Alt text, captions, and image metadata preservation</p>
+<p>5. <strong>Performance Optimization</strong>: Parallel downloads, resume capability</p>
+
+<p>---</p>
+
+<h2 id="3-link-discovery">3. LINK DISCOVERY</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>Link Discovery</strong> is a web crawling tool that analyzes websites to discover and map all related pages and links. It provides comprehensive link analysis with depth control and intelligent filtering.</p>
+
+<p><strong>Type</strong>: Web crawler and link analysis tool</p>
+<p><strong>Core Purpose</strong>: Discover and analyze website link structures for SEO, research, and site mapping</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14, React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>Web Crawling</strong>: Custom server-side crawler with fetch API</p>
+<p>- <strong>Data Processing</strong>: URL parsing and validation</p>
+<p>- <strong>State Management</strong>: React hooks for crawler state</p>
+<p>- <strong>Icons</strong>: Lucide React</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js API routes for server-side crawling to avoid CORS issues</p>
+<p>- TypeScript for complex link data structure management</p>
+<p>- Custom crawler implementation for flexibility and control</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Intelligent Web Crawling</strong></p>
+<p>- Configurable crawl depth (1-3 levels)</p>
+<p>- Automatic link discovery and following</p>
+<p>- Duplicate URL detection and prevention</p>
+<p>- 404 error handling and skipping</p>
+
+<p>2. <strong>Link Analysis</strong></p>
+<p>- Internal vs external link classification</p>
+<p>- Link status validation (working/broken)</p>
+<p>- Page title extraction</p>
+<p>- URL structure analysis</p>
+
+<p>3. <strong>Results Organization</strong></p>
+<p>- Hierarchical display of discovered links</p>
+<p>- Base URL normalization</p>
+<p>- Link categorization by type and status</p>
+<p>- Export capabilities for discovered links</p>
+
+<p>4. <strong>Crawler Limitations Handling</strong></p>
+<p>- JavaScript-rendered content detection</p>
+<p>- Robot.txt respect (configurable)</p>
+<p>- Rate limiting to prevent server overload</p>
+<p>- Timeout handling for slow responses</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Crawling Algorithm:</p>
+<p>1. <strong>Initial Request</strong>: Fetches base URL and extracts all links</p>
+<p>2. <strong>Link Processing</strong>: Validates and normalizes discovered URLs</p>
+<p>3. <strong>Depth Management</strong>: Tracks crawl depth to prevent infinite loops</p>
+<p>4. <strong>Queue Management</strong>: Maintains queue of URLs to process</p>
+<p>5. <strong>Result Aggregation</strong>: Compiles comprehensive link map</p>
+
+<p>#### Link Extraction Process:</p>
+<p>\`\`\`typescript</p>
+<p>// Simplified extraction logic</p>
+<p>const extractLinks = (html: string, baseUrl: string) => {</p>
+<p>const links = [];</p>
+<p>const linkRegex = /<a[^>]+href=["']([^"']+)["'][^>]*>/gi;</p>
+<p>let match;</p>
+
+<p>while ((match = linkRegex.exec(html)) !== null) {</p>
+<p>const url = resolveURL(match[1], baseUrl);</p>
+<p>if (isValidURL(url)) {</p>
+<p>links.push({</p>
+<p>url,</p>
+<p>title: extractTitle(match[0]),</p>
+<p>type: isInternal(url, baseUrl) ? 'internal' : 'external'</p>
+<p>});</p>
+<p>}</p>
+<p>}</p>
+
+<p>return links;</p>
+<p>};</p>
+<p>\`\`\`</p>
+
+<p>#### Data Structure:</p>
+<p>\`\`\`typescript</p>
+<p>interface LinkData {</p>
+<p>url: string;</p>
+<p>title: string;</p>
+<p>status: 'pending' | 'success' | 'error';</p>
+<p>type: 'internal' | 'external';</p>
+<p>depth: number;</p>
+<p>parentUrl?: string;</p>
+<p>}</p>
+<p>\`\`\`</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>link-discovery/</p>
+<p>├── app/</p>
+<p>│   ├── api/crawl/         # Server-side crawling logic</p>
+<p>│   └── page.tsx           # Main application page</p>
+<p>├── components/</p>
+<p>│   ├── link-discovery.tsx # Main component orchestrator</p>
+<p>│   ├── link-form.tsx      # URL input form</p>
+<p>│   └── results.tsx        # Results display component</p>
+<p>├── lib/</p>
+<p>│   ├── api.ts             # API client functions</p>
+<p>│   └── types.ts           # TypeScript definitions</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Component-based architecture with API separation</p>
+<p>- Clear separation between UI and crawling logic</p>
+<p>- Modular components for different aspects of functionality</p>
+<p>- Type-safe data structures throughout</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: JavaScript-Rendered Content</p>
+<p><strong>Problem</strong>: Many modern websites render content dynamically with JavaScript</p>
+<p><strong>Solution</strong>: Added detection and user warnings about limitations, suggested alternatives</p>
+
+<p>#### Challenge 2: Rate Limiting and Politeness</p>
+<p><strong>Problem</strong>: Avoiding server overload while maintaining reasonable speed</p>
+<p><strong>Solution</strong>: Implemented configurable delays and concurrent request limits</p>
+
+<p>#### Challenge 3: Infinite Loop Prevention</p>
+<p><strong>Problem</strong>: Circular links could cause endless crawling</p>
+<p><strong>Solution</strong>: URL deduplication and depth limiting with visited URL tracking</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>SEO Specialists</strong>: Site structure analysis and internal linking optimization</p>
+<p>- <strong>Web Developers</strong>: Site mapping and link validation</p>
+<p>- <strong>Content Strategists</strong>: Understanding site architecture and content relationships</p>
+<p>- <strong>Researchers</strong>: Academic research on web structure and connectivity</p>
+
+<p>#### Business Applications:</p>
+<p>- Website audits and SEO analysis</p>
+<p>- Competitive research and benchmarking</p>
+<p>- Site migration planning</p>
+<p>- Broken link detection and maintenance</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Crawling</strong>: JavaScript rendering support with headless browser</p>
+<p>2. <strong>Visual Mapping</strong>: Interactive site map visualization</p>
+<p>3. <strong>Export Formats</strong>: CSV, XML sitemap, JSON exports</p>
+<p>4. <strong>Performance Metrics</strong>: Page load times, response codes, redirect chains</p>
+<p>5. <strong>Scheduling</strong>: Automated periodic crawling and monitoring</p>
+
+<p>---</p>
+
+<h2 id="4-on-page-seo-analyzer">4. ON-PAGE SEO ANALYZER</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>On-Page SEO Analyzer</strong> is a specialized tool built with Vite and React that provides real-time SEO analysis of web pages. It focuses specifically on on-page optimization factors and provides actionable recommendations.</p>
+
+<p><strong>Type</strong>: Single-page application for SEO analysis</p>
+<p><strong>Core Purpose</strong>: Real-time on-page SEO analysis with detailed metrics and recommendations</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Vite, React, TypeScript</p>
+<p>- <strong>Build Tool</strong>: Vite for fast development and building</p>
+<p>- <strong>UI Framework</strong>: Custom CSS with modern design patterns</p>
+<p>- <strong>HTTP Client</strong>: Fetch API for URL analysis</p>
+<p>- <strong>State Management</strong>: React hooks</p>
+<p>- <strong>Analysis Engine</strong>: Custom SEO analysis algorithms</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Vite for extremely fast development and hot module replacement</p>
+<p>- React for component-based UI architecture</p>
+<p>- TypeScript for type safety in complex analysis logic</p>
+<p>- Custom CSS for precise control over analysis result presentation</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Comprehensive SEO Analysis</strong></p>
+<p>- Meta tag analysis (title, description, keywords)</p>
+<p>- Header structure evaluation (H1-H6 hierarchy)</p>
+<p>- Content analysis (word count, keyword density)</p>
+<p>- Image optimization check (alt tags, file sizes)</p>
+<p>- Internal/external link analysis</p>
+
+<p>2. <strong>Real-time Results</strong></p>
+<p>- Instant analysis upon URL submission</p>
+<p>- Progressive loading of analysis components</p>
+<p>- Live scoring and recommendations</p>
+<p>- Visual indicators for pass/fail criteria</p>
+
+<p>3. <strong>Detailed Scoring System</strong></p>
+<p>- Weighted scoring for different SEO factors</p>
+<p>- Color-coded results (green/yellow/red)</p>
+<p>- Priority-based recommendations</p>
+<p>- Overall SEO score calculation</p>
+
+<p>4. <strong>User-Friendly Interface</strong></p>
+<p>- Clean, professional design</p>
+<p>- Responsive layout for all devices</p>
+<p>- Loading states and error handling</p>
+<p>- Exportable results</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Analysis Engine Architecture:</p>
+<p>\`\`\`typescript</p>
+<p>interface SEOData {</p>
+<p>title: {</p>
+<p>content: string;</p>
+<p>length: number;</p>
+<p>score: number;</p>
+<p>recommendations: string[];</p>
+<p>};</p>
+<p>meta: {</p>
+<p>description: string;</p>
+<p>keywords: string[];</p>
+<p>score: number;</p>
+<p>};</p>
+<p>headers: {</p>
+<p>h1: string[];</p>
+<p>structure: HeaderStructure;</p>
+<p>score: number;</p>
+<p>};</p>
+<p>content: {</p>
+<p>wordCount: number;</p>
+<p>keywordDensity: number;</p>
+<p>readabilityScore: number;</p>
+<p>};</p>
+<p>images: {</p>
+<p>total: number;</p>
+<p>withAlt: number;</p>
+<p>missingAlt: string[];</p>
+<p>score: number;</p>
+<p>};</p>
+<p>}</p>
+<p>\`\`\`</p>
+
+<p>#### Analysis Process:</p>
+<p>1. <strong>URL Fetching</strong>: Retrieves HTML content from target URL</p>
+<p>2. <strong>DOM Parsing</strong>: Extracts relevant elements for analysis</p>
+<p>3. <strong>Metric Calculation</strong>: Applies SEO rules and scoring algorithms</p>
+<p>4. <strong>Recommendation Generation</strong>: Creates actionable improvement suggestions</p>
+<p>5. <strong>Result Presentation</strong>: Displays findings with visual indicators</p>
+
+<p>#### Key Analysis Components:</p>
+<p>- <strong>URLInput</strong>: Handles URL submission and validation</p>
+<p>- <strong>AnalysisResults</strong>: Displays comprehensive analysis results</p>
+<p>- <strong>LoadingState</strong>: Provides feedback during analysis</p>
+<p>- <strong>SEOAnalyzer</strong>: Main orchestrator component</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>On-Page-SEO/project/</p>
+<p>├── src/</p>
+<p>│   ├── components/</p>
+<p>│   │   ├── SEOAnalyzer.tsx    # Main analysis component</p>
+<p>│   │   ├── URLInput.tsx       # URL input form</p>
+<p>│   │   ├── AnalysisResults.tsx # Results display</p>
+<p>│   │   └── LoadingState.tsx   # Loading indicator</p>
+<p>│   ├── services/</p>
+<p>│   │   └── seoAnalyzer.ts     # Analysis logic</p>
+<p>│   ├── types/</p>
+<p>│   │   └── seo.ts             # TypeScript definitions</p>
+<p>│   └── App.tsx                # Root component</p>
+<p>├── public/                    # Static assets</p>
+<p>└── package.json               # Dependencies</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Service-oriented architecture with clear separation</p>
+<p>- Components handle UI presentation</p>
+<p>- Services contain business logic</p>
+<p>- Types ensure data consistency</p>
+<p>- Modular structure for maintainability</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: Cross-Origin Requests</p>
+<p><strong>Problem</strong>: Browser CORS policies prevent direct URL analysis</p>
+<p><strong>Solution</strong>: Implemented proxy service or user instruction for CORS browser extensions</p>
+
+<p>#### Challenge 2: Complex SEO Scoring</p>
+<p><strong>Problem</strong>: Balancing multiple SEO factors into meaningful scores</p>
+<p><strong>Solution</strong>: Weighted scoring system based on SEO best practices and industry standards</p>
+
+<p>#### Challenge 3: Performance with Large Pages</p>
+<p><strong>Problem</strong>: Analysis of large web pages could be slow</p>
+<p><strong>Solution</strong>: Optimized parsing algorithms and progressive result loading</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>Content Creators</strong>: Optimizing blog posts and articles</p>
+<p>- <strong>Small Business Owners</strong>: DIY SEO optimization</p>
+<p>- <strong>Marketing Teams</strong>: Quick SEO checks before publishing</p>
+<p>- <strong>SEO Beginners</strong>: Learning SEO best practices</p>
+
+<p>#### Business Applications:</p>
+<p>- Content optimization workflows</p>
+<p>- SEO training and education</p>
+<p>- Quick site audits</p>
+<p>- Pre-publication SEO checks</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Metrics</strong>: Core Web Vitals, mobile-friendliness, schema markup</p>
+<p>2. <strong>Batch Analysis</strong>: Multiple URL analysis capabilities</p>
+<p>3. <strong>Historical Tracking</strong>: Track SEO improvements over time</p>
+<p>4. <strong>Integration</strong>: API for integration with other tools</p>
+<p>5. <strong>Competitive Analysis</strong>: Compare against competitor pages</p>
+
+<p>---</p>
+
+<h2 id="5-raw-data-to-html-converter">5. RAW DATA TO HTML CONVERTER</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>RAW Data to HTML Converter</strong> is a sophisticated documentation tool that transforms raw markdown or plain text into beautifully formatted, interactive HTML documentation with advanced features like syntax highlighting, responsive design, and multiple export options.</p>
+
+<p><strong>Type</strong>: Documentation generation and conversion tool</p>
+<p><strong>Core Purpose</strong>: Convert raw text/markdown into professional, interactive HTML documentation</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14, React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>Syntax Highlighting</strong>: Prism.js integration</p>
+<p>- <strong>Export Capabilities</strong>: PDF generation, ZIP packaging</p>
+<p>- <strong>Responsive Design</strong>: Mobile-first approach with adaptive layouts</p>
+<p>- <strong>Theme System</strong>: Dark/light mode with system preference detection</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js for server-side rendering and optimal performance</p>
+<p>- Prism.js for professional code syntax highlighting</p>
+<p>- Tailwind CSS for rapid, responsive design development</p>
+<p>- TypeScript for complex document processing logic</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Advanced Text Processing</strong></p>
+<p>- Markdown to HTML conversion</p>
+<p>- Automatic heading hierarchy detection</p>
+<p>- Code block syntax highlighting</p>
+<p>- Link detection and formatting</p>
+<p>- Table generation and styling</p>
+
+<p>2. <strong>Interactive Documentation Features</strong></p>
+<p>- Automatic table of contents generation</p>
+<p>- Smooth scrolling navigation</p>
+<p>- Collapsible sections</p>
+<p>- Search functionality within document</p>
+<p>- Copy-to-clipboard for code blocks</p>
+
+<p>3. <strong>Professional Styling</strong></p>
+<p>- Responsive design for all devices</p>
+<p>- Dark/light theme toggle</p>
+<p>- Professional typography</p>
+<p>- Syntax-highlighted code blocks</p>
+<p>- Mobile-optimized navigation</p>
+
+<p>4. <strong>Multiple Export Options</strong></p>
+<p>- HTML file download</p>
+<p>- PDF export via print dialog</p>
+<p>- Markdown file export</p>
+<p>- Complete ZIP package with assets</p>
+<p>- Shareable documentation packages</p>
+
+<p>5. <strong>Advanced Editor Features</strong></p>
+<p>- Real-time preview</p>
+<p>- Split-screen editing mode</p>
+<p>- Keyboard shortcuts</p>
+<p>- Auto-save functionality</p>
+<p>- Content templates and examples</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Conversion Algorithm:</p>
+<p>\`\`\`typescript</p>
+<p>const convertToHTML = (content: string): string => {</p>
+<p>const lines = content.split('\n');</p>
+<p>let html = generateHTMLTemplate();</p>
+
+<p>// Process each line for markdown elements</p>
+<p>lines.forEach(line => {</p>
+<p>if (line.startsWith('#')) {</p>
+<p>html += processHeading(line);</p>
+<p>} else if (line.startsWith('```')) {</p>
+<p>html += processCodeBlock(line);</p>
+<p>} else if (line.includes('](')) {</p>
+<p>html += processLinks(line);</p>
+<p>} else {</p>
+<p>html += processParagraph(line);</p>
+<p>}</p>
+<p>});</p>
+
+<p>return html + generateHTMLFooter();</p>
+<p>};</p>
+<p>\`\`\`</p>
+
+<p>#### Key Processing Features:</p>
+<p>- <strong>Heading Processing</strong>: Automatic ID generation for navigation</p>
+<p>- <strong>Code Block Handling</strong>: Language detection and syntax highlighting</p>
+<p>- <strong>Link Processing</strong>: Automatic link detection and formatting</p>
+<p>- <strong>Table Generation</strong>: Markdown table to HTML conversion</p>
+<p>- <strong>Image Handling</strong>: Responsive image embedding</p>
+
+<p>#### Export System:</p>
+<p>1. <strong>HTML Export</strong>: Complete standalone HTML file</p>
+<p>2. <strong>PDF Export</strong>: Browser print dialog with optimized styling</p>
+<p>3. <strong>Markdown Export</strong>: Original content preservation</p>
+<p>4. <strong>ZIP Package</strong>: Multi-file documentation package</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>RAW data to HTML/</p>
+<p>├── app/</p>
+<p>│   └── page.tsx           # Main application interface</p>
+<p>├── components/ui/         # Reusable UI components</p>
+<p>├── lib/</p>
+<p>│   ├── utils.ts          # Utility functions</p>
+<p>│   └── conversion.ts     # HTML conversion logic</p>
+<p>└── styles/               # Custom CSS and themes</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Single-page application with modular processing</p>
+<p>- Centralized conversion logic</p>
+<p>- Modular UI components</p>
+<p>- Utility functions for common operations</p>
+<p>- Theme system integration</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: Complex Markdown Processing</p>
+<p><strong>Problem</strong>: Handling nested markdown elements and edge cases</p>
+<p><strong>Solution</strong>: Multi-pass processing system with regex patterns and DOM manipulation</p>
+
+<p>#### Challenge 2: Mobile Responsiveness</p>
+<p><strong>Problem</strong>: Complex documentation layouts on small screens</p>
+<p><strong>Solution</strong>: Adaptive sidebar, collapsible navigation, and touch-optimized controls</p>
+
+<p>#### Challenge 3: Export Quality</p>
+<p><strong>Problem</strong>: Maintaining formatting quality across different export formats</p>
+<p><strong>Solution</strong>: Format-specific styling and optimization for each export type</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>Technical Writers</strong>: Creating professional documentation</p>
+<p>- <strong>Developers</strong>: Converting README files to documentation sites</p>
+<p>- <strong>Project Managers</strong>: Creating project documentation</p>
+<p>- <strong>Educators</strong>: Converting course materials to web format</p>
+
+<p>#### Business Applications:</p>
+<p>- API documentation generation</p>
+<p>- Project documentation workflows</p>
+<p>- Knowledge base creation</p>
+<p>- Training material development</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Markdown</strong>: Support for tables, footnotes, math equations</p>
+<p>2. <strong>Template System</strong>: Pre-built documentation templates</p>
+<p>3. <strong>Collaboration</strong>: Multi-user editing and commenting</p>
+<p>4. <strong>Version Control</strong>: Document history and change tracking</p>
+<p>5. <strong>Integration</strong>: GitHub, GitLab, and other platform integration</p>
+
+<p>---</p>
+
+<h2 id="6-urls-structure-analyzer">6. URLS STRUCTURE ANALYZER</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>URLs Structure Analyzer</strong> is a specialized tool for analyzing and visualizing website URL patterns and structures. It helps understand site architecture, identify optimization opportunities, and ensure consistent URL naming conventions.</p>
+
+<p><strong>Type</strong>: URL analysis and structure visualization tool</p>
+<p><strong>Core Purpose</strong>: Analyze website URL patterns for SEO optimization and site architecture understanding</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14, React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>Data Visualization</strong>: Custom charts and tree structures</p>
+<p>- <strong>URL Processing</strong>: Advanced regex and parsing algorithms</p>
+<p>- <strong>Export Capabilities</strong>: CSV, JSON data export</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js for server-side processing of large URL datasets</p>
+<p>- TypeScript for complex URL pattern analysis</p>
+<p>- Custom visualization for URL hierarchy representation</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>URL Pattern Analysis</strong></p>
+<p>- Automatic pattern detection in URL structures</p>
+<p>- Hierarchy visualization (domain/category/subcategory)</p>
+<p>- Parameter analysis and optimization suggestions</p>
+<p>- Duplicate URL detection</p>
+
+<p>2. <strong>Structure Visualization</strong></p>
+<p>- Tree-view of site architecture</p>
+<p>- URL depth analysis</p>
+<p>- Category and subcategory mapping</p>
+<p>- Visual representation of site structure</p>
+
+<p>3. <strong>SEO Optimization Insights</strong></p>
+<p>- URL length analysis</p>
+<p>- Keyword presence in URLs</p>
+<p>- Special character usage</p>
+<p>- Mobile-friendly URL assessment</p>
+
+<p>4. <strong>Bulk Processing</strong></p>
+<p>- CSV/text file import for large URL lists</p>
+<p>- Batch analysis capabilities</p>
+<p>- Export results in multiple formats</p>
+<p>- Progress tracking for large datasets</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### URL Analysis Algorithm:</p>
+<p>\`\`\`typescript</p>
+<p>interface URLAnalysis {</p>
+<p>url: string;</p>
+<p>domain: string;</p>
+<p>path: string[];</p>
+<p>parameters: Record<string, string>;</p>
+<p>depth: number;</p>
+<p>length: number;</p>
+<p>seoScore: number;</p>
+<p>issues: string[];</p>
+<p>}</p>
+
+<p>const analyzeURL = (url: string): URLAnalysis => {</p>
+<p>const parsed = new URL(url);</p>
+<p>const pathSegments = parsed.pathname.split('/').filter(Boolean);</p>
+
+<p>return {</p>
+<p>url,</p>
+<p>domain: parsed.hostname,</p>
+<p>path: pathSegments,</p>
+<p>parameters: Object.fromEntries(parsed.searchParams),</p>
+<p>depth: pathSegments.length,</p>
+<p>length: url.length,</p>
+<p>seoScore: calculateSEOScore(url),</p>
+<p>issues: identifyIssues(url)</p>
+<p>};</p>
+<p>};</p>
+<p>\`\`\`</p>
+
+<p>#### Structure Building:</p>
+<p>1. <strong>URL Parsing</strong>: Extract components from each URL</p>
+<p>2. <strong>Hierarchy Building</strong>: Create tree structure from path segments</p>
+<p>3. <strong>Pattern Recognition</strong>: Identify common URL patterns</p>
+<p>4. <strong>Analysis Generation</strong>: Calculate metrics and recommendations</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>urls-structure/</p>
+<p>├── app/</p>
+<p>│   ├── api/analyze/       # URL analysis API endpoints</p>
+<p>│   └── page.tsx           # Main application interface</p>
+<p>├── components/</p>
+<p>│   ├── url-analyzer.tsx   # Main analysis component</p>
+<p>│   ├── structure-tree.tsx # Hierarchy visualization</p>
+<p>│   └── results-table.tsx  # Analysis results display</p>
+<p>└── lib/</p>
+<p>├── url-parser.ts      # URL parsing utilities</p>
+<p>└── analysis.ts        # Analysis algorithms</p>
+<p>\`\`\`</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>SEO Specialists</strong>: URL optimization and site structure analysis</p>
+<p>- <strong>Web Developers</strong>: Site architecture planning and validation</p>
+<p>- <strong>Site Architects</strong>: Information architecture design</p>
+<p>- <strong>Digital Marketers</strong>: URL strategy development</p>
+
+<p>#### Business Applications:</p>
+<p>- Site migration planning</p>
+<p>- SEO audit and optimization</p>
+<p>- URL strategy development</p>
+<p>- Site architecture documentation</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Visualization</strong>: Interactive site maps and flow diagrams</p>
+<p>2. <strong>Competitive Analysis</strong>: Compare URL structures across sites</p>
+<p>3. <strong>Automation</strong>: Scheduled analysis and monitoring</p>
+<p>4. <strong>Integration</strong>: Connect with analytics and SEO tools</p>
+<p>5. <strong>Recommendations</strong>: AI-powered URL optimization suggestions</p>
+
+<p>---</p>
+
+<h2 id="7-website-cloner-v2">7. WEBSITE CLONER V2</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>Website Cloner V2</strong> is an advanced web scraping and cloning tool that can replicate entire websites, including complex applications built with modern frameworks like Next.js and MERN stack. It provides comprehensive asset downloading with intelligent organization.</p>
+
+<p><strong>Type</strong>: Advanced web scraping and cloning application</p>
+<p><strong>Core Purpose</strong>: Complete website replication with asset management and intelligent crawling</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Next.js 14, React, TypeScript</p>
+<p>- <strong>UI Framework</strong>: Tailwind CSS, shadcn/ui components</p>
+<p>- <strong>Web Scraping</strong>: Custom crawler with depth control</p>
+<p>- <strong>File Management</strong>: ZIP generation and organization</p>
+<p>- <strong>Progress Tracking</strong>: Real-time progress updates</p>
+<p>- <strong>Asset Handling</strong>: CSS, JS, image, and media file processing</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Next.js API routes for server-side scraping to avoid CORS</p>
+<p>- Advanced crawling algorithms for modern web applications</p>
+<p>- Intelligent asset detection and organization</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Advanced Website Crawling</strong></p>
+<p>- Configurable crawl depth (1-3 levels)</p>
+<p>- Support for modern frameworks (Next.js, React, MERN)</p>
+<p>- JavaScript and CSS asset extraction</p>
+<p>- Image and media file downloading</p>
+
+<p>2. <strong>Intelligent Asset Management</strong></p>
+<p>- Automatic asset discovery and categorization</p>
+<p>- Relative path conversion for offline viewing</p>
+<p>- Asset deduplication and optimization</p>
+<p>- Failed asset logging and reporting</p>
+
+<p>3. <strong>Flexible Configuration Options</strong></p>
+<p>- Include/exclude patterns for URLs</p>
+<p>- Content type filtering (JS, CSS, images)</p>
+<p>- Custom crawl depth settings</p>
+<p>- Advanced filtering options</p>
+
+<p>4. <strong>Progress Monitoring</strong></p>
+<p>- Real-time progress tracking</p>
+<p>- Detailed status messages</p>
+<p>- Error reporting and handling</p>
+<p>- Session-based progress updates</p>
+
+<p>5. <strong>Export and Packaging</strong></p>
+<p>- Complete ZIP package generation</p>
+<p>- Organized folder structure</p>
+<p>- Failed assets log file</p>
+<p>- Offline-ready website packages</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Crawling Algorithm:</p>
+<p>\`\`\`typescript</p>
+<p>interface CrawlOptions {</p>
+<p>crawlDepth: number;</p>
+<p>includeJs: boolean;</p>
+<p>includeCss: boolean;</p>
+<p>includeImages: boolean;</p>
+<p>includePatterns: string[];</p>
+<p>excludePatterns: string[];</p>
+<p>}</p>
+
+<p>const crawlWebsite = async (url: string, options: CrawlOptions) => {</p>
+<p>const visited = new Set<string>();</p>
+<p>const queue = [{ url, depth: 0 }];</p>
+<p>const assets = new Map<string, Buffer>();</p>
+
+<p>while (queue.length > 0) {</p>
+<p>const { url: currentUrl, depth } = queue.shift()!;</p>
+
+<p>if (visited.has(currentUrl) || depth > options.crawlDepth) {</p>
+<p>continue;</p>
+<p>}</p>
+
+<p>visited.add(currentUrl);</p>
+<p>const page = await fetchPage(currentUrl);</p>
+<p>const pageAssets = extractAssets(page, options);</p>
+
+<p>// Add discovered links to queue</p>
+<p>const links = extractLinks(page);</p>
+<p>links.forEach(link => {</p>
+<p>if (shouldCrawl(link, options)) {</p>
+<p>queue.push({ url: link, depth: depth + 1 });</p>
+<p>}</p>
+<p>});</p>
+
+<p>// Download assets</p>
+<p>for (const asset of pageAssets) {</p>
+<p>if (!assets.has(asset)) {</p>
+<p>const buffer = await downloadAsset(asset);</p>
+<p>assets.set(asset, buffer);</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+
+<p>return generateZip(assets);</p>
+<p>};</p>
+<p>\`\`\`</p>
+
+<p>#### Asset Processing:</p>
+<p>1. <strong>Discovery</strong>: Extract asset URLs from HTML, CSS, and JS</p>
+<p>2. <strong>Filtering</strong>: Apply include/exclude patterns</p>
+<p>3. <strong>Downloading</strong>: Fetch assets with error handling</p>
+<p>4. <strong>Organization</strong>: Structure files in logical folders</p>
+<p>5. <strong>Path Conversion</strong>: Update references for offline viewing</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>website-cloner V2/</p>
+<p>├── app/</p>
+<p>│   ├── api/</p>
+<p>│   │   ├── clone/         # Main cloning endpoint</p>
+<p>│   │   └── progress/      # Progress tracking endpoint</p>
+<p>│   └── page.tsx           # Main application interface</p>
+<p>├── lib/</p>
+<p>│   ├── crawler.ts         # Web crawling logic</p>
+<p>│   ├── asset-processor.ts # Asset handling utilities</p>
+<p>│   └── zip-generator.ts   # ZIP file creation</p>
+<p>└── types/</p>
+<p>└── crawler.ts         # TypeScript definitions</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Service-oriented architecture with API separation</p>
+<p>- Clear separation between UI and crawling logic</p>
+<p>- Modular services for different aspects of cloning</p>
+<p>- Progress tracking system for user feedback</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: Modern Framework Support</p>
+<p><strong>Problem</strong>: Single-page applications and dynamic content rendering</p>
+<p><strong>Solution</strong>: Enhanced parsing for JavaScript-rendered content and asset discovery</p>
+
+<p>#### Challenge 2: Asset Path Resolution</p>
+<p><strong>Problem</strong>: Converting absolute paths to relative for offline viewing</p>
+<p><strong>Solution</strong>: Intelligent path rewriting system with base URL resolution</p>
+
+<p>#### Challenge 3: Large Site Handling</p>
+<p><strong>Problem</strong>: Memory and performance issues with large websites</p>
+<p><strong>Solution</strong>: Streaming processing, progress tracking, and resource management</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>Web Developers</strong>: Creating local copies for development</p>
+<p>- <strong>Archivists</strong>: Preserving websites for historical purposes</p>
+<p>- <strong>Researchers</strong>: Collecting web content for analysis</p>
+<p>- <strong>Backup Specialists</strong>: Creating offline website backups</p>
+
+<p>#### Business Applications:</p>
+<p>- Website migration and backup</p>
+<p>- Competitive analysis and research</p>
+<p>- Offline presentation creation</p>
+<p>- Legal compliance and archiving</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>JavaScript Rendering</strong>: Headless browser integration for SPA support</p>
+<p>2. <strong>Selective Cloning</strong>: Page-specific cloning options</p>
+<p>3. <strong>Cloud Storage</strong>: Direct upload to cloud services</p>
+<p>4. <strong>Scheduling</strong>: Automated periodic cloning</p>
+<p>5. <strong>Comparison</strong>: Detect changes between clone versions</p>
+
+<p>---</p>
+
+<h2 id="8-gridline-generator">8. GRIDLINE GENERATOR</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>Gridline Generator</strong> is a specialized HTML-based tool for creating transparent gridline overlays for design and development purposes. It generates customizable grid patterns with precise control over spacing, colors, and opacity.</p>
+
+<p><strong>Type</strong>: Standalone HTML utility tool</p>
+<p><strong>Core Purpose</strong>: Generate transparent gridline PNG files for design alignment and development guides</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Pure HTML5, CSS3, JavaScript (ES6+)</p>
+<p>- <strong>Graphics</strong>: HTML5 Canvas API for grid rendering</p>
+<p>- <strong>File Generation</strong>: Canvas toBlob API for PNG export</p>
+<p>- <strong>UI</strong>: Custom CSS with modern design patterns</p>
+<p>- <strong>Export</strong>: Direct download and clipboard copy functionality</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Pure HTML/JS for maximum compatibility and portability</p>
+<p>- Canvas API for precise pixel-perfect grid generation</p>
+<p>- No dependencies for lightweight, fast loading</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Customizable Grid Settings</strong></p>
+<p>- Canvas dimensions (width/height in pixels)</p>
+<p>- Grid spacing/frame size control</p>
+<p>- Line thickness with sub-pixel precision</p>
+<p>- Line opacity (0-1 range)</p>
+<p>- Custom line colors with color picker</p>
+
+<p>2. <strong>Advanced Grid Options</strong></p>
+<p>- Major gridlines every N lines</p>
+<p>- Different thickness for major lines</p>
+<p>- Separate opacity control for major lines</p>
+<p>- Retina display support (devicePixelRatio scaling)</p>
+
+<p>3. <strong>Real-time Preview</strong></p>
+<p>- Live canvas preview with zoom controls</p>
+<p>- Interactive grid rendering</p>
+<p>- Pixel-perfect alignment for sharp lines</p>
+<p>- Visual feedback for all settings</p>
+
+<p>4. <strong>Export Capabilities</strong></p>
+<p>- PNG file download with custom naming</p>
+<p>- Copy to clipboard functionality</p>
+<p>- Transparent background preservation</p>
+<p>- High-DPI support for crisp output</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Grid Rendering Algorithm:</p>
+<p>\`\`\`javascript</p>
+<p>function draw() {</p>
+<p>const W = parseFloat(inputs.w.value) || 1200;</p>
+<p>const H = parseFloat(inputs.h.value) || 800;</p>
+<p>const spacing = Math.max(1, parseFloat(inputs.spacing.value) || 40);</p>
+<p>const lw = Math.max(0.1, parseFloat(inputs.lw.value) || 1);</p>
+<p>const alpha = Math.min(1, Math.max(0, parseFloat(inputs.alpha.value) || 0.35));</p>
+
+<p>setCanvasSize(W, H, inputs.retina.checked);</p>
+
+<p>// Clear with full transparency</p>
+<p>ctx.clearRect(0, 0, canvas.width, canvas.height);</p>
+
+<p>// Pixel alignment for crisp lines</p>
+<p>const align = isOdd(lw) ? 0.5 : 0.0;</p>
+
+<p>ctx.strokeStyle = color;</p>
+
+<p>const cols = Math.ceil(W / spacing);</p>
+<p>const rows = Math.ceil(H / spacing);</p>
+
+<p>// Draw vertical lines</p>
+<p>for(let i = 0; i <= cols; i++) {</p>
+<p>const x = i * spacing + align;</p>
+<p>strokeLine(x, 0, x, H, lw, alpha);</p>
+<p>}</p>
+
+<p>// Draw horizontal lines</p>
+<p>for(let j = 0; j <= rows; j++) {</p>
+<p>const y = j * spacing + align;</p>
+<p>strokeLine(0, y, W, y, lw, alpha);</p>
+<p>}</p>
+<p>}</p>
+<p>\`\`\`</p>
+
+<p>#### Key Technical Features:</p>
+<p>- <strong>Sub-pixel Alignment</strong>: Ensures crisp 1px lines without blur</p>
+<p>- <strong>Retina Support</strong>: Automatic scaling for high-DPI displays</p>
+<p>- <strong>Transparent Background</strong>: 100% transparent PNG generation</p>
+<p>- <strong>Memory Efficient</strong>: Direct canvas-to-blob conversion</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>Gridline Generator.html</p>
+<p>├── HTML Structure</p>
+<p>│   ├── Header with title</p>
+<p>│   ├── Controls panel (left sidebar)</p>
+<p>│   ├── Canvas preview (center)</p>
+<p>│   └── Output actions (integrated)</p>
+<p>├── CSS Styling</p>
+<p>│   ├── Modern dark theme</p>
+<p>│   ├── Responsive grid layout</p>
+<p>│   └── Custom form controls</p>
+<p>└── JavaScript Logic</p>
+<p>├── Canvas management</p>
+<p>├── Grid rendering</p>
+<p>├── Export functionality</p>
+<p>└── Event handling</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Self-contained single-file application</p>
+<p>- All functionality in one HTML file</p>
+<p>- No external dependencies</p>
+<p>- Modular JavaScript functions</p>
+<p>- Clean separation of concerns</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: Pixel-Perfect Lines</p>
+<p><strong>Problem</strong>: Canvas lines can appear blurry due to anti-aliasing</p>
+<p><strong>Solution</strong>: Implemented sub-pixel alignment system for crisp line rendering</p>
+
+<p>#### Challenge 2: High-DPI Support</p>
+<p><strong>Problem</strong>: Grids appear pixelated on retina displays</p>
+<p><strong>Solution</strong>: devicePixelRatio scaling with CSS size compensation</p>
+
+<p>#### Challenge 3: Transparent Background</p>
+<p><strong>Problem</strong>: Maintaining transparency in exported PNG files</p>
+<p><strong>Solution</strong>: Canvas alpha channel preservation with proper clearRect usage</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>UI/UX Designers</strong>: Creating alignment guides for design mockups</p>
+<p>- <strong>Web Developers</strong>: Grid overlays for CSS Grid and Flexbox development</p>
+<p>- <strong>Graphic Designers</strong>: Alignment guides for print and digital design</p>
+<p>- <strong>Game Developers</strong>: Grid systems for tile-based games</p>
+
+<p>#### Business Applications:</p>
+<p>- Design system development</p>
+<p>- Prototyping and wireframing</p>
+<p>- Development debugging and alignment</p>
+<p>- Educational materials for design principles</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Pattern Variations</strong>: Diagonal grids, isometric patterns, custom shapes</p>
+<p>2. <strong>Batch Generation</strong>: Multiple grid sizes and configurations</p>
+<p>3. <strong>Template System</strong>: Preset configurations for common use cases</p>
+<p>4. <strong>Integration</strong>: Plugin versions for design tools (Figma, Sketch)</p>
+<p>5. <strong>Advanced Export</strong>: SVG export, different file formats</p>
+
+<p>---</p>
+
+<h2 id="9-image-splitter">9. IMAGE SPLITTER</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+<p><strong>Image Splitter</strong> is a sophisticated browser-based tool for splitting images into multiple sections using either uniform grid patterns or advanced custom guides. It supports batch processing, multiple export formats, and maintains high image quality.</p>
+
+<p><strong>Type</strong>: Advanced image processing and manipulation tool</p>
+<p><strong>Core Purpose</strong>: Split images into organized sections with flexible grid and cropping options</p>
+
+<h3 id="tech-stack-used">Tech Stack Used</h3>
+<p>- <strong>Frontend</strong>: Pure HTML5, CSS3, JavaScript (ES6+)</p>
+<p>- <strong>Image Processing</strong>: HTML5 Canvas API for image manipulation</p>
+<p>- <strong>File Handling</strong>: File API, Blob API, drag-and-drop</p>
+<p>- <strong>Archive Creation</strong>: JSZip library for ZIP file generation</p>
+<p>- <strong>Export</strong>: FileSaver.js for file downloads</p>
+<p>- <strong>UI</strong>: Custom CSS with modern dark theme</p>
+
+<p><strong>Why These Technologies</strong>:</p>
+<p>- Canvas API for precise image manipulation and cropping</p>
+<p>- JSZip for client-side archive creation</p>
+<p>- Pure JavaScript for maximum performance and compatibility</p>
+<p>- No server dependencies for privacy and speed</p>
+
+<h3 id="functionalities">Functionalities</h3>
+
+<p>#### Major Features:</p>
+<p>1. <strong>Dual Splitting Modes</strong></p>
+<p>- <strong>Grid Mode</strong>: Uniform rows × columns splitting</p>
+<p>- <strong>Advanced Mode</strong>: Custom guides and aspect-ratio crops</p>
+<p>- Real-time preview of split sections</p>
+<p>- Interactive guide placement and adjustment</p>
+
+<p>2. <strong>Advanced Image Handling</strong></p>
+<p>- Multiple image upload support (batch processing)</p>
+<p>- Drag-and-drop interface</p>
+<p>- Support for PNG, JPG, WebP formats (up to 10MB each)</p>
+<p>- Thumbnail generation for batch management</p>
+
+<p>3. <strong>Flexible Cropping System</strong></p>
+<p>- Aspect ratio locking (1:1, 16:9, 4:3, custom ratios)</p>
+<p>- Movable and resizable crop boxes</p>
+<p>- Visual crop preview with handles</p>
+<p>- Precise positioning controls</p>
+
+<p>4. <strong>Professional Export Options</strong></p>
+<p>- Multiple format support (PNG, WebP, JPEG)</p>
+<p>- Quality control for lossy formats</p>
+<p>- Individual ZIP files per source image</p>
+<p>- Organized section naming and numbering</p>
+
+<p>5. <strong>Interactive Interface</strong></p>
+<p>- Zoom controls (up to 10× magnification)</p>
+<p>- Pan and navigate large images</p>
+<p>- Real-time preview thumbnails</p>
+<p>- Batch image switching and management</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>#### Image Processing Pipeline:</p>
+<p>\`\`\`javascript</p>
+<p>// Core splitting algorithm</p>
+<p>function computeSectionsFor(imgObj) {</p>
+<p>if (!imgObj) return [];</p>
+
+<p>const xs = [0, ...(mode === 'grid' ? gridXs(imgObj) : vGuides), imgObj.width];</p>
+<p>const ys = [0, ...(mode === 'grid' ? gridYs(imgObj) : hGuides), imgObj.height];</p>
+
+<p>xs.sort((a,b) => a-b);</p>
+<p>ys.sort((a,b) => a-b);</p>
+
+<p>const rects = [];</p>
+<p>for(let r = 0; r < ys.length - 1; r++) {</p>
+<p>for(let c = 0; c < xs.length - 1; c++) {</p>
+<p>const x = xs[c], y = ys[r];</p>
+<p>const w = xs[c+1] - x, h = ys[r+1] - y;</p>
+<p>if(w > 0 && h > 0) {</p>
+<p>rects.push({x, y, w, h, idx: rects.length});</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+
+<p>return rects;</p>
+<p>}</p>
+
+<p>// High-quality section rendering</p>
+<p>function renderSectionBlobFor(imgObj, r, mime='image/png', quality=0.9) {</p>
+<p>return new Promise((resolve) => {</p>
+<p>const off = document.createElement('canvas');</p>
+<p>off.width = r.w;</p>
+<p>off.height = r.h;</p>
+<p>const octx = off.getContext('2d');</p>
+<p>octx.imageSmoothingEnabled = true;</p>
+<p>octx.drawImage(imgObj, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);</p>
+
+<p>off.toBlob((blob) => resolve(blob), mime, quality);</p>
+<p>});</p>
+<p>}</p>
+<p>\`\`\`</p>
+
+<p>#### Advanced Features:</p>
+<p>- <strong>Guide System</strong>: Vertical and horizontal guides with drag-and-drop positioning</p>
+<p>- <strong>Aspect Ratio Locking</strong>: Maintains proportions during crop box resizing</p>
+<p>- <strong>Batch Processing</strong>: Processes multiple images with same settings</p>
+<p>- <strong>Memory Management</strong>: Efficient handling of large images and multiple files</p>
+
+<h3 id="architecture-structure">Architecture & Structure</h3>
+
+<p>\`\`\`</p>
+<p>IMAGE SPLITTER.html</p>
+<p>├── HTML Structure</p>
+<p>│   ├── Three-panel layout (controls, canvas, preview)</p>
+<p>│   ├── Batch image management</p>
+<p>│   └── Export controls</p>
+<p>├── CSS Styling</p>
+<p>│   ├── Modern dark theme with gradients</p>
+<p>│   ├── Responsive grid layout</p>
+<p>│   └── Interactive UI elements</p>
+<p>└── JavaScript Logic</p>
+<p>├── Image processing engine</p>
+<p>├── Canvas manipulation</p>
+<p>├── Guide system</p>
+<p>├── Export functionality</p>
+<p>└── Batch management</p>
+<p>\`\`\`</p>
+
+<p><strong>Pattern</strong>: Single-file application with modular JavaScript</p>
+<p>- Self-contained with external library dependencies</p>
+<p>- Event-driven architecture for user interactions</p>
+<p>- Efficient memory management for large images</p>
+
+<h3 id="challenges-solutions">Challenges & Solutions</h3>
+
+<p>#### Challenge 1: Large Image Memory Management</p>
+<p><strong>Problem</strong>: Processing multiple large images could cause memory issues</p>
+<p><strong>Solution</strong>: Implemented efficient canvas management and garbage collection</p>
+
+<p>#### Challenge 2: Precise Guide Positioning</p>
+<p><strong>Problem</strong>: Accurate guide placement and manipulation on zoomed images</p>
+<p><strong>Solution</strong>: Coordinate transformation system with pixel-perfect positioning</p>
+
+<p>#### Challenge 3: Batch Processing Performance</p>
+<p><strong>Problem</strong>: Processing many images simultaneously could freeze the browser</p>
+<p><strong>Solution</strong>: Asynchronous processing with progress feedback and yield points</p>
+
+<h3 id="use-cases-applications">Use Cases & Applications</h3>
+
+<p>#### Primary Users:</p>
+<p>- <strong>Graphic Designers</strong>: Creating image assets and sprites</p>
+<p>- <strong>Web Developers</strong>: Generating image tiles and components</p>
+<p>- <strong>Game Developers</strong>: Creating sprite sheets and tile sets</p>
+<p>- <strong>Content Creators</strong>: Preparing images for social media and presentations</p>
+
+<p>#### Business Applications:</p>
+<p>- Asset preparation for web and mobile applications</p>
+<p>- Print design and layout preparation</p>
+<p>- E-commerce product image processing</p>
+<p>- Educational material creation</p>
+
+<h3 id="future-improvements">Future Improvements</h3>
+
+<p>1. <strong>Advanced Formats</strong>: Support for TIFF, PSD, and other professional formats</p>
+<p>2. <strong>Batch Templates</strong>: Save and reuse splitting configurations</p>
+<p>3. <strong>Cloud Integration</strong>: Direct upload to cloud storage services</p>
+<p>4. <strong>Performance</strong>: Web Workers for background processing</p>
+<p>5. <strong>AI Features</strong>: Automatic content-aware splitting suggestions</p>
+
+<p>---</p>
+
+<h2 id="summary-and-conclusions">Summary and Conclusions</h2>
+
+<p>This portfolio demonstrates a comprehensive range of web development skills and technologies:</p>
+
+<h3 id="technical-expertise-demonstrated-">Technical Expertise Demonstrated:</h3>
+<p>- <strong>Frontend Frameworks</strong>: Next.js, React, Vite</p>
+<p>- <strong>Languages</strong>: TypeScript, JavaScript, HTML5, CSS3</p>
+<p>- <strong>UI Libraries</strong>: Tailwind CSS, shadcn/ui</p>
+<p>- <strong>APIs</strong>: Canvas, File, Blob, Fetch</p>
+<p>- <strong>Tools</strong>: JSZip, Prism.js, various utility libraries</p>
+
+<h3 id="architecture-patterns-">Architecture Patterns:</h3>
+<p>- <strong>Component-based Architecture</strong>: Modular, reusable components</p>
+<p>- <strong>Service-oriented Design</strong>: Clear separation of business logic</p>
+<p>- <strong>API-first Approach</strong>: Server-side processing with client-side interfaces</p>
+<p>- <strong>Progressive Enhancement</strong>: Graceful degradation and error handling</p>
+
+<h3 id="problem-solving-approaches-">Problem-Solving Approaches:</h3>
+<p>- <strong>Performance Optimization</strong>: Efficient algorithms and memory management</p>
+<p>- <strong>User Experience</strong>: Real-time feedback, progress tracking, error handling</p>
+<p>- <strong>Cross-browser Compatibility</strong>: Standards-compliant code with fallbacks</p>
+<p>- <strong>Accessibility</strong>: Semantic HTML, keyboard navigation, screen reader support</p>
+
+<h3 id="innovation-and-creativity-">Innovation and Creativity:</h3>
+<p>- <strong>Advanced Features</strong>: Batch processing, real-time analysis, intelligent parsing</p>
+<p>- <strong>User-Centric Design</strong>: Intuitive interfaces with professional aesthetics</p>
+<p>- <strong>Technical Solutions</strong>: Creative approaches to complex problems</p>
+<p>- <strong>Export Capabilities</strong>: Multiple format support with quality preservation</p>
+
+<p>This collection showcases the ability to build sophisticated web applications that solve real-world problems while maintaining high standards of code quality, user experience, and technical innovation.</p>
+
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#comprehensive-portfolio-projects-analysis" class="h1-link">Comprehensive Portfolio Projects Analysis</a></li><li><a href="#overview" class="h2-link">Overview</a></li><li><a href="#1-crew-seo" class="h2-link">1. CREW-SEO</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#2-image-downloader" class="h2-link">2. IMAGE DOWNLOADER</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#3-link-discovery" class="h2-link">3. LINK DISCOVERY</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#4-on-page-seo-analyzer" class="h2-link">4. ON-PAGE SEO ANALYZER</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#5-raw-data-to-html-converter" class="h2-link">5. RAW DATA TO HTML CONVERTER</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#6-urls-structure-analyzer" class="h2-link">6. URLS STRUCTURE ANALYZER</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#7-website-cloner-v2" class="h2-link">7. WEBSITE CLONER V2</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#8-gridline-generator" class="h2-link">8. GRIDLINE GENERATOR</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#9-image-splitter" class="h2-link">9. IMAGE SPLITTER</a></li><li><a href="#project-overview" class="h3-link" style="padding-left: 1rem;">Project Overview</a></li><li><a href="#tech-stack-used" class="h3-link" style="padding-left: 1rem;">Tech Stack Used</a></li><li><a href="#functionalities" class="h3-link" style="padding-left: 1rem;">Functionalities</a></li><li><a href="#implementation-details" class="h3-link" style="padding-left: 1rem;">Implementation Details</a></li><li><a href="#architecture-structure" class="h3-link" style="padding-left: 1rem;">Architecture & Structure</a></li><li><a href="#challenges-solutions" class="h3-link" style="padding-left: 1rem;">Challenges & Solutions</a></li><li><a href="#use-cases-applications" class="h3-link" style="padding-left: 1rem;">Use Cases & Applications</a></li><li><a href="#future-improvements" class="h3-link" style="padding-left: 1rem;">Future Improvements</a></li><li><a href="#summary-and-conclusions" class="h2-link">Summary and Conclusions</a></li><li><a href="#technical-expertise-demonstrated-" class="h3-link" style="padding-left: 1rem;">Technical Expertise Demonstrated:</a></li><li><a href="#architecture-patterns-" class="h3-link" style="padding-left: 1rem;">Architecture Patterns:</a></li><li><a href="#problem-solving-approaches-" class="h3-link" style="padding-left: 1rem;">Problem-Solving Approaches:</a></li><li><a href="#innovation-and-creativity-" class="h3-link" style="padding-left: 1rem;">Innovation and Creativity:</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

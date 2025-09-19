@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="dark-theme">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" id="light-theme">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8f9fa; --text-primary: #333333;
+            --text-secondary: #666666; --border-color: #e1e5e9; --accent-color: #6366f1;
+            --code-bg: #f8f9fa; --sidebar-bg: #ffffff; --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --text-primary: #e6edf3;
+            --text-secondary: #7d8590; --border-color: #30363d; --accent-color: #58a6ff;
+            --code-bg: #161b22; --sidebar-bg: #0d1117; --shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .container { 
+            display: flex; 
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto; 
+            box-shadow: var(--shadow); 
+            transition: transform 0.3s ease; 
+            z-index: 200;
+        }
+        
+        .main-content { 
+            flex: 1; 
+            margin-left: 280px; 
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 280px);
+            max-width: calc(100vw - 280px);
+            overflow-x: hidden;
+        }
+        
+        .header { 
+            background-color: var(--sidebar-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle { 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-toggle:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: 2px solid var(--border-color); 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease;
+        }
+        .mobile-menu-btn:hover { background-color: var(--bg-secondary); }
+        
+        .mobile-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 150; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .mobile-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        
+        .content { 
+            padding: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            margin-bottom: 1rem; 
+            color: var(--text-primary); 
+            border-bottom: 3px solid var(--accent-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        h2 { 
+            font-size: clamp(1.4rem, 3vw, 2rem); 
+            margin: 2rem 0 1rem 0; 
+            color: var(--text-primary); 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .h2-link{
+            font-weight:700;
+        }
+        
+        h3 { 
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+            margin: 1.5rem 0 1rem 0; 
+            color: var(--accent-color);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+        
+        .code-container { 
+            position: relative; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+            max-width: 100%;
+        }
+        
+        .code-header { 
+            background-color: var(--bg-secondary); 
+            padding: 0.75rem 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .copy-btn { 
+            background: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        
+        pre[class*="language-"] { 
+            margin: 0 !important; 
+            padding: 1rem !important;
+            background: var(--code-bg) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            max-width: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--accent-color) transparent !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar {
+            height: 12px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb {
+            background: var(--accent-color) !important;
+            border-radius: 6px !important;
+        }
+        
+        pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary) !important;
+        }
+        
+        code[class*="language-"] { 
+            background: transparent !important;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            white-space: pre !important;
+            word-wrap: normal !important;
+            display: inline-block !important;
+            min-width: max-content !important;
+            width: auto !important;
+        }
+        
+        [data-theme="dark"] .token.comment, [data-theme="dark"] .token.prolog, [data-theme="dark"] .token.doctype, [data-theme="dark"] .token.cdata { color: #7d8590 !important; font-style: italic !important; }
+        [data-theme="dark"] .token.punctuation { color: #e6edf3 !important; }
+        [data-theme="dark"] .token.property, [data-theme="dark"] .token.tag, [data-theme="dark"] .token.boolean, [data-theme="dark"] .token.number, [data-theme="dark"] .token.constant, .token.symbol, .token.deleted { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a5d6ff !important; }
+        [data-theme="dark"] .token.operator, [data-theme="dark"] .token.entity, [data-theme="dark"] .token.url, .language-css .token.string, .style .token.string { color: #79c0ff !important; }
+        [data-theme="dark"] .token.atrule, [data-theme="dark"] .token.attr-value, [data-theme="dark"] .token.keyword { color: #ff7b72 !important; }
+        [data-theme="dark"] .token.function, [data-theme="dark"] .token.class-name { color: #d2a8ff !important; }
+        [data-theme="dark"] .token.regex, [data-theme="dark"] .token.important, [data-theme="dark"] .token.variable { color: #ffa657 !important; }
+        
+        [data-theme="light"] .token.comment, [data-theme="light"] .token.prolog, [data-theme="light"] .token.doctype, [data-theme="light"] .token.cdata { color: #6a737d !important; }
+        [data-theme="light"] .token.punctuation { color: #24292e !important; }
+        [data-theme="light"] .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d73a49 !important; }
+        [data-theme="light"] .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032f62 !important; }
+        [data-theme="light"] .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #24292e !important; }
+        [data-theme="light"] .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; }
+        [data-theme="light"] .token.function, .token.class-name { color: #6f42c1 !important; }
+        [data-theme="light"] .token.regex, [data-theme="light"] .token.important, [data-theme="light"] .token.variable { color: #e36209 !important; }
+        
+        .toc { padding: 1rem; }
+        .toc ul { list-style: none; }
+        .toc li { margin: 0.5rem 0; }
+        .toc a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .toc a.active {
+            color: blue !important;
+             background-color: #5ec7ff2a;
+}
+
+
+        .toc a:hover { background-color: #0077ff16}
+        
+        @media (max-width: 767px) { 
+            .sidebar { 
+                transform: translateX(-100%);
+                width: 85vw;
+                max-width: 320px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: auto;
+            }
+            .mobile-menu-btn { display: block; }
+            .mobile-overlay { display: block; }
+            .header { 
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .content { 
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .theme-toggle {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .code-header {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .copy-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            pre[class*="language-"] {
+                padding: 0.75rem !important;
+                font-size: 0.75rem !important;
+            }
+            pre[class*="language-"]::-webkit-scrollbar {
+                height: 10px !important;
+            }
+            .toc {
+                padding: 0.75rem;
+            }
+            .toc a {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .content { padding: 0.75rem; }
+            .header { padding: 0.5rem; }
+            .sidebar { width: 90vw; }
+            pre[class*="language-"] {
+                font-size: 0.7rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="toc">
+                <h3 style="padding: 0.5rem; color: var(--text-primary);">Table of Contents</h3>
+                <ul id="toc-list"></ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                    <h2 style="margin: 0; color: var(--text-primary);">Documentation</h2>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">🌙 Dark Mode</button>
+            </header>
+            <div class="content" id="content">
+<h2 id="connection-setup-questions-391-410-">Connection & Setup (Questions 391-410)</h2>
+
+<p><strong>391. How do you connect to a MySQL database from Node.js?</strong></p>
+
+<p><strong>Description:</strong> You connect to MySQL using database drivers like `mysql2` or `mysql`. The connection requires host, user, password, and database configuration.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20mysql%20%3D%20require('mysql2')%3B%0Aconst%20connection%20%3D%20mysql.createConnection(%7B%0A%20%20host%3A%20'localhost'%2C%0A%20%20user%3A%20'root'%2C%0A%20%20password%3A%20'password'%2C%0A%20%20database%3A%20'myapp'%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const mysql = require('mysql2');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'myapp'
+});
+</code></pre>
+</div>
+
+<p><strong>392. What is the difference between mysql and mysql2 packages?</strong></p>
+
+<p><strong>Description:</strong></p>
+
+<p>- `mysql`: Original MySQL driver, callback-based, slower performance</p>
+<p>- `mysql2`: Faster, supports promises natively, prepared statements, better performance, active development</p>
+
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20mysql%20(callback-based)%0Aconst%20mysql%20%3D%20require('mysql')%3B%0Aconnection.query('SELECT%20*%20FROM%20users'%2C%20(err%2C%20results)%20%3D%3E%20%7B%7D)%3B%0A%0A%2F%2F%20mysql2%20(promise-based)%0Aconst%20mysql%20%3D%20require('mysql2%2Fpromise')%3B%0Aconst%20results%20%3D%20await%20connection.execute('SELECT%20*%20FROM%20users')%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// mysql (callback-based)
+const mysql = require('mysql');
+connection.query('SELECT * FROM users', (err, results) =&gt; {});
+
+// mysql2 (promise-based)
+const mysql = require('mysql2/promise');
+const results = await connection.execute('SELECT * FROM users');
+</code></pre>
+</div>
+
+<p><strong>393. What is a connection pool and why is it crucial?</strong></p>
+
+<p><strong>Description:</strong> A connection pool maintains multiple database connections that can be reused. It's crucial for performance, resource management, and handling concurrent requests efficiently.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20pool%20%3D%20mysql.createPool(%7B%0A%20%20connectionLimit%3A%2010%2C%0A%20%20host%3A%20'localhost'%2C%0A%20%20user%3A%20'root'%2C%0A%20%20password%3A%20'password'%2C%0A%20%20database%3A%20'myapp'%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'myapp'
+});
+</code></pre>
+</div>
+
+<p><strong>394. How do you configure a connection pool?</strong></p>
+
+<p><strong>Description:</strong> Configure pool with parameters like connectionLimit, acquireTimeout, timeout, and reconnect settings.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20pool%20%3D%20mysql.createPool(%7B%0A%20%20connectionLimit%3A%2020%2C%0A%20%20host%3A%20'localhost'%2C%0A%20%20user%3A%20'root'%2C%0A%20%20password%3A%20'password'%2C%0A%20%20database%3A%20'myapp'%2C%0A%20%20acquireTimeout%3A%2060000%2C%0A%20%20timeout%3A%2060000%2C%0A%20%20reconnect%3A%20true%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const pool = mysql.createPool({
+  connectionLimit: 20,
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'myapp',
+  acquireTimeout: 60000,
+  timeout: 60000,
+  reconnect: true
+});
+</code></pre>
+</div>
+
+<p><strong>395. How do you handle connection errors and retries?</strong></p>
+
+<p><strong>Description:</strong> Implement error handling with try-catch blocks and retry logic with exponential backoff.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20connectWithRetry(maxRetries%20%3D%203)%20%7B%0A%20%20for%20(let%20i%20%3D%200%3B%20i%20%3C%20maxRetries%3B%20i%2B%2B)%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20const%20connection%20%3D%20await%20mysql.createConnection(config)%3B%0A%20%20%20%20%20%20return%20connection%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20if%20(i%20%3D%3D%3D%20maxRetries%20-%201)%20throw%20error%3B%0A%20%20%20%20%20%20await%20new%20Promise(resolve%20%3D%3E%20setTimeout(resolve%2C%201000%20*%20Math.pow(2%2C%20i)))%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function connectWithRetry(maxRetries = 3) {
+  for (let i = 0; i &lt; maxRetries; i++) {
+    try {
+      const connection = await mysql.createConnection(config);
+      return connection;
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise(resolve =&gt; setTimeout(resolve, 1000 * Math.pow(2, i)));
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>396. How do you gracefully shut down a connection pool?</strong></p>
+
+<p><strong>Description:</strong> Close all connections in the pool properly to prevent resource leaks.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="process.on('SIGINT'%2C%20()%20%3D%3E%20%7B%0A%20%20pool.end(()%20%3D%3E%20%7B%0A%20%20%20%20console.log('Connection%20pool%20closed')%3B%0A%20%20%20%20process.exit(0)%3B%0A%20%20%7D)%3B%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">process.on('SIGINT', () =&gt; {
+  pool.end(() =&gt; {
+    console.log('Connection pool closed');
+    process.exit(0);
+  });
+});
+</code></pre>
+</div>
+
+<p><strong>397. How do you use environment variables for database configuration?</strong></p>
+
+<p><strong>Description:</strong> Store sensitive database credentials in environment variables for security and flexibility.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20config%20%3D%20%7B%0A%20%20host%3A%20process.env.DB_HOST%20%7C%7C%20'localhost'%2C%0A%20%20user%3A%20process.env.DB_USER%20%7C%7C%20'root'%2C%0A%20%20password%3A%20process.env.DB_PASSWORD%2C%0A%20%20database%3A%20process.env.DB_NAME%2C%0A%20%20port%3A%20process.env.DB_PORT%20%7C%7C%203306%0A%7D%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const config = {
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306
+};
+</code></pre>
+</div>
+
+<p><strong>398. How do you handle different database configurations for different environments?</strong></p>
+
+<p><strong>Description:</strong> Use configuration objects or files that switch based on NODE_ENV.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20configs%20%3D%20%7B%0A%20%20development%3A%20%7B%0A%20%20%20%20host%3A%20'localhost'%2C%0A%20%20%20%20user%3A%20'dev_user'%2C%0A%20%20%20%20password%3A%20'dev_pass'%2C%0A%20%20%20%20database%3A%20'myapp_dev'%0A%20%20%7D%2C%0A%20%20production%3A%20%7B%0A%20%20%20%20host%3A%20process.env.PROD_DB_HOST%2C%0A%20%20%20%20user%3A%20process.env.PROD_DB_USER%2C%0A%20%20%20%20password%3A%20process.env.PROD_DB_PASSWORD%2C%0A%20%20%20%20database%3A%20process.env.PROD_DB_NAME%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20config%20%3D%20configs%5Bprocess.env.NODE_ENV%20%7C%7C%20'development'%5D%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const configs = {
+  development: {
+    host: 'localhost',
+    user: 'dev_user',
+    password: 'dev_pass',
+    database: 'myapp_dev'
+  },
+  production: {
+    host: process.env.PROD_DB_HOST,
+    user: process.env.PROD_DB_USER,
+    password: process.env.PROD_DB_PASSWORD,
+    database: process.env.PROD_DB_NAME
+  }
+};
+
+const config = configs[process.env.NODE_ENV || 'development'];
+</code></pre>
+</div>
+
+<p><strong>399. How do you implement database health checks?</strong></p>
+
+<p><strong>Description:</strong> Create endpoints that test database connectivity and response time.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20healthCheck()%20%7B%0A%20%20try%20%7B%0A%20%20%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute('SELECT%201%20as%20health')%3B%0A%20%20%20%20return%20%7B%20status%3A%20'healthy'%2C%20timestamp%3A%20new%20Date()%20%7D%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20return%20%7B%20status%3A%20'unhealthy'%2C%20error%3A%20error.message%20%7D%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function healthCheck() {
+  try {
+    const [rows] = await pool.execute('SELECT 1 as health');
+    return { status: 'healthy', timestamp: new Date() };
+  } catch (error) {
+    return { status: 'unhealthy', error: error.message };
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>400. How do you monitor database connections?</strong></p>
+
+<p><strong>Description:</strong> Track active connections, pool statistics, and connection events.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="setInterval(()%20%3D%3E%20%7B%0A%20%20console.log('Active%20connections%3A'%2C%20pool._allConnections.length)%3B%0A%20%20console.log('Free%20connections%3A'%2C%20pool._freeConnections.length)%3B%0A%7D%2C%2030000)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">setInterval(() =&gt; {
+  console.log('Active connections:', pool._allConnections.length);
+  console.log('Free connections:', pool._freeConnections.length);
+}, 30000);
+</code></pre>
+</div>
+
+<p><strong>401. How do you handle connection timeouts?</strong></p>
+
+<p><strong>Description:</strong> Set timeout values for connection acquisition and query execution.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20pool%20%3D%20mysql.createPool(%7B%0A%20%20acquireTimeout%3A%2060000%2C%0A%20%20timeout%3A%2060000%2C%0A%20%20connectionLimit%3A%2010%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const pool = mysql.createPool({
+  acquireTimeout: 60000,
+  timeout: 60000,
+  connectionLimit: 10
+});
+</code></pre>
+</div>
+
+<p><strong>402. How do you implement connection retry logic?</strong></p>
+
+<p><strong>Description:</strong> Implement exponential backoff and maximum retry attempts for failed connections.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20executeWithRetry(query%2C%20params%2C%20maxRetries%20%3D%203)%20%7B%0A%20%20for%20(let%20attempt%20%3D%201%3B%20attempt%20%3C%3D%20maxRetries%3B%20attempt%2B%2B)%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20return%20await%20pool.execute(query%2C%20params)%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20if%20(attempt%20%3D%3D%3D%20maxRetries)%20throw%20error%3B%0A%20%20%20%20%20%20await%20new%20Promise(resolve%20%3D%3E%20setTimeout(resolve%2C%201000%20*%20attempt))%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function executeWithRetry(query, params, maxRetries = 3) {
+  for (let attempt = 1; attempt &lt;= maxRetries; attempt++) {
+    try {
+      return await pool.execute(query, params);
+    } catch (error) {
+      if (attempt === maxRetries) throw error;
+      await new Promise(resolve =&gt; setTimeout(resolve, 1000 * attempt));
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>403. How do you handle database failover?</strong></p>
+
+<p><strong>Description:</strong> Configure multiple database hosts and implement automatic failover logic.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20primaryConfig%20%3D%20%7B%20host%3A%20'primary-db.com'%2C%20%2F*%20...%20*%2F%20%7D%3B%0Aconst%20secondaryConfig%20%3D%20%7B%20host%3A%20'secondary-db.com'%2C%20%2F*%20...%20*%2F%20%7D%3B%0A%0Aasync%20function%20createConnectionWithFailover()%20%7B%0A%20%20try%20%7B%0A%20%20%20%20return%20await%20mysql.createConnection(primaryConfig)%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20console.log('Primary%20failed%2C%20trying%20secondary')%3B%0A%20%20%20%20return%20await%20mysql.createConnection(secondaryConfig)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const primaryConfig = { host: 'primary-db.com', /* ... */ };
+const secondaryConfig = { host: 'secondary-db.com', /* ... */ };
+
+async function createConnectionWithFailover() {
+  try {
+    return await mysql.createConnection(primaryConfig);
+  } catch (error) {
+    console.log('Primary failed, trying secondary');
+    return await mysql.createConnection(secondaryConfig);
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>404. How do you implement read/write splitting?</strong></p>
+
+<p><strong>Description:</strong> Use separate connection pools for read and write operations to distribute load.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20writePool%20%3D%20mysql.createPool(writeConfig)%3B%0Aconst%20readPool%20%3D%20mysql.createPool(readConfig)%3B%0A%0Afunction%20getConnection(operation)%20%7B%0A%20%20return%20operation%20%3D%3D%3D%20'write'%20%3F%20writePool%20%3A%20readPool%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const writePool = mysql.createPool(writeConfig);
+const readPool = mysql.createPool(readConfig);
+
+function getConnection(operation) {
+  return operation === 'write' ? writePool : readPool;
+}
+</code></pre>
+</div>
+
+<p><strong>405. How do you handle database connection leaks?</strong></p>
+
+<p><strong>Description:</strong> Monitor connections, implement timeouts, and ensure proper connection release.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20activeConnections%20%3D%20new%20Map()%3B%0A%0Apool.on('connection'%2C%20(connection)%20%3D%3E%20%7B%0A%20%20activeConnections.set(connection.threadId%2C%20Date.now())%3B%0A%7D)%3B%0A%0Apool.on('release'%2C%20(connection)%20%3D%3E%20%7B%0A%20%20activeConnections.delete(connection.threadId)%3B%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const activeConnections = new Map();
+
+pool.on('connection', (connection) =&gt; {
+  activeConnections.set(connection.threadId, Date.now());
+});
+
+pool.on('release', (connection) =&gt; {
+  activeConnections.delete(connection.threadId);
+});
+</code></pre>
+</div>
+
+<p><strong>406. How do you optimize connection pool settings?</strong></p>
+
+<p><strong>Description:</strong> Tune connectionLimit, acquireTimeout, and idle timeout based on application load.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20pool%20%3D%20mysql.createPool(%7B%0A%20%20connectionLimit%3A%20Math.max(5%2C%20os.cpus().length%20*%202)%2C%0A%20%20acquireTimeout%3A%2060000%2C%0A%20%20idleTimeout%3A%20300000%2C%0A%20%20maxIdle%3A%2010%0A%7D)%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const pool = mysql.createPool({
+  connectionLimit: Math.max(5, os.cpus().length * 2),
+  acquireTimeout: 60000,
+  idleTimeout: 300000,
+  maxIdle: 10
+});
+</code></pre>
+</div>
+
+<p><strong>407. How do you implement connection pooling with clustering?</strong></p>
+
+<p><strong>Description:</strong> Each cluster worker should have its own connection pool to avoid sharing connections.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20cluster%20%3D%20require('cluster')%3B%0A%0Aif%20(cluster.isMaster)%20%7B%0A%20%20for%20(let%20i%20%3D%200%3B%20i%20%3C%20os.cpus().length%3B%20i%2B%2B)%20%7B%0A%20%20%20%20cluster.fork()%3B%0A%20%20%7D%0A%7D%20else%20%7B%0A%20%20const%20pool%20%3D%20mysql.createPool(config)%3B%20%2F%2F%20Each%20worker%20gets%20its%20own%20pool%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const cluster = require('cluster');
+
+if (cluster.isMaster) {
+  for (let i = 0; i &lt; os.cpus().length; i++) {
+    cluster.fork();
+  }
+} else {
+  const pool = mysql.createPool(config); // Each worker gets its own pool
+}
+</code></pre>
+</div>
+
+<p><strong>408. How do you handle database authentication?</strong></p>
+
+<p><strong>Description:</strong> Use secure authentication methods like SSL certificates, IAM roles, or encrypted passwords.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20config%20%3D%20%7B%0A%20%20host%3A%20'localhost'%2C%0A%20%20user%3A%20'myuser'%2C%0A%20%20password%3A%20'encrypted_password'%2C%0A%20%20ssl%3A%20%7B%0A%20%20%20%20ca%3A%20fs.readFileSync('ca-cert.pem')%2C%0A%20%20%20%20cert%3A%20fs.readFileSync('client-cert.pem')%2C%0A%20%20%20%20key%3A%20fs.readFileSync('client-key.pem')%0A%20%20%7D%0A%7D%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const config = {
+  host: 'localhost',
+  user: 'myuser',
+  password: 'encrypted_password',
+  ssl: {
+    ca: fs.readFileSync('ca-cert.pem'),
+    cert: fs.readFileSync('client-cert.pem'),
+    key: fs.readFileSync('client-key.pem')
+  }
+};
+</code></pre>
+</div>
+
+<p><strong>409. How do you implement SSL connections to MySQL?</strong></p>
+
+<p><strong>Description:</strong> Configure SSL certificates and enable secure connections to encrypt data in transit.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20sslConfig%20%3D%20%7B%0A%20%20host%3A%20'mysql-server.com'%2C%0A%20%20user%3A%20'username'%2C%0A%20%20password%3A%20'password'%2C%0A%20%20database%3A%20'mydb'%2C%0A%20%20ssl%3A%20%7B%0A%20%20%20%20rejectUnauthorized%3A%20true%2C%0A%20%20%20%20ca%3A%20fs.readFileSync('.%2Fca-cert.pem')%2C%0A%20%20%20%20cert%3A%20fs.readFileSync('.%2Fclient-cert.pem')%2C%0A%20%20%20%20key%3A%20fs.readFileSync('.%2Fclient-key.pem')%0A%20%20%7D%0A%7D%3B%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const sslConfig = {
+  host: 'mysql-server.com',
+  user: 'username',
+  password: 'password',
+  database: 'mydb',
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync('./ca-cert.pem'),
+    cert: fs.readFileSync('./client-cert.pem'),
+    key: fs.readFileSync('./client-key.pem')
+  }
+};
+</code></pre>
+</div>
+
+<p><strong>410. How do you handle database connection in serverless environments?</strong></p>
+
+<p><strong>Description:</strong> Use connection pooling with lower limits and implement connection warming strategies.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20For%20AWS%20Lambda%0Alet%20pool%3B%0A%0Afunction%20getPool()%20%7B%0A%20%20if%20(!pool)%20%7B%0A%20%20%20%20pool%20%3D%20mysql.createPool(%7B%0A%20%20%20%20%20%20connectionLimit%3A%201%2C%20%2F%2F%20Low%20limit%20for%20serverless%0A%20%20%20%20%20%20host%3A%20process.env.DB_HOST%2C%0A%20%20%20%20%20%20user%3A%20process.env.DB_USER%2C%0A%20%20%20%20%20%20password%3A%20process.env.DB_PASSWORD%0A%20%20%20%20%7D)%3B%0A%20%20%7D%0A%20%20return%20pool%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// For AWS Lambda
+let pool;
+
+function getPool() {
+  if (!pool) {
+    pool = mysql.createPool({
+      connectionLimit: 1, // Low limit for serverless
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
+    });
+  }
+  return pool;
+}
+</code></pre>
+</div>
+
+<h2 id="crud-operations-questions-411-430-">CRUD Operations (Questions 411-430)</h2>
+
+<p><strong>411. Write code to perform a simple SELECT query.</strong></p>
+
+<p><strong>Description:</strong> Execute a basic SELECT statement to retrieve data from a table.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20getAllUsers()%20%7B%0A%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute('SELECT%20*%20FROM%20users')%3B%0A%20%20return%20rows%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function getAllUsers() {
+  const [rows] = await pool.execute('SELECT * FROM users');
+  return rows;
+}
+</code></pre>
+</div>
+
+<p><strong>412. Write code to perform a SELECT query with WHERE clause.</strong></p>
+
+<p><strong>Description:</strong> Use parameterized queries to safely filter results with WHERE conditions.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20getUserById(userId)%20%7B%0A%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%5BuserId%5D%0A%20%20)%3B%0A%20%20return%20rows%5B0%5D%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function getUserById(userId) {
+  const [rows] = await pool.execute(
+    'SELECT * FROM users WHERE id = ?',
+    [userId]
+  );
+  return rows[0];
+}
+</code></pre>
+</div>
+
+<p><strong>413. Write code to insert a new record using prepared statements.</strong></p>
+
+<p><strong>Description:</strong> Use prepared statements to safely insert data and prevent SQL injection.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20createUser(userData)%20%7B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'INSERT%20INTO%20users%20(name%2C%20email%2C%20age)%20VALUES%20(%3F%2C%20%3F%2C%20%3F)'%2C%0A%20%20%20%20%5BuserData.name%2C%20userData.email%2C%20userData.age%5D%0A%20%20)%3B%0A%20%20return%20result.insertId%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function createUser(userData) {
+  const [result] = await pool.execute(
+    'INSERT INTO users (name, email, age) VALUES (?, ?, ?)',
+    [userData.name, userData.email, userData.age]
+  );
+  return result.insertId;
+}
+</code></pre>
+</div>
+
+<p><strong>414. How do you get the LAST_INSERT_ID() after an insert?</strong></p>
+
+<p><strong>Description:</strong> Access the insertId property from the result object after an INSERT operation.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20insertAndGetId(name%2C%20email)%20%7B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'INSERT%20INTO%20users%20(name%2C%20email)%20VALUES%20(%3F%2C%20%3F)'%2C%0A%20%20%20%20%5Bname%2C%20email%5D%0A%20%20)%3B%0A%20%20return%20result.insertId%3B%20%2F%2F%20Returns%20the%20auto-generated%20ID%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function insertAndGetId(name, email) {
+  const [result] = await pool.execute(
+    'INSERT INTO users (name, email) VALUES (?, ?)',
+    [name, email]
+  );
+  return result.insertId; // Returns the auto-generated ID
+}
+</code></pre>
+</div>
+
+<p><strong>415. Write code to update a record using prepared statements.</strong></p>
+
+<p><strong>Description:</strong> Use UPDATE statements with prepared parameters to modify existing records.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20updateUser(userId%2C%20updates)%20%7B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'UPDATE%20users%20SET%20name%20%3D%20%3F%2C%20email%20%3D%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%5Bupdates.name%2C%20updates.email%2C%20userId%5D%0A%20%20)%3B%0A%20%20return%20result.affectedRows%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function updateUser(userId, updates) {
+  const [result] = await pool.execute(
+    'UPDATE users SET name = ?, email = ? WHERE id = ?',
+    [updates.name, updates.email, userId]
+  );
+  return result.affectedRows;
+}
+</code></pre>
+</div>
+
+<p><strong>416. Write code to delete a record using prepared statements.</strong></p>
+
+<p><strong>Description:</strong> Use DELETE statements with parameters to safely remove records.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20deleteUser(userId)%20%7B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'DELETE%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%5BuserId%5D%0A%20%20)%3B%0A%20%20return%20result.affectedRows%20%3E%200%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function deleteUser(userId) {
+  const [result] = await pool.execute(
+    'DELETE FROM users WHERE id = ?',
+    [userId]
+  );
+  return result.affectedRows &gt; 0;
+}
+</code></pre>
+</div>
+
+<p><strong>417. How do you handle SQL errors in Node.js code?</strong></p>
+
+<p><strong>Description:</strong> Use try-catch blocks and check for specific MySQL error codes.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20safeQuery(query%2C%20params)%20%7B%0A%20%20try%20%7B%0A%20%20%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute(query%2C%20params)%3B%0A%20%20%20%20return%20%7B%20success%3A%20true%2C%20data%3A%20rows%20%7D%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20if%20(error.code%20%3D%3D%3D%20'ER_DUP_ENTRY')%20%7B%0A%20%20%20%20%20%20return%20%7B%20success%3A%20false%2C%20error%3A%20'Duplicate%20entry'%20%7D%3B%0A%20%20%20%20%7D%0A%20%20%20%20throw%20error%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function safeQuery(query, params) {
+  try {
+    const [rows] = await pool.execute(query, params);
+    return { success: true, data: rows };
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return { success: false, error: 'Duplicate entry' };
+    }
+    throw error;
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>418. How do you implement bulk insert operations?</strong></p>
+
+<p><strong>Description:</strong> Use batch inserts or multiple value clauses for efficient bulk operations.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20bulkInsertUsers(users)%20%7B%0A%20%20const%20values%20%3D%20users.map(user%20%3D%3E%20%5Buser.name%2C%20user.email%2C%20user.age%5D)%3B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'INSERT%20INTO%20users%20(name%2C%20email%2C%20age)%20VALUES%20%3F'%2C%0A%20%20%20%20%5Bvalues%5D%0A%20%20)%3B%0A%20%20return%20result.affectedRows%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function bulkInsertUsers(users) {
+  const values = users.map(user =&gt; [user.name, user.email, user.age]);
+  const [result] = await pool.execute(
+    'INSERT INTO users (name, email, age) VALUES ?',
+    [values]
+  );
+  return result.affectedRows;
+}
+</code></pre>
+</div>
+
+<p><strong>419. How do you implement bulk update operations?</strong></p>
+
+<p><strong>Description:</strong> Use CASE statements or multiple UPDATE queries within transactions.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20bulkUpdateUsers(updates)%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20await%20connection.beginTransaction()%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20for%20(const%20update%20of%20updates)%20%7B%0A%20%20%20%20%20%20await%20connection.execute(%0A%20%20%20%20%20%20%20%20'UPDATE%20users%20SET%20name%20%3D%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%20%20%5Bupdate.name%2C%20update.id%5D%0A%20%20%20%20%20%20)%3B%0A%20%20%20%20%7D%0A%20%20%20%20await%20connection.commit()%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20throw%20error%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function bulkUpdateUsers(updates) {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+  
+  try {
+    for (const update of updates) {
+      await connection.execute(
+        'UPDATE users SET name = ? WHERE id = ?',
+        [update.name, update.id]
+      );
+    }
+    await connection.commit();
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>420. How do you handle large result sets?</strong></p>
+
+<p><strong>Description:</strong> Use LIMIT/OFFSET for pagination or streaming queries for memory efficiency.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20getPaginatedUsers(page%20%3D%201%2C%20limit%20%3D%20100)%20%7B%0A%20%20const%20offset%20%3D%20(page%20-%201)%20*%20limit%3B%0A%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'SELECT%20*%20FROM%20users%20LIMIT%20%3F%20OFFSET%20%3F'%2C%0A%20%20%20%20%5Blimit%2C%20offset%5D%0A%20%20)%3B%0A%20%20return%20rows%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function getPaginatedUsers(page = 1, limit = 100) {
+  const offset = (page - 1) * limit;
+  const [rows] = await pool.execute(
+    'SELECT * FROM users LIMIT ? OFFSET ?',
+    [limit, offset]
+  );
+  return rows;
+}
+</code></pre>
+</div>
+
+<p><strong>421. How do you implement streaming queries?</strong></p>
+
+<p><strong>Description:</strong> Use query streams to process large datasets without loading everything into memory.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="function%20streamUsers()%20%7B%0A%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20const%20stream%20%3D%20connection.query('SELECT%20*%20FROM%20users').stream()%3B%0A%20%20%20%20const%20results%20%3D%20%5B%5D%3B%0A%20%20%20%20%0A%20%20%20%20stream.on('data'%2C%20(row)%20%3D%3E%20%7B%0A%20%20%20%20%20%20results.push(processRow(row))%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20%0A%20%20%20%20stream.on('end'%2C%20()%20%3D%3E%20resolve(results))%3B%0A%20%20%20%20stream.on('error'%2C%20reject)%3B%0A%20%20%7D)%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">function streamUsers() {
+  return new Promise((resolve, reject) =&gt; {
+    const stream = connection.query('SELECT * FROM users').stream();
+    const results = [];
+    
+    stream.on('data', (row) =&gt; {
+      results.push(processRow(row));
+    });
+    
+    stream.on('end', () =&gt; resolve(results));
+    stream.on('error', reject);
+  });
+}
+</code></pre>
+</div>
+
+<p><strong>422. How do you execute multiple queries in parallel?</strong></p>
+
+<p><strong>Description:</strong> Use Promise.all() to execute independent queries concurrently.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20getMultipleData()%20%7B%0A%20%20const%20%5Busers%2C%20posts%2C%20comments%5D%20%3D%20await%20Promise.all(%5B%0A%20%20%20%20pool.execute('SELECT%20*%20FROM%20users')%2C%0A%20%20%20%20pool.execute('SELECT%20*%20FROM%20posts')%2C%0A%20%20%20%20pool.execute('SELECT%20*%20FROM%20comments')%0A%20%20%5D)%3B%0A%20%20%0A%20%20return%20%7B%20users%3A%20users%5B0%5D%2C%20posts%3A%20posts%5B0%5D%2C%20comments%3A%20comments%5B0%5D%20%7D%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function getMultipleData() {
+  const [users, posts, comments] = await Promise.all([
+    pool.execute('SELECT * FROM users'),
+    pool.execute('SELECT * FROM posts'),
+    pool.execute('SELECT * FROM comments')
+  ]);
+  
+  return { users: users[0], posts: posts[0], comments: comments[0] };
+}
+</code></pre>
+</div>
+
+<p><strong>423. How do you implement query batching?</strong></p>
+
+<p><strong>Description:</strong> Group multiple queries together to reduce round trips to the database.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20batchQueries(queries)%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20const%20results%20%3D%20%5B%5D%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20for%20(const%20%7B%20query%2C%20params%20%7D%20of%20queries)%20%7B%0A%20%20%20%20%20%20const%20%5Brows%5D%20%3D%20await%20connection.execute(query%2C%20params)%3B%0A%20%20%20%20%20%20results.push(rows)%3B%0A%20%20%20%20%7D%0A%20%20%20%20return%20results%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function batchQueries(queries) {
+  const connection = await pool.getConnection();
+  const results = [];
+  
+  try {
+    for (const { query, params } of queries) {
+      const [rows] = await connection.execute(query, params);
+      results.push(rows);
+    }
+    return results;
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>424. How do you handle query timeouts?</strong></p>
+
+<p><strong>Description:</strong> Set timeout values and implement timeout handling for long-running queries.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20queryWithTimeout(query%2C%20params%2C%20timeout%20%3D%2030000)%20%7B%0A%20%20const%20timeoutPromise%20%3D%20new%20Promise((_%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20setTimeout(()%20%3D%3E%20reject(new%20Error('Query%20timeout'))%2C%20timeout)%3B%0A%20%20%7D)%3B%0A%20%20%0A%20%20const%20queryPromise%20%3D%20pool.execute(query%2C%20params)%3B%0A%20%20%0A%20%20return%20Promise.race(%5BqueryPromise%2C%20timeoutPromise%5D)%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function queryWithTimeout(query, params, timeout = 30000) {
+  const timeoutPromise = new Promise((_, reject) =&gt; {
+    setTimeout(() =&gt; reject(new Error('Query timeout')), timeout);
+  });
+  
+  const queryPromise = pool.execute(query, params);
+  
+  return Promise.race([queryPromise, timeoutPromise]);
+}
+</code></pre>
+</div>
+
+<p><strong>425. How do you implement query caching?</strong></p>
+
+<p><strong>Description:</strong> Use in-memory caches like Redis or simple Map objects to cache query results.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20cache%20%3D%20new%20Map()%3B%0A%0Aasync%20function%20getCachedUser(userId)%20%7B%0A%20%20const%20cacheKey%20%3D%20%60user%3A%24%7BuserId%7D%60%3B%0A%20%20%0A%20%20if%20(cache.has(cacheKey))%20%7B%0A%20%20%20%20return%20cache.get(cacheKey)%3B%0A%20%20%7D%0A%20%20%0A%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute('SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%20%5BuserId%5D)%3B%0A%20%20const%20user%20%3D%20rows%5B0%5D%3B%0A%20%20%0A%20%20cache.set(cacheKey%2C%20user)%3B%0A%20%20setTimeout(()%20%3D%3E%20cache.delete(cacheKey)%2C%20300000)%3B%20%2F%2F%205%20min%20TTL%0A%20%20%0A%20%20return%20user%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const cache = new Map();
+
+async function getCachedUser(userId) {
+  const cacheKey = `user:${userId}`;
+  
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
+  
+  const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [userId]);
+  const user = rows[0];
+  
+  cache.set(cacheKey, user);
+  setTimeout(() =&gt; cache.delete(cacheKey), 300000); // 5 min TTL
+  
+  return user;
+}
+</code></pre>
+</div>
+
+<p><strong>426. How do you handle database transactions in Node.js?</strong></p>
+
+<p><strong>Description:</strong> Use beginTransaction(), commit(), and rollback() methods to ensure data consistency.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20transferMoney(fromId%2C%20toId%2C%20amount)%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20await%20connection.beginTransaction()%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20await%20connection.execute(%0A%20%20%20%20%20%20'UPDATE%20accounts%20SET%20balance%20%3D%20balance%20-%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%5Bamount%2C%20fromId%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20await%20connection.execute(%0A%20%20%20%20%20%20'UPDATE%20accounts%20SET%20balance%20%3D%20balance%20%2B%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%5Bamount%2C%20toId%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20await%20connection.commit()%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20throw%20error%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function transferMoney(fromId, toId, amount) {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+  
+  try {
+    await connection.execute(
+      'UPDATE accounts SET balance = balance - ? WHERE id = ?',
+      [amount, fromId]
+    );
+    
+    await connection.execute(
+      'UPDATE accounts SET balance = balance + ? WHERE id = ?',
+      [amount, toId]
+    );
+    
+    await connection.commit();
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>427. How do you implement rollback on errors?</strong></p>
+
+<p><strong>Description:</strong> Use try-catch blocks with transaction rollback to handle errors gracefully.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20safeTransaction(operations)%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20await%20connection.beginTransaction()%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20for%20(const%20operation%20of%20operations)%20%7B%0A%20%20%20%20%20%20await%20connection.execute(operation.query%2C%20operation.params)%3B%0A%20%20%20%20%7D%0A%20%20%20%20await%20connection.commit()%3B%0A%20%20%20%20return%20%7B%20success%3A%20true%20%7D%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20return%20%7B%20success%3A%20false%2C%20error%3A%20error.message%20%7D%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function safeTransaction(operations) {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+  
+  try {
+    for (const operation of operations) {
+      await connection.execute(operation.query, operation.params);
+    }
+    await connection.commit();
+    return { success: true };
+  } catch (error) {
+    await connection.rollback();
+    return { success: false, error: error.message };
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>428. How do you handle nested transactions?</strong></p>
+
+<p><strong>Description:</strong> MySQL doesn't support true nested transactions, but you can use savepoints for similar functionality.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20nestedTransaction()%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20await%20connection.beginTransaction()%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20await%20connection.execute('INSERT%20INTO%20users%20(name)%20VALUES%20(%3F)'%2C%20%5B'User1'%5D)%3B%0A%20%20%20%20%0A%20%20%20%20%2F%2F%20Create%20savepoint%0A%20%20%20%20await%20connection.execute('SAVEPOINT%20sp1')%3B%0A%20%20%20%20%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20await%20connection.execute('INSERT%20INTO%20posts%20(title)%20VALUES%20(%3F)'%2C%20%5B'Post1'%5D)%3B%0A%20%20%20%20%20%20await%20connection.execute('RELEASE%20SAVEPOINT%20sp1')%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20await%20connection.execute('ROLLBACK%20TO%20SAVEPOINT%20sp1')%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20await%20connection.commit()%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20throw%20error%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function nestedTransaction() {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+  
+  try {
+    await connection.execute('INSERT INTO users (name) VALUES (?)', ['User1']);
+    
+    // Create savepoint
+    await connection.execute('SAVEPOINT sp1');
+    
+    try {
+      await connection.execute('INSERT INTO posts (title) VALUES (?)', ['Post1']);
+      await connection.execute('RELEASE SAVEPOINT sp1');
+    } catch (error) {
+      await connection.execute('ROLLBACK TO SAVEPOINT sp1');
+    }
+    
+    await connection.commit();
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>429. How do you implement optimistic locking?</strong></p>
+
+<p><strong>Description:</strong> Use version numbers or timestamps to detect concurrent modifications.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20updateWithOptimisticLock(id%2C%20updates%2C%20version)%20%7B%0A%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20'UPDATE%20users%20SET%20name%20%3D%20%3F%2C%20version%20%3D%20version%20%2B%201%20WHERE%20id%20%3D%20%3F%20AND%20version%20%3D%20%3F'%2C%0A%20%20%20%20%5Bupdates.name%2C%20id%2C%20version%5D%0A%20%20)%3B%0A%20%20%0A%20%20if%20(result.affectedRows%20%3D%3D%3D%200)%20%7B%0A%20%20%20%20throw%20new%20Error('Record%20was%20modified%20by%20another%20process')%3B%0A%20%20%7D%0A%20%20%0A%20%20return%20result%3B%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function updateWithOptimisticLock(id, updates, version) {
+  const [result] = await pool.execute(
+    'UPDATE users SET name = ?, version = version + 1 WHERE id = ? AND version = ?',
+    [updates.name, id, version]
+  );
+  
+  if (result.affectedRows === 0) {
+    throw new Error('Record was modified by another process');
+  }
+  
+  return result;
+}
+</code></pre>
+</div>
+
+<p><strong>430. How do you implement pessimistic locking?</strong></p>
+
+<p><strong>Description:</strong> Use SELECT ... FOR UPDATE to lock rows during transactions.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="async%20function%20updateWithPessimisticLock(userId%2C%20updates)%20%7B%0A%20%20const%20connection%20%3D%20await%20pool.getConnection()%3B%0A%20%20await%20connection.beginTransaction()%3B%0A%20%20%0A%20%20try%20%7B%0A%20%20%20%20%2F%2F%20Lock%20the%20row%0A%20%20%20%20const%20%5Brows%5D%20%3D%20await%20connection.execute(%0A%20%20%20%20%20%20'SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F%20FOR%20UPDATE'%2C%0A%20%20%20%20%20%20%5BuserId%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20if%20(rows.length%20%3D%3D%3D%200)%20%7B%0A%20%20%20%20%20%20throw%20new%20Error('User%20not%20found')%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20%2F%2F%20Update%20the%20locked%20row%0A%20%20%20%20await%20connection.execute(%0A%20%20%20%20%20%20'UPDATE%20users%20SET%20name%20%3D%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%5Bupdates.name%2C%20userId%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20await%20connection.commit()%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20throw%20error%3B%0A%20%20%7D%20finally%20%7B%0A%20%20%20%20connection.release()%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">async function updateWithPessimisticLock(userId, updates) {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+  
+  try {
+    // Lock the row
+    const [rows] = await connection.execute(
+      'SELECT * FROM users WHERE id = ? FOR UPDATE',
+      [userId]
+    );
+    
+    if (rows.length === 0) {
+      throw new Error('User not found');
+    }
+    
+    // Update the locked row
+    await connection.execute(
+      'UPDATE users SET name = ? WHERE id = ?',
+      [updates.name, userId]
+    );
+    
+    await connection.commit();
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+</code></pre>
+</div>
+
+<h2 id="advanced-integration-questions-431-450-">Advanced Integration (Questions 431-450)</h2>
+
+<p><strong>431. How do you implement database migrations in Node.js?</strong></p>
+
+<p><strong>Description:</strong> Create versioned SQL scripts that can be applied incrementally to update database schema.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20migrations%20%3D%20%5B%0A%20%20%7B%0A%20%20%20%20version%3A%201%2C%0A%20%20%20%20up%3A%20'CREATE%20TABLE%20users%20(id%20INT%20PRIMARY%20KEY%20AUTO_INCREMENT%2C%20name%20VARCHAR(255))'%2C%0A%20%20%20%20down%3A%20'DROP%20TABLE%20users'%0A%20%20%7D%2C%0A%20%20%7B%0A%20%20%20%20version%3A%202%2C%0A%20%20%20%20up%3A%20'ALTER%20TABLE%20users%20ADD%20COLUMN%20email%20VARCHAR(255)'%2C%0A%20%20%20%20down%3A%20'ALTER%20TABLE%20users%20DROP%20COLUMN%20email'%0A%20%20%7D%0A%5D%3B%0A%0Aasync%20function%20runMigrations()%20%7B%0A%20%20for%20(const%20migration%20of%20migrations)%20%7B%0A%20%20%20%20const%20%5Bexisting%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20%20%20'SELECT%20*%20FROM%20migrations%20WHERE%20version%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%5Bmigration.version%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20if%20(existing.length%20%3D%3D%3D%200)%20%7B%0A%20%20%20%20%20%20await%20pool.execute(migration.up)%3B%0A%20%20%20%20%20%20await%20pool.execute(%0A%20%20%20%20%20%20%20%20'INSERT%20INTO%20migrations%20(version)%20VALUES%20(%3F)'%2C%0A%20%20%20%20%20%20%20%20%5Bmigration.version%5D%0A%20%20%20%20%20%20)%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const migrations = [
+  {
+    version: 1,
+    up: 'CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255))',
+    down: 'DROP TABLE users'
+  },
+  {
+    version: 2,
+    up: 'ALTER TABLE users ADD COLUMN email VARCHAR(255)',
+    down: 'ALTER TABLE users DROP COLUMN email'
+  }
+];
+
+async function runMigrations() {
+  for (const migration of migrations) {
+    const [existing] = await pool.execute(
+      'SELECT * FROM migrations WHERE version = ?',
+      [migration.version]
+    );
+    
+    if (existing.length === 0) {
+      await pool.execute(migration.up);
+      await pool.execute(
+        'INSERT INTO migrations (version) VALUES (?)',
+        [migration.version]
+      );
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>432. How do you implement database seeding?</strong></p>
+
+<p><strong>Description:</strong> Populate database with initial or test data using seed scripts.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20seedData%20%3D%20%7B%0A%20%20users%3A%20%5B%0A%20%20%20%20%7B%20name%3A%20'John%20Doe'%2C%20email%3A%20'john%40example.com'%20%7D%2C%0A%20%20%20%20%7B%20name%3A%20'Jane%20Smith'%2C%20email%3A%20'jane%40example.com'%20%7D%0A%20%20%5D%0A%7D%3B%0A%0Aasync%20function%20seedDatabase()%20%7B%0A%20%20for%20(const%20user%20of%20seedData.users)%20%7B%0A%20%20%20%20await%20pool.execute(%0A%20%20%20%20%20%20'INSERT%20IGNORE%20INTO%20users%20(name%2C%20email)%20VALUES%20(%3F%2C%20%3F)'%2C%0A%20%20%20%20%20%20%5Buser.name%2C%20user.email%5D%0A%20%20%20%20)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const seedData = {
+  users: [
+    { name: 'John Doe', email: 'john@example.com' },
+    { name: 'Jane Smith', email: 'jane@example.com' }
+  ]
+};
+
+async function seedDatabase() {
+  for (const user of seedData.users) {
+    await pool.execute(
+      'INSERT IGNORE INTO users (name, email) VALUES (?, ?)',
+      [user.name, user.email]
+    );
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>433. How do you structure database queries in your application?</strong></p>
+
+<p><strong>Description:</strong> Organize queries using repository pattern, query builders, or dedicated query modules.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20queries%2FuserQueries.js%0Aclass%20UserQueries%20%7B%0A%20%20static%20async%20findById(id)%20%7B%0A%20%20%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute('SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%20%5Bid%5D)%3B%0A%20%20%20%20return%20rows%5B0%5D%3B%0A%20%20%7D%0A%20%20%0A%20%20static%20async%20create(userData)%20%7B%0A%20%20%20%20const%20%5Bresult%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20%20%20'INSERT%20INTO%20users%20(name%2C%20email)%20VALUES%20(%3F%2C%20%3F)'%2C%0A%20%20%20%20%20%20%5BuserData.name%2C%20userData.email%5D%0A%20%20%20%20)%3B%0A%20%20%20%20return%20result.insertId%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// queries/userQueries.js
+class UserQueries {
+  static async findById(id) {
+    const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
+    return rows[0];
+  }
+  
+  static async create(userData) {
+    const [result] = await pool.execute(
+      'INSERT INTO users (name, email) VALUES (?, ?)',
+      [userData.name, userData.email]
+    );
+    return result.insertId;
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>434. How do you implement a Data Access Layer (DAL)?</strong></p>
+
+<p><strong>Description:</strong> Create an abstraction layer that encapsulates all database operations and provides a clean API.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20DataAccessLayer%20%7B%0A%20%20constructor(pool)%20%7B%0A%20%20%20%20this.pool%20%3D%20pool%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20execute(query%2C%20params%20%3D%20%5B%5D)%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20const%20%5Brows%5D%20%3D%20await%20this.pool.execute(query%2C%20params)%3B%0A%20%20%20%20%20%20return%20rows%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20console.error('Database%20error%3A'%2C%20error)%3B%0A%20%20%20%20%20%20throw%20new%20Error('Database%20operation%20failed')%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20%0A%20%20async%20transaction(callback)%20%7B%0A%20%20%20%20const%20connection%20%3D%20await%20this.pool.getConnection()%3B%0A%20%20%20%20await%20connection.beginTransaction()%3B%0A%20%20%20%20%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20const%20result%20%3D%20await%20callback(connection)%3B%0A%20%20%20%20%20%20await%20connection.commit()%3B%0A%20%20%20%20%20%20return%20result%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20await%20connection.rollback()%3B%0A%20%20%20%20%20%20throw%20error%3B%0A%20%20%20%20%7D%20finally%20%7B%0A%20%20%20%20%20%20connection.release()%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class DataAccessLayer {
+  constructor(pool) {
+    this.pool = pool;
+  }
+  
+  async execute(query, params = []) {
+    try {
+      const [rows] = await this.pool.execute(query, params);
+      return rows;
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Database operation failed');
+    }
+  }
+  
+  async transaction(callback) {
+    const connection = await this.pool.getConnection();
+    await connection.beginTransaction();
+    
+    try {
+      const result = await callback(connection);
+      await connection.commit();
+      return result;
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>435. How do you implement the Repository pattern?</strong></p>
+
+<p><strong>Description:</strong> Create repository classes that encapsulate data access logic for specific entities.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20UserRepository%20%7B%0A%20%20constructor(dal)%20%7B%0A%20%20%20%20this.dal%20%3D%20dal%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20findById(id)%20%7B%0A%20%20%20%20const%20users%20%3D%20await%20this.dal.execute('SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%20%5Bid%5D)%3B%0A%20%20%20%20return%20users%5B0%5D%20%7C%7C%20null%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20create(user)%20%7B%0A%20%20%20%20const%20result%20%3D%20await%20this.dal.execute(%0A%20%20%20%20%20%20'INSERT%20INTO%20users%20(name%2C%20email)%20VALUES%20(%3F%2C%20%3F)'%2C%0A%20%20%20%20%20%20%5Buser.name%2C%20user.email%5D%0A%20%20%20%20)%3B%0A%20%20%20%20return%20%7B%20...user%2C%20id%3A%20result.insertId%20%7D%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20update(id%2C%20updates)%20%7B%0A%20%20%20%20await%20this.dal.execute(%0A%20%20%20%20%20%20'UPDATE%20users%20SET%20name%20%3D%20%3F%2C%20email%20%3D%20%3F%20WHERE%20id%20%3D%20%3F'%2C%0A%20%20%20%20%20%20%5Bupdates.name%2C%20updates.email%2C%20id%5D%0A%20%20%20%20)%3B%0A%20%20%20%20return%20this.findById(id)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class UserRepository {
+  constructor(dal) {
+    this.dal = dal;
+  }
+  
+  async findById(id) {
+    const users = await this.dal.execute('SELECT * FROM users WHERE id = ?', [id]);
+    return users[0] || null;
+  }
+  
+  async create(user) {
+    const result = await this.dal.execute(
+      'INSERT INTO users (name, email) VALUES (?, ?)',
+      [user.name, user.email]
+    );
+    return { ...user, id: result.insertId };
+  }
+  
+  async update(id, updates) {
+    await this.dal.execute(
+      'UPDATE users SET name = ?, email = ? WHERE id = ?',
+      [updates.name, updates.email, id]
+    );
+    return this.findById(id);
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>436. How do you handle database schema versioning?</strong></p>
+
+<p><strong>Description:</strong> Track schema changes using migration tables and version numbers.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20SchemaVersioning%20%7B%0A%20%20async%20getCurrentVersion()%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20const%20%5Brows%5D%20%3D%20await%20pool.execute('SELECT%20MAX(version)%20as%20version%20FROM%20schema_versions')%3B%0A%20%20%20%20%20%20return%20rows%5B0%5D.version%20%7C%7C%200%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20return%200%3B%20%2F%2F%20First%20time%20setup%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20%0A%20%20async%20updateVersion(version%2C%20description)%20%7B%0A%20%20%20%20await%20pool.execute(%0A%20%20%20%20%20%20'INSERT%20INTO%20schema_versions%20(version%2C%20description%2C%20applied_at)%20VALUES%20(%3F%2C%20%3F%2C%20NOW())'%2C%0A%20%20%20%20%20%20%5Bversion%2C%20description%5D%0A%20%20%20%20)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class SchemaVersioning {
+  async getCurrentVersion() {
+    try {
+      const [rows] = await pool.execute('SELECT MAX(version) as version FROM schema_versions');
+      return rows[0].version || 0;
+    } catch (error) {
+      return 0; // First time setup
+    }
+  }
+  
+  async updateVersion(version, description) {
+    await pool.execute(
+      'INSERT INTO schema_versions (version, description, applied_at) VALUES (?, ?, NOW())',
+      [version, description]
+    );
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>437. How do you implement database connection monitoring?</strong></p>
+
+<p><strong>Description:</strong> Track connection metrics, health status, and performance indicators.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20ConnectionMonitor%20%7B%0A%20%20constructor(pool)%20%7B%0A%20%20%20%20this.pool%20%3D%20pool%3B%0A%20%20%20%20this.metrics%20%3D%20%7B%0A%20%20%20%20%20%20activeConnections%3A%200%2C%0A%20%20%20%20%20%20totalQueries%3A%200%2C%0A%20%20%20%20%20%20failedQueries%3A%200%2C%0A%20%20%20%20%20%20avgResponseTime%3A%200%0A%20%20%20%20%7D%3B%0A%20%20%7D%0A%20%20%0A%20%20startMonitoring()%20%7B%0A%20%20%20%20setInterval(()%20%3D%3E%20%7B%0A%20%20%20%20%20%20this.metrics.activeConnections%20%3D%20this.pool._allConnections.length%3B%0A%20%20%20%20%20%20console.log('Connection%20Metrics%3A'%2C%20this.metrics)%3B%0A%20%20%20%20%7D%2C%2030000)%3B%0A%20%20%7D%0A%20%20%0A%20%20recordQuery(duration%2C%20success)%20%7B%0A%20%20%20%20this.metrics.totalQueries%2B%2B%3B%0A%20%20%20%20if%20(!success)%20this.metrics.failedQueries%2B%2B%3B%0A%20%20%20%20this.updateAvgResponseTime(duration)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class ConnectionMonitor {
+  constructor(pool) {
+    this.pool = pool;
+    this.metrics = {
+      activeConnections: 0,
+      totalQueries: 0,
+      failedQueries: 0,
+      avgResponseTime: 0
+    };
+  }
+  
+  startMonitoring() {
+    setInterval(() =&gt; {
+      this.metrics.activeConnections = this.pool._allConnections.length;
+      console.log('Connection Metrics:', this.metrics);
+    }, 30000);
+  }
+  
+  recordQuery(duration, success) {
+    this.metrics.totalQueries++;
+    if (!success) this.metrics.failedQueries++;
+    this.updateAvgResponseTime(duration);
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>438. How do you handle database performance monitoring?</strong></p>
+
+<p><strong>Description:</strong> Monitor query execution times, slow queries, and resource usage.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20PerformanceMonitor%20%7B%0A%20%20async%20executeWithMonitoring(query%2C%20params)%20%7B%0A%20%20%20%20const%20startTime%20%3D%20Date.now()%3B%0A%20%20%20%20%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20const%20result%20%3D%20await%20pool.execute(query%2C%20params)%3B%0A%20%20%20%20%20%20const%20duration%20%3D%20Date.now()%20-%20startTime%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20if%20(duration%20%3E%201000)%20%7B%20%2F%2F%20Log%20slow%20queries%0A%20%20%20%20%20%20%20%20console.warn(%60Slow%20query%20(%24%7Bduration%7Dms)%3A%60%2C%20query)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20return%20result%3B%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20console.error('Query%20failed%3A'%2C%20query%2C%20error)%3B%0A%20%20%20%20%20%20throw%20error%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class PerformanceMonitor {
+  async executeWithMonitoring(query, params) {
+    const startTime = Date.now();
+    
+    try {
+      const result = await pool.execute(query, params);
+      const duration = Date.now() - startTime;
+      
+      if (duration &gt; 1000) { // Log slow queries
+        console.warn(`Slow query (${duration}ms):`, query);
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Query failed:', query, error);
+      throw error;
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>439. How do you implement query logging?</strong></p>
+
+<p><strong>Description:</strong> Log all database queries for debugging, auditing, and performance analysis.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20QueryLogger%20%7B%0A%20%20constructor(pool)%20%7B%0A%20%20%20%20this.pool%20%3D%20pool%3B%0A%20%20%20%20this.originalExecute%20%3D%20pool.execute.bind(pool)%3B%0A%20%20%20%20this.setupLogging()%3B%0A%20%20%7D%0A%20%20%0A%20%20setupLogging()%20%7B%0A%20%20%20%20this.pool.execute%20%3D%20async%20(query%2C%20params)%20%3D%3E%20%7B%0A%20%20%20%20%20%20const%20startTime%20%3D%20Date.now()%3B%0A%20%20%20%20%20%20console.log(%60%5BSQL%5D%20%24%7Bquery%7D%60%2C%20params)%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20const%20result%20%3D%20await%20this.originalExecute(query%2C%20params)%3B%0A%20%20%20%20%20%20%20%20console.log(%60%5BSQL%5D%20Completed%20in%20%24%7BDate.now()%20-%20startTime%7Dms%60)%3B%0A%20%20%20%20%20%20%20%20return%20result%3B%0A%20%20%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20%20%20console.error(%60%5BSQL%5D%20Failed%20in%20%24%7BDate.now()%20-%20startTime%7Dms%3A%60%2C%20error.message)%3B%0A%20%20%20%20%20%20%20%20throw%20error%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class QueryLogger {
+  constructor(pool) {
+    this.pool = pool;
+    this.originalExecute = pool.execute.bind(pool);
+    this.setupLogging();
+  }
+  
+  setupLogging() {
+    this.pool.execute = async (query, params) =&gt; {
+      const startTime = Date.now();
+      console.log(`[SQL] ${query}`, params);
+      
+      try {
+        const result = await this.originalExecute(query, params);
+        console.log(`[SQL] Completed in ${Date.now() - startTime}ms`);
+        return result;
+      } catch (error) {
+        console.error(`[SQL] Failed in ${Date.now() - startTime}ms:`, error.message);
+        throw error;
+      }
+    };
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>440. How do you handle database backup from Node.js?</strong></p>
+
+<p><strong>Description:</strong> Create automated backup scripts using mysqldump or database-specific backup tools.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="const%20%7B%20exec%20%7D%20%3D%20require('child_process')%3B%0A%0Aclass%20DatabaseBackup%20%7B%0A%20%20async%20createBackup(filename)%20%7B%0A%20%20%20%20const%20command%20%3D%20%60mysqldump%20-h%20%24%7Bprocess.env.DB_HOST%7D%20-u%20%24%7Bprocess.env.DB_USER%7D%20-p%24%7Bprocess.env.DB_PASSWORD%7D%20%24%7Bprocess.env.DB_NAME%7D%20%3E%20%24%7Bfilename%7D%60%3B%0A%20%20%20%20%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20exec(command%2C%20(error%2C%20stdout%2C%20stderr)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20if%20(error)%20reject(error)%3B%0A%20%20%20%20%20%20%20%20else%20resolve(stdout)%3B%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20scheduleBackups()%20%7B%0A%20%20%20%20setInterval(async%20()%20%3D%3E%20%7B%0A%20%20%20%20%20%20const%20filename%20%3D%20%60backup_%24%7BDate.now()%7D.sql%60%3B%0A%20%20%20%20%20%20await%20this.createBackup(filename)%3B%0A%20%20%20%20%20%20console.log(%60Backup%20created%3A%20%24%7Bfilename%7D%60)%3B%0A%20%20%20%20%7D%2C%2024%20*%2060%20*%2060%20*%201000)%3B%20%2F%2F%20Daily%20backups%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">const { exec } = require('child_process');
+
+class DatabaseBackup {
+  async createBackup(filename) {
+    const command = `mysqldump -h ${process.env.DB_HOST} -u ${process.env.DB_USER} -p${process.env.DB_PASSWORD} ${process.env.DB_NAME} &gt; ${filename}`;
+    
+    return new Promise((resolve, reject) =&gt; {
+      exec(command, (error, stdout, stderr) =&gt; {
+        if (error) reject(error);
+        else resolve(stdout);
+      });
+    });
+  }
+  
+  async scheduleBackups() {
+    setInterval(async () =&gt; {
+      const filename = `backup_${Date.now()}.sql`;
+      await this.createBackup(filename);
+      console.log(`Backup created: ${filename}`);
+    }, 24 * 60 * 60 * 1000); // Daily backups
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>441. How do you implement data synchronization?</strong></p>
+
+<p><strong>Description:</strong> Sync data between different databases or systems using change tracking and replication.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20DataSynchronizer%20%7B%0A%20%20async%20syncUsers()%20%7B%0A%20%20%20%20const%20lastSync%20%3D%20await%20this.getLastSyncTime()%3B%0A%20%20%20%20const%20%5Bchanges%5D%20%3D%20await%20pool.execute(%0A%20%20%20%20%20%20'SELECT%20*%20FROM%20users%20WHERE%20updated_at%20%3E%20%3F'%2C%0A%20%20%20%20%20%20%5BlastSync%5D%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20for%20(const%20user%20of%20changes)%20%7B%0A%20%20%20%20%20%20await%20this.syncToRemoteSystem(user)%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20await%20this.updateLastSyncTime()%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20syncToRemoteSystem(data)%20%7B%0A%20%20%20%20%2F%2F%20Implementation%20for%20syncing%20to%20external%20system%0A%20%20%20%20console.log('Syncing%20data%3A'%2C%20data)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class DataSynchronizer {
+  async syncUsers() {
+    const lastSync = await this.getLastSyncTime();
+    const [changes] = await pool.execute(
+      'SELECT * FROM users WHERE updated_at &gt; ?',
+      [lastSync]
+    );
+    
+    for (const user of changes) {
+      await this.syncToRemoteSystem(user);
+    }
+    
+    await this.updateLastSyncTime();
+  }
+  
+  async syncToRemoteSystem(data) {
+    // Implementation for syncing to external system
+    console.log('Syncing data:', data);
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>442. How do you handle database replication in Node.js?</strong></p>
+
+<p><strong>Description:</strong> Configure read/write splitting and handle replication lag in application logic.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20ReplicationHandler%20%7B%0A%20%20constructor(masterPool%2C%20slavePool)%20%7B%0A%20%20%20%20this.masterPool%20%3D%20masterPool%3B%0A%20%20%20%20this.slavePool%20%3D%20slavePool%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20read(query%2C%20params)%20%7B%0A%20%20%20%20return%20await%20this.slavePool.execute(query%2C%20params)%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20write(query%2C%20params)%20%7B%0A%20%20%20%20const%20result%20%3D%20await%20this.masterPool.execute(query%2C%20params)%3B%0A%20%20%20%20%2F%2F%20Wait%20for%20replication%20lag%20if%20needed%0A%20%20%20%20await%20this.waitForReplication()%3B%0A%20%20%20%20return%20result%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20waitForReplication(maxWait%20%3D%201000)%20%7B%0A%20%20%20%20%2F%2F%20Implementation%20to%20handle%20replication%20lag%0A%20%20%20%20await%20new%20Promise(resolve%20%3D%3E%20setTimeout(resolve%2C%20100))%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class ReplicationHandler {
+  constructor(masterPool, slavePool) {
+    this.masterPool = masterPool;
+    this.slavePool = slavePool;
+  }
+  
+  async read(query, params) {
+    return await this.slavePool.execute(query, params);
+  }
+  
+  async write(query, params) {
+    const result = await this.masterPool.execute(query, params);
+    // Wait for replication lag if needed
+    await this.waitForReplication();
+    return result;
+  }
+  
+  async waitForReplication(maxWait = 1000) {
+    // Implementation to handle replication lag
+    await new Promise(resolve =&gt; setTimeout(resolve, 100));
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>443. How do you implement database sharding logic?</strong></p>
+
+<p><strong>Description:</strong> Distribute data across multiple database instances based on sharding keys.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20ShardManager%20%7B%0A%20%20constructor(shards)%20%7B%0A%20%20%20%20this.shards%20%3D%20shards%3B%20%2F%2F%20Array%20of%20database%20pools%0A%20%20%7D%0A%20%20%0A%20%20getShardForUser(userId)%20%7B%0A%20%20%20%20const%20shardIndex%20%3D%20userId%20%25%20this.shards.length%3B%0A%20%20%20%20return%20this.shards%5BshardIndex%5D%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20getUserById(userId)%20%7B%0A%20%20%20%20const%20shard%20%3D%20this.getShardForUser(userId)%3B%0A%20%20%20%20const%20%5Brows%5D%20%3D%20await%20shard.execute('SELECT%20*%20FROM%20users%20WHERE%20id%20%3D%20%3F'%2C%20%5BuserId%5D)%3B%0A%20%20%20%20return%20rows%5B0%5D%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20createUser(userData)%20%7B%0A%20%20%20%20const%20userId%20%3D%20this.generateUserId()%3B%0A%20%20%20%20const%20shard%20%3D%20this.getShardForUser(userId)%3B%0A%20%20%20%20await%20shard.execute(%0A%20%20%20%20%20%20'INSERT%20INTO%20users%20(id%2C%20name%2C%20email)%20VALUES%20(%3F%2C%20%3F%2C%20%3F)'%2C%0A%20%20%20%20%20%20%5BuserId%2C%20userData.name%2C%20userData.email%5D%0A%20%20%20%20)%3B%0A%20%20%20%20return%20userId%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class ShardManager {
+  constructor(shards) {
+    this.shards = shards; // Array of database pools
+  }
+  
+  getShardForUser(userId) {
+    const shardIndex = userId % this.shards.length;
+    return this.shards[shardIndex];
+  }
+  
+  async getUserById(userId) {
+    const shard = this.getShardForUser(userId);
+    const [rows] = await shard.execute('SELECT * FROM users WHERE id = ?', [userId]);
+    return rows[0];
+  }
+  
+  async createUser(userData) {
+    const userId = this.generateUserId();
+    const shard = this.getShardForUser(userId);
+    await shard.execute(
+      'INSERT INTO users (id, name, email) VALUES (?, ?, ?)',
+      [userId, userData.name, userData.email]
+    );
+    return userId;
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>444. How do you handle cross-database transactions?</strong></p>
+
+<p><strong>Description:</strong> Implement distributed transactions using two-phase commit or saga patterns.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20DistributedTransaction%20%7B%0A%20%20constructor(databases)%20%7B%0A%20%20%20%20this.databases%20%3D%20databases%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20executeDistributedTransaction(operations)%20%7B%0A%20%20%20%20const%20connections%20%3D%20%5B%5D%3B%0A%20%20%20%20%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%2F%2F%20Phase%201%3A%20Prepare%20all%20transactions%0A%20%20%20%20%20%20for%20(const%20db%20of%20this.databases)%20%7B%0A%20%20%20%20%20%20%20%20const%20conn%20%3D%20await%20db.getConnection()%3B%0A%20%20%20%20%20%20%20%20await%20conn.beginTransaction()%3B%0A%20%20%20%20%20%20%20%20connections.push(conn)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20%2F%2F%20Execute%20operations%0A%20%20%20%20%20%20for%20(let%20i%20%3D%200%3B%20i%20%3C%20operations.length%3B%20i%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20await%20connections%5Bi%5D.execute(operations%5Bi%5D.query%2C%20operations%5Bi%5D.params)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20%2F%2F%20Phase%202%3A%20Commit%20all%20transactions%0A%20%20%20%20%20%20for%20(const%20conn%20of%20connections)%20%7B%0A%20%20%20%20%20%20%20%20await%20conn.commit()%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20%2F%2F%20Rollback%20all%20transactions%0A%20%20%20%20%20%20for%20(const%20conn%20of%20connections)%20%7B%0A%20%20%20%20%20%20%20%20await%20conn.rollback()%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20throw%20error%3B%0A%20%20%20%20%7D%20finally%20%7B%0A%20%20%20%20%20%20for%20(const%20conn%20of%20connections)%20%7B%0A%20%20%20%20%20%20%20%20conn.release()%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class DistributedTransaction {
+  constructor(databases) {
+    this.databases = databases;
+  }
+  
+  async executeDistributedTransaction(operations) {
+    const connections = [];
+    
+    try {
+      // Phase 1: Prepare all transactions
+      for (const db of this.databases) {
+        const conn = await db.getConnection();
+        await conn.beginTransaction();
+        connections.push(conn);
+      }
+      
+      // Execute operations
+      for (let i = 0; i &lt; operations.length; i++) {
+        await connections[i].execute(operations[i].query, operations[i].params);
+      }
+      
+      // Phase 2: Commit all transactions
+      for (const conn of connections) {
+        await conn.commit();
+      }
+      
+    } catch (error) {
+      // Rollback all transactions
+      for (const conn of connections) {
+        await conn.rollback();
+      }
+      throw error;
+    } finally {
+      for (const conn of connections) {
+        conn.release();
+      }
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>445. How do you implement database connection pooling across microservices?</strong></p>
+
+<p><strong>Description:</strong> Share connection pools or implement service-specific pools with proper resource management.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20MicroserviceConnectionManager%20%7B%0A%20%20constructor()%20%7B%0A%20%20%20%20this.pools%20%3D%20new%20Map()%3B%0A%20%20%7D%0A%20%20%0A%20%20getPool(serviceName)%20%7B%0A%20%20%20%20if%20(!this.pools.has(serviceName))%20%7B%0A%20%20%20%20%20%20const%20config%20%3D%20this.getConfigForService(serviceName)%3B%0A%20%20%20%20%20%20const%20pool%20%3D%20mysql.createPool(%7B%0A%20%20%20%20%20%20%20%20...config%2C%0A%20%20%20%20%20%20%20%20connectionLimit%3A%205%2C%20%2F%2F%20Lower%20limit%20per%20service%0A%20%20%20%20%20%20%20%20acquireTimeout%3A%2060000%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20this.pools.set(serviceName%2C%20pool)%3B%0A%20%20%20%20%7D%0A%20%20%20%20return%20this.pools.get(serviceName)%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20closeAllPools()%20%7B%0A%20%20%20%20for%20(const%20%5Bname%2C%20pool%5D%20of%20this.pools)%20%7B%0A%20%20%20%20%20%20await%20new%20Promise(resolve%20%3D%3E%20pool.end(resolve))%3B%0A%20%20%20%20%20%20console.log(%60Closed%20pool%20for%20service%3A%20%24%7Bname%7D%60)%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class MicroserviceConnectionManager {
+  constructor() {
+    this.pools = new Map();
+  }
+  
+  getPool(serviceName) {
+    if (!this.pools.has(serviceName)) {
+      const config = this.getConfigForService(serviceName);
+      const pool = mysql.createPool({
+        ...config,
+        connectionLimit: 5, // Lower limit per service
+        acquireTimeout: 60000
+      });
+      this.pools.set(serviceName, pool);
+    }
+    return this.pools.get(serviceName);
+  }
+  
+  async closeAllPools() {
+    for (const [name, pool] of this.pools) {
+      await new Promise(resolve =&gt; pool.end(resolve));
+      console.log(`Closed pool for service: ${name}`);
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>446. How do you handle database versioning in CI/CD?</strong></p>
+
+<p><strong>Description:</strong> Integrate database migrations into deployment pipelines with rollback capabilities.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20CICDDatabaseManager%20%7B%0A%20%20async%20deployDatabase(targetVersion)%20%7B%0A%20%20%20%20const%20currentVersion%20%3D%20await%20this.getCurrentVersion()%3B%0A%20%20%20%20%0A%20%20%20%20if%20(targetVersion%20%3E%20currentVersion)%20%7B%0A%20%20%20%20%20%20await%20this.runMigrations(currentVersion%2C%20targetVersion)%3B%0A%20%20%20%20%7D%20else%20if%20(targetVersion%20%3C%20currentVersion)%20%7B%0A%20%20%20%20%20%20await%20this.rollbackMigrations(currentVersion%2C%20targetVersion)%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20await%20this.validateDeployment()%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20runMigrations(from%2C%20to)%20%7B%0A%20%20%20%20const%20migrations%20%3D%20this.getMigrationsBetween(from%2C%20to)%3B%0A%20%20%20%20%0A%20%20%20%20for%20(const%20migration%20of%20migrations)%20%7B%0A%20%20%20%20%20%20console.log(%60Running%20migration%20%24%7Bmigration.version%7D%60)%3B%0A%20%20%20%20%20%20await%20pool.execute(migration.up)%3B%0A%20%20%20%20%20%20await%20this.recordMigration(migration.version)%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class CICDDatabaseManager {
+  async deployDatabase(targetVersion) {
+    const currentVersion = await this.getCurrentVersion();
+    
+    if (targetVersion &gt; currentVersion) {
+      await this.runMigrations(currentVersion, targetVersion);
+    } else if (targetVersion &lt; currentVersion) {
+      await this.rollbackMigrations(currentVersion, targetVersion);
+    }
+    
+    await this.validateDeployment();
+  }
+  
+  async runMigrations(from, to) {
+    const migrations = this.getMigrationsBetween(from, to);
+    
+    for (const migration of migrations) {
+      console.log(`Running migration ${migration.version}`);
+      await pool.execute(migration.up);
+      await this.recordMigration(migration.version);
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>447. How do you implement database testing strategies?</strong></p>
+
+<p><strong>Description:</strong> Use test databases, fixtures, and mocking strategies for reliable database testing.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20DatabaseTesting%20%7B%0A%20%20async%20setupTestDatabase()%20%7B%0A%20%20%20%20const%20testPool%20%3D%20mysql.createPool(%7B%0A%20%20%20%20%20%20...config%2C%0A%20%20%20%20%20%20database%3A%20'test_'%20%2B%20config.database%0A%20%20%20%20%7D)%3B%0A%20%20%20%20%0A%20%20%20%20await%20testPool.execute('DROP%20DATABASE%20IF%20EXISTS%20test_'%20%2B%20config.database)%3B%0A%20%20%20%20await%20testPool.execute('CREATE%20DATABASE%20test_'%20%2B%20config.database)%3B%0A%20%20%20%20%0A%20%20%20%20return%20testPool%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20loadFixtures(fixtures)%20%7B%0A%20%20%20%20for%20(const%20%5Btable%2C%20data%5D%20of%20Object.entries(fixtures))%20%7B%0A%20%20%20%20%20%20for%20(const%20row%20of%20data)%20%7B%0A%20%20%20%20%20%20%20%20const%20columns%20%3D%20Object.keys(row).join('%2C%20')%3B%0A%20%20%20%20%20%20%20%20const%20values%20%3D%20Object.values(row)%3B%0A%20%20%20%20%20%20%20%20const%20placeholders%20%3D%20values.map(()%20%3D%3E%20'%3F').join('%2C%20')%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20await%20pool.execute(%0A%20%20%20%20%20%20%20%20%20%20%60INSERT%20INTO%20%24%7Btable%7D%20(%24%7Bcolumns%7D)%20VALUES%20(%24%7Bplaceholders%7D)%60%2C%0A%20%20%20%20%20%20%20%20%20%20values%0A%20%20%20%20%20%20%20%20)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class DatabaseTesting {
+  async setupTestDatabase() {
+    const testPool = mysql.createPool({
+      ...config,
+      database: 'test_' + config.database
+    });
+    
+    await testPool.execute('DROP DATABASE IF EXISTS test_' + config.database);
+    await testPool.execute('CREATE DATABASE test_' + config.database);
+    
+    return testPool;
+  }
+  
+  async loadFixtures(fixtures) {
+    for (const [table, data] of Object.entries(fixtures)) {
+      for (const row of data) {
+        const columns = Object.keys(row).join(', ');
+        const values = Object.values(row);
+        const placeholders = values.map(() =&gt; '?').join(', ');
+        
+        await pool.execute(
+          `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`,
+          values
+        );
+      }
+    }
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>448. How do you handle database mocking in tests?</strong></p>
+
+<p><strong>Description:</strong> Use mocking libraries or in-memory databases to isolate tests from real database dependencies.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="%2F%2F%20Using%20jest%20mocks%0Ajest.mock('mysql2%2Fpromise'%2C%20()%20%3D%3E%20(%7B%0A%20%20createPool%3A%20jest.fn(()%20%3D%3E%20(%7B%0A%20%20%20%20execute%3A%20jest.fn()%2C%0A%20%20%20%20getConnection%3A%20jest.fn(()%20%3D%3E%20(%7B%0A%20%20%20%20%20%20beginTransaction%3A%20jest.fn()%2C%0A%20%20%20%20%20%20commit%3A%20jest.fn()%2C%0A%20%20%20%20%20%20rollback%3A%20jest.fn()%2C%0A%20%20%20%20%20%20release%3A%20jest.fn()%0A%20%20%20%20%7D))%0A%20%20%7D))%0A%7D))%3B%0A%0Aclass%20DatabaseMock%20%7B%0A%20%20constructor()%20%7B%0A%20%20%20%20this.data%20%3D%20new%20Map()%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20execute(query%2C%20params)%20%7B%0A%20%20%20%20%2F%2F%20Mock%20implementation%20based%20on%20query%20type%0A%20%20%20%20if%20(query.includes('SELECT'))%20%7B%0A%20%20%20%20%20%20return%20this.mockSelect(query%2C%20params)%3B%0A%20%20%20%20%7D%20else%20if%20(query.includes('INSERT'))%20%7B%0A%20%20%20%20%20%20return%20this.mockInsert(query%2C%20params)%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20%0A%20%20mockSelect(query%2C%20params)%20%7B%0A%20%20%20%20%2F%2F%20Return%20mock%20data%20based%20on%20query%0A%20%20%20%20return%20%5B%5B%5D%5D%3B%20%2F%2F%20Mock%20result%20format%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">// Using jest mocks
+jest.mock('mysql2/promise', () =&gt; ({
+  createPool: jest.fn(() =&gt; ({
+    execute: jest.fn(),
+    getConnection: jest.fn(() =&gt; ({
+      beginTransaction: jest.fn(),
+      commit: jest.fn(),
+      rollback: jest.fn(),
+      release: jest.fn()
+    }))
+  }))
+}));
+
+class DatabaseMock {
+  constructor() {
+    this.data = new Map();
+  }
+  
+  async execute(query, params) {
+    // Mock implementation based on query type
+    if (query.includes('SELECT')) {
+      return this.mockSelect(query, params);
+    } else if (query.includes('INSERT')) {
+      return this.mockInsert(query, params);
+    }
+  }
+  
+  mockSelect(query, params) {
+    // Return mock data based on query
+    return [[]]; // Mock result format
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>449. How do you implement database performance testing?</strong></p>
+
+<p><strong>Description:</strong> Create load tests that measure database performance under various conditions.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20PerformanceTester%20%7B%0A%20%20async%20runLoadTest(concurrency%20%3D%2010%2C%20duration%20%3D%2060000)%20%7B%0A%20%20%20%20const%20startTime%20%3D%20Date.now()%3B%0A%20%20%20%20const%20results%20%3D%20%5B%5D%3B%0A%20%20%20%20%0A%20%20%20%20const%20workers%20%3D%20Array(concurrency).fill().map(()%20%3D%3E%20%0A%20%20%20%20%20%20this.runWorker(startTime%20%2B%20duration)%0A%20%20%20%20)%3B%0A%20%20%20%20%0A%20%20%20%20const%20workerResults%20%3D%20await%20Promise.all(workers)%3B%0A%20%20%20%20%0A%20%20%20%20return%20this.analyzeResults(workerResults)%3B%0A%20%20%7D%0A%20%20%0A%20%20async%20runWorker(endTime)%20%7B%0A%20%20%20%20const%20results%20%3D%20%5B%5D%3B%0A%20%20%20%20%0A%20%20%20%20while%20(Date.now()%20%3C%20endTime)%20%7B%0A%20%20%20%20%20%20const%20start%20%3D%20Date.now()%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20await%20pool.execute('SELECT%20*%20FROM%20users%20LIMIT%2010')%3B%0A%20%20%20%20%20%20%20%20results.push(%7B%20success%3A%20true%2C%20duration%3A%20Date.now()%20-%20start%20%7D)%3B%0A%20%20%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20%20%20results.push(%7B%20success%3A%20false%2C%20duration%3A%20Date.now()%20-%20start%2C%20error%20%7D)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20return%20results%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class PerformanceTester {
+  async runLoadTest(concurrency = 10, duration = 60000) {
+    const startTime = Date.now();
+    const results = [];
+    
+    const workers = Array(concurrency).fill().map(() =&gt; 
+      this.runWorker(startTime + duration)
+    );
+    
+    const workerResults = await Promise.all(workers);
+    
+    return this.analyzeResults(workerResults);
+  }
+  
+  async runWorker(endTime) {
+    const results = [];
+    
+    while (Date.now() &lt; endTime) {
+      const start = Date.now();
+      
+      try {
+        await pool.execute('SELECT * FROM users LIMIT 10');
+        results.push({ success: true, duration: Date.now() - start });
+      } catch (error) {
+        results.push({ success: false, duration: Date.now() - start, error });
+      }
+    }
+    
+    return results;
+  }
+}
+</code></pre>
+</div>
+
+<p><strong>450. How do you handle database security in Node.js applications?</strong></p>
+
+<p><strong>Description:</strong> Implement security measures like input validation, prepared statements, encryption, and access controls.</p>
+
+<p><strong>Example:</strong></p>
+
+
+<div class="code-container">
+    <div class="code-header">
+        <span class="code-language">javascript</span>
+        <button class="copy-btn" data-code="class%20DatabaseSecurity%20%7B%0A%20%20constructor(pool)%20%7B%0A%20%20%20%20this.pool%20%3D%20pool%3B%0A%20%20%20%20this.setupSecurityMiddleware()%3B%0A%20%20%7D%0A%20%20%0A%20%20setupSecurityMiddleware()%20%7B%0A%20%20%20%20%2F%2F%20Override%20execute%20to%20add%20security%20checks%0A%20%20%20%20const%20originalExecute%20%3D%20this.pool.execute.bind(this.pool)%3B%0A%20%20%20%20%0A%20%20%20%20this.pool.execute%20%3D%20async%20(query%2C%20params)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Validate%20query%20for%20dangerous%20operations%0A%20%20%20%20%20%20this.validateQuery(query)%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20%2F%2F%20Sanitize%20parameters%0A%20%20%20%20%20%20const%20sanitizedParams%20%3D%20this.sanitizeParams(params)%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20return%20await%20originalExecute(query%2C%20sanitizedParams)%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%0A%20%20%0A%20%20validateQuery(query)%20%7B%0A%20%20%20%20const%20dangerousPatterns%20%3D%20%5B%0A%20%20%20%20%20%20%2FDROP%5Cs%2BTABLE%2Fi%2C%0A%20%20%20%20%20%20%2FDELETE%5Cs%2BFROM%5Cs%2B%5Cw%2B%5Cs*%24%2Fi%2C%20%2F%2F%20DELETE%20without%20WHERE%0A%20%20%20%20%20%20%2FUPDATE%5Cs%2B%5Cw%2B%5Cs%2BSET.*%24%2Fi%20%20%20%20%2F%2F%20UPDATE%20without%20WHERE%0A%20%20%20%20%5D%3B%0A%20%20%20%20%0A%20%20%20%20for%20(const%20pattern%20of%20dangerousPatterns)%20%7B%0A%20%20%20%20%20%20if%20(pattern.test(query))%20%7B%0A%20%20%20%20%20%20%20%20throw%20new%20Error('Potentially%20dangerous%20query%20detected')%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20%0A%20%20sanitizeParams(params)%20%7B%0A%20%20%20%20return%20params.map(param%20%3D%3E%20%7B%0A%20%20%20%20%20%20if%20(typeof%20param%20%3D%3D%3D%20'string')%20%7B%0A%20%20%20%20%20%20%20%20return%20param.replace(%2F%5B%3C%3E'%22%5D%2Fg%2C%20'')%3B%20%2F%2F%20Basic%20XSS%20prevention%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20return%20param%3B%0A%20%20%20%20%7D)%3B%0A%20%20%7D%0A%7D%0A">Copy</button>
+    </div>
+    <pre><code class="language-javascript">class DatabaseSecurity {
+  constructor(pool) {
+    this.pool = pool;
+    this.setupSecurityMiddleware();
+  }
+  
+  setupSecurityMiddleware() {
+    // Override execute to add security checks
+    const originalExecute = this.pool.execute.bind(this.pool);
+    
+    this.pool.execute = async (query, params) =&gt; {
+      // Validate query for dangerous operations
+      this.validateQuery(query);
+      
+      // Sanitize parameters
+      const sanitizedParams = this.sanitizeParams(params);
+      
+      return await originalExecute(query, sanitizedParams);
+    };
+  }
+  
+  validateQuery(query) {
+    const dangerousPatterns = [
+      /DROP\s+TABLE/i,
+      /DELETE\s+FROM\s+\w+\s*$/i, // DELETE without WHERE
+      /UPDATE\s+\w+\s+SET.*$/i    // UPDATE without WHERE
+    ];
+    
+    for (const pattern of dangerousPatterns) {
+      if (pattern.test(query)) {
+        throw new Error('Potentially dangerous query detected');
+      }
+    }
+  }
+  
+  sanitizeParams(params) {
+    return params.map(param =&gt; {
+      if (typeof param === 'string') {
+        return param.replace(/[&lt;&gt;'"]/g, ''); // Basic XSS prevention
+      }
+      return param;
+    });
+  }
+}
+</code></pre>
+</div>
+
+
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        
+        // Initialize TOC
+        document.getElementById('toc-list').innerHTML = `<li><a href="#connection-setup-questions-391-410-" class="h2-link">Connection & Setup (Questions 391-410)</a></li><li><a href="#crud-operations-questions-411-430-" class="h2-link">CRUD Operations (Questions 411-430)</a></li><li><a href="#advanced-integration-questions-431-450-" class="h2-link">Advanced Integration (Questions 431-450)</a></li>`;
+        
+        // Initialize theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeButton = document.getElementById('theme-toggle');
+        themeButton.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        
+        // Set initial theme stylesheets
+        const lightTheme = document.getElementById('light-theme');
+        const darkTheme = document.getElementById('dark-theme');
+        if (savedTheme === 'dark') {
+            lightTheme.disabled = true;
+            darkTheme.disabled = false;
+        } else {
+            lightTheme.disabled = false;
+            darkTheme.disabled = true;
+        }
+        
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+            }
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('theme', newTheme);
+            
+            const lightTheme = document.getElementById('light-theme');
+            const darkTheme = document.getElementById('dark-theme');
+            if (newTheme === 'dark') {
+                lightTheme.disabled = true;
+                darkTheme.disabled = false;
+            } else {
+                lightTheme.disabled = false;
+                darkTheme.disabled = true;
+            }
+            
+            // Re-highlight code after theme change
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 100);
+        }
+        
+        // Copy code functionality
+        function copyCode(text, button) {
+            // Modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, button);
+            }
+        }
+        
+        // Fallback copy function for older browsers
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = 'Copied!';
+                    button.style.background = '#10b981';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.style.background = 'var(--accent-color)';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                button.textContent = 'Copy failed';
+                button.style.background = '#ef4444';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu button
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            
+            // Copy buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const encodedCode = e.target.getAttribute('data-code');
+                    if (encodedCode) {
+                        const code = decodeURIComponent(encodedCode);
+                        copyCode(code, e.target);
+                    }
+                }
+            });
+            
+            // Overlay and TOC link clicks
+            const overlay = document.getElementById('mobile-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // TOC links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.toc a')) {
+                    const sidebar = document.getElementById('sidebar');
+                    const overlay = document.getElementById('mobile-overlay');
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+            
+            // Highlight code after page load
+            setTimeout(() => {
+                if (typeof Prism !== 'undefined') {
+                    Prism.highlightAll();
+                }
+            }, 500);
+        });
+
+        
+
+    </script>
+</body>
+</html>
